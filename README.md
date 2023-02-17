@@ -7,7 +7,7 @@ An online E-store system built in Java 11=> and ___ _replace with other platform
 
 - Cristian Malone
 - Connor McRoberts
-- MEMBER3
+- Harbor Wolff
 - MEMBER4
 
 
