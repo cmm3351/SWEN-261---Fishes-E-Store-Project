@@ -93,7 +93,6 @@ public class ProductControllerTest {
          // Setup
          Product product = new Product(0, "Catfish", "Fish that looks like a cat", 99, true);
 
-         // creation and save
          when(mockProductDAO.createProduct(product)).thenReturn(null);
  
          // Invoke
