@@ -122,7 +122,7 @@ public class ProductController {
      */
     @PostMapping("")
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
-        LOG.info("POST /heroes " + product);
+        LOG.info("POST /products " + product);
 
         // Replace below with your implementation
         try{
@@ -165,7 +165,7 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Product> deleteProduct(@PathVariable int id) {
-        LOG.info("DELETE /heroes/" + id);
+        LOG.info("DELETE /products/" + id);
 
         try{
             if(productDao.deleteProduct(id)){
