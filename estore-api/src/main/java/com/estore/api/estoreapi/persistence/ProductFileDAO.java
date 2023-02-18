@@ -24,7 +24,7 @@ import com.estore.api.estoreapi.model.Product;
  * @author SWEN Faculty
  */
 @Component
-public class ProductFileDAO implements ProductDAO{
+public class ProductFileDAO {
     private static final Logger LOG = Logger.getLogger(ProductFileDAO.class.getName());
     Map<Integer,Product> products;   // Provides a local cache of the product objects
                                 // so that we don't need to read from the file
@@ -150,11 +150,15 @@ public class ProductFileDAO implements ProductDAO{
     }
 
     /**
+     * @author Cristian Malone
+     * 
     ** {@inheritDoc}
      */
     @Override
     public Product[] findProducts(String containsText) {
-        return null;
+        synchronized(products) {
+            return getProductsArray(containsText);
+        }
     }
 
     /**
@@ -162,7 +166,14 @@ public class ProductFileDAO implements ProductDAO{
      */
     @Override
     public Product getProduct(int id) {
-        return null;
+        synchronized(products) {
+            if(products.containsKey(id)) {
+                return products.get(id);
+            }
+            else {
+                return null;
+            }
+        }
     }
 
     /**
@@ -179,11 +190,20 @@ public class ProductFileDAO implements ProductDAO{
     }
 
     /**
+     * @author Cristian Malone
+     * 
     ** {@inheritDoc}
      */
     @Override
     public Product updateProduct(Product product) throws IOException {
-        return null;
+        synchronized(products) {
+            if (products.containsKey(product.getId()) == false)
+                return null;  // product does not exist
+
+            products.put(product.getId(),product);
+            save();
+            return product;
+        }
     }
 
     /**
@@ -191,6 +211,13 @@ public class ProductFileDAO implements ProductDAO{
      */
     @Override
     public boolean deleteProduct(int id) throws IOException {
-        return false;
+        synchronized(products) {
+            if (products.containsKey(id)) {
+                products.remove(id);
+                return save();
+            }
+            else
+                return false;
+        }
     }
 }
