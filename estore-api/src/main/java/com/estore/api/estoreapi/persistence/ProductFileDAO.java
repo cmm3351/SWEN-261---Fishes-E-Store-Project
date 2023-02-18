@@ -24,7 +24,7 @@ import com.estore.api.estoreapi.model.Product;
  * @author SWEN Faculty
  */
 @Component
-public class ProductFileDAO {
+public class ProductFileDAO implements ProductDAO {
     private static final Logger LOG = Logger.getLogger(ProductFileDAO.class.getName());
     Map<Integer,Product> products;   // Provides a local cache of the product objects
                                 // so that we don't need to read from the file
