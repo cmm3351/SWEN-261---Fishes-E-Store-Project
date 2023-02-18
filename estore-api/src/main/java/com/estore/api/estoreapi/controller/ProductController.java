@@ -66,6 +66,19 @@ public class ProductController {
 
     }
 
+    /**
+     * Responds to the GET request for all {@linkplain Product products} whose name contains
+     * the text in name
+     * 
+     * @param name The name parameter which contains the text used to find the {@link Product products}
+     * 
+     * @return ResponseEntity with array of {@link Product product} objects (may be empty) and
+     * HTTP status of OK<br>
+     * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
+     * <p>
+     * 
+     * @author Cristian Malone
+     */
     @GetMapping("/") 
     public ResponseEntity<Product[]> searchProduct(@RequestParam String name) {
         LOG.info("GET /products/?name="+name);
@@ -84,6 +97,17 @@ public class ProductController {
 
     }
 
+    /**
+     * Updates the {@linkplain Product product} with the provided {@linkplain Product product} object, if it exists
+     * 
+     * @param product The {@link Product product} to update
+     * 
+     * @return ResponseEntity with updated {@link Product product} object and HTTP status of OK if updated<br>
+     * ResponseEntity with HTTP status of NOT_FOUND if not found<br>
+     * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
+     * 
+     * @author Cristian Malone
+     */
     @PutMapping("")
     public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
         LOG.info("PUT /products " + product);

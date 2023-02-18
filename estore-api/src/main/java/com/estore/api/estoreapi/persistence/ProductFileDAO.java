@@ -147,6 +147,8 @@ public class ProductFileDAO implements ProductDAO {
     }
 
     /**
+     * @author Cristian Malone
+     * 
     ** {@inheritDoc}
      */
     @Override
@@ -173,6 +175,8 @@ public class ProductFileDAO implements ProductDAO {
     }
 
     /**
+     * @author Cristian Malone
+     * 
     ** {@inheritDoc}
      */
     @Override
