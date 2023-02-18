@@ -140,10 +140,13 @@ public class ProductFileDAO implements ProductDAO{
 
     /**
     ** {@inheritDoc}
+    *@author Harbor Wolff hmw2331@rit.edu
      */
     @Override
     public Product[] getProducts() {
-        return null;
+        synchronized(products){
+            return getProductsArray();
+        }
     }
 
     /**
