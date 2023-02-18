@@ -185,6 +185,7 @@ public class ProductFileDAO implements ProductDAO {
         synchronized(products){
             Product newProduct = new Product(nextId(), product.getName(), product.getInfo(), product.getPrice(), true) ;
             products.put(newProduct.getId(), newProduct);
+            save();
             return newProduct;
         }
     }
