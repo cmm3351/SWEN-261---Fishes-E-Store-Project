@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Test the Product File DAO class
  * 
+ * @author Cristian Malone
  * @author SWEN Faculty
  */
 @Tag("Persistence-tier")
@@ -66,12 +67,11 @@ public class ProductFileDAOTest {
     @Test
     public void testFindProducts() {
         // Invoke
-        Product[] products = productFileDAO.findProducts("la");
+        Product[] products = productFileDAO.findProducts("lu");
 
         // Analyze
-        assertEquals(products.length,2);
+        assertEquals(products.length,1);
         assertEquals(products[0],testProducts[1]);
-        assertEquals(products[1],testProducts[2]);
     }
 
     @Test
