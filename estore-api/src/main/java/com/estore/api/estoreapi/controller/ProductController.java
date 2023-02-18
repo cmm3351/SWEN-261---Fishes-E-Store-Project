@@ -61,9 +61,27 @@ public class ProductController {
         }
     } 
     
+    /**
+     * Responds to the GET request for all {@linkplain Product products}
+     * 
+     * @return ResponseEntity with array of {@link Product product} objects (may be empty) and
+     * HTTP status of OK<br>
+     * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
+     * 
+     * @author Harbor Wolff hmw2331@rit.edu
+     */
     @GetMapping("")
-    public ResponseEntity<Product> getProducts() {
+    public ResponseEntity<Product[]> getProducts() {
+        LOG.info("GET /products");
 
+        try{
+            Product[] productArray = productDao.getProducts();
+            return new ResponseEntity<Product[]>(productArray, HttpStatus.OK);
+        }
+        catch(IOException e){
+            LOG.log(Level.SEVERE,e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/") 
@@ -71,14 +89,35 @@ public class ProductController {
 
     }
 
+    /**
+     * Creates a {@linkplain Product product} with the provided hero object
+     * 
+     * @param product - The {@link Product product} to create
+     * 
+     * @return ResponseEntity with created {@link Product product} object and HTTP status of CREATED<br>
+     * ResponseEntity with HTTP status of CONFLICT if {@link Product product} object already exists<br>
+     * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
+     * @author Harbor Wolff hmw2331@rit.edu
+     */
     @PostMapping("")
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+        LOG.info("POST /heroes " + product);
+
+        // Replace below with your implementation
+        try{
+            Product newProduct = productDao.createProduct(product);
+            return new ResponseEntity<Product>(newProduct, HttpStatus.CREATED);
+        }
+        catch(IOException e){
+            LOG.log(Level.SEVERE,e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
     }
 
     @PutMapping("")
     public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
-
+        return null;
     }
 
     @DeleteMapping("/{id}")
