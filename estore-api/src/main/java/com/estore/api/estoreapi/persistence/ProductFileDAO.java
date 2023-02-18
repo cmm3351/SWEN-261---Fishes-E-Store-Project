@@ -43,7 +43,7 @@ public class ProductFileDAO implements ProductDAO {
      * 
      * @throws IOException when file cannot be accessed or read from
      */
-    public ProductFileDAO(@Value("${product.file}") String filename,ObjectMapper objectMapper) throws IOException {
+    public ProductFileDAO(@Value("${products.file}") String filename,ObjectMapper objectMapper) throws IOException {
         this.filename = filename;
         this.objectMapper = objectMapper;
         load();  // load the products from the file
