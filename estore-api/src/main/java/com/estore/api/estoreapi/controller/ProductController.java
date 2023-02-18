@@ -27,6 +27,8 @@ import com.estore.api.estoreapi.model.Product;
  * 
  * @author Connor McRoberts
  */
+@RestController
+@RequestMapping("products")
 public class ProductController {
     private static final Logger LOG = Logger.getLogger(ProductController.class.getName());
     private ProductDAO productDao;
