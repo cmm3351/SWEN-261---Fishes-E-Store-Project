@@ -49,7 +49,7 @@ public class ProductController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable int id) {
-        LOG.info("GET /product/" + id);
+        LOG.info("GET /products/" + id);
         try {
             Product product = productDao.getProduct(id);
             if (product != null)
