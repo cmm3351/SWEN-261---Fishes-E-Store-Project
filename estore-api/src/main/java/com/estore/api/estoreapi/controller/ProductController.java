@@ -128,7 +128,7 @@ public class ProductController {
 
         // Replace below with your implementation
         try{
-            if(productDao.getProduct(product.getId()) == null){
+            if(productDao.getProduct(product.getId()) != null){
                 Product newProduct = productDao.createProduct(product);
                 return new ResponseEntity<Product>(newProduct, HttpStatus.CREATED);
             }else{
