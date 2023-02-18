@@ -164,10 +164,15 @@ public class ProductFileDAO {
 
     /**
     ** {@inheritDoc}
+    *@author Harbor Wolff hmw2331@rit.edu
      */
     @Override
     public Product createProduct(Product product) throws IOException {
-        return null;
+        synchronized(products){
+            Product newProduct = new Product(nextId(), product.getName(), product.getInfo(), product.getPrice(), true) ;
+            products.put(newProduct.getId(), newProduct);
+            return newProduct;
+        }
     }
 
     /**
