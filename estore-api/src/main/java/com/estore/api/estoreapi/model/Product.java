@@ -12,7 +12,7 @@ public class Product {
     @JsonProperty("name") private String name;
     @JsonProperty("info") private String info;
     @JsonProperty("price") private int price;
-    @JsonProperty("inStock") private Boolean inStock;
+    @JsonProperty("inStock") private boolean inStock;
 
     /**
      * Create a product for the estore with given parameters.
@@ -29,7 +29,7 @@ public class Product {
      */
     public Product(@JsonProperty("id") int id, @JsonProperty("name") String name,
     @JsonProperty("info") String info, @JsonProperty("price") int price,
-    @JsonProperty("inStock") Boolean inStock) {
+    @JsonProperty("inStock") boolean inStock) {
         this.id = id;
         this.name = name;
         this.info = info;
@@ -65,7 +65,7 @@ public class Product {
      * Retreives the inStock boolean of the Product object
      * @return The inStock boolean of the Product 
      */
-    public Boolean getInStock() {return inStock;}
+    public boolean getInStock() {return inStock;}
 
     /**
      * Sets the name of the product
@@ -89,5 +89,5 @@ public class Product {
      * Sets the inStock boolean of the product
      * @param inStock The new instock Boolean of the product
      */
-    public void setInStock(Boolean inStock) {this.inStock = inStock;}
+    public void setInStock(boolean inStock) {this.inStock = inStock;}
 }
