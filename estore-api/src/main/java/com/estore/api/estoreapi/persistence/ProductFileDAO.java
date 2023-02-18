@@ -24,7 +24,7 @@ import com.estore.api.estoreapi.model.Product;
  * @author SWEN Faculty
  */
 @Component
-public class ProductFileDAO {
+public class ProductFileDAO implements ProductDAO {
     private static final Logger LOG = Logger.getLogger(ProductFileDAO.class.getName());
     Map<Integer,Product> products;   // Provides a local cache of the product objects
                                 // so that we don't need to read from the file
@@ -151,7 +151,9 @@ public class ProductFileDAO {
      */
     @Override
     public Product[] findProducts(String containsText) {
-        return null;
+        synchronized(products) {
+            return getProductsArray(containsText);
+        }
     }
 
     /**
@@ -175,7 +177,14 @@ public class ProductFileDAO {
      */
     @Override
     public Product updateProduct(Product product) throws IOException {
-        return null;
+        synchronized(products) {
+            if (products.containsKey(product.getId()) == false)
+                return null;  // product does not exist
+
+            products.put(product.getId(),product);
+            save();
+            return product;
+        }
     }
 
     /**

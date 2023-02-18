@@ -68,7 +68,15 @@ public class ProductController {
 
     @GetMapping("/") 
     public ResponseEntity<Product[]> searchProduct(@RequestParam String name) {
-
+        LOG.info("GET /products/?name="+name);
+        try {
+            Product[] results = productDao.findProducts(name);
+            return new ResponseEntity<Product[]>(results,HttpStatus.OK);
+        }
+        catch(IOException e) {
+            LOG.log(Level.SEVERE,e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("")
@@ -78,7 +86,18 @@ public class ProductController {
 
     @PutMapping("")
     public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
-
+        LOG.info("PUT /products " + product);
+        try {
+            Product updatedProduct = productDao.updateProduct(product);
+            if (updatedProduct != null)
+                return new ResponseEntity<Product>(updatedProduct,HttpStatus.OK);
+            else
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        catch(IOException e) {
+            LOG.log(Level.SEVERE,e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @DeleteMapping("/{id}")
