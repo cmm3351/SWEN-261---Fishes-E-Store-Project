@@ -159,7 +159,14 @@ public class ProductFileDAO {
      */
     @Override
     public Product getProduct(int id) {
-        return null;
+        synchronized(products) {
+            if(products.containsKey(id)) {
+                return products.get(id);
+            }
+            else {
+                return null;
+            }
+        }
     }
 
     /**
@@ -183,6 +190,13 @@ public class ProductFileDAO {
      */
     @Override
     public boolean deleteProduct(int id) throws IOException {
-        return false;
+        synchronized(products) {
+            if (products.containsKey(id)) {
+                products.remove(id);
+                return save();
+            }
+            else
+                return false;
+        }
     }
 }

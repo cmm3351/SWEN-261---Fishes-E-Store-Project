@@ -46,8 +46,8 @@ public class ProductController {
      * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getHero(@PathVariable int id) {
-        LOG.info("GET /heroes/" + id);
+    public ResponseEntity<Product> getProduct(@PathVariable int id) {
+        LOG.info("GET /product/" + id);
         try {
             Product product = productDao.getProduct(id);
             if (product != null)
@@ -83,10 +83,22 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Product> deleteProduct(@PathVariable int id) {
+        LOG.info("DELETE /heroes/" + id);
 
+        try{
+            if(productDao.deleteProduct(id)){
+                return new ResponseEntity<>(HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }
+        catch(IOException e){
+            LOG.log(Level.SEVERE,e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    
+
 
 
 }
