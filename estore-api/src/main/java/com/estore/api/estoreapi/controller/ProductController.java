@@ -27,6 +27,8 @@ import com.estore.api.estoreapi.model.Product;
  * 
  * @author Connor McRoberts
  */
+@RestController
+@RequestMapping("products")
 public class ProductController {
     private static final Logger LOG = Logger.getLogger(ProductController.class.getName());
     private ProductDAO productDao;
@@ -124,12 +126,16 @@ public class ProductController {
      */
     @PostMapping("")
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
-        LOG.info("POST /heroes " + product);
+        LOG.info("POST /products " + product);
 
         // Replace below with your implementation
         try{
-            Product newProduct = productDao.createProduct(product);
-            return new ResponseEntity<Product>(newProduct, HttpStatus.CREATED);
+            if(productDao.getProduct(product.getId()) == null){
+                Product newProduct = productDao.createProduct(product);
+                return new ResponseEntity<Product>(newProduct, HttpStatus.CREATED);
+            }else{
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
         }
         catch(IOException e){
             LOG.log(Level.SEVERE,e.getLocalizedMessage());
@@ -174,7 +180,7 @@ public class ProductController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Product> deleteProduct(@PathVariable int id) {
-        LOG.info("DELETE /heroes/" + id);
+        LOG.info("DELETE /products/" + id);
 
         try{
             if(productDao.deleteProduct(id)){
