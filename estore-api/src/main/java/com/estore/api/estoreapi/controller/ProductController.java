@@ -37,17 +37,19 @@ public class ProductController {
     }
 
     /**
-     * Responds to the GET request for a {@linkplain Hero hero} for the given id
+     * Responds to the GET request for a {@linkplain Product product} for the given id
      * 
-     * @param id The id used to locate the {@link Hero hero}
+     * @param id The id used to locate the {@link Product product}
      * 
-     * @return ResponseEntity with {@link Hero hero} object and HTTP status of OK if found<br>
+     * @return ResponseEntity with {@link Product product} object and HTTP status of OK if found<br>
      * ResponseEntity with HTTP status of NOT_FOUND if not found<br>
      * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
+     * 
+     * @author Connor McRoberts
      */
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable int id) {
-        LOG.info("GET /product/" + id);
+        LOG.info("GET /products/" + id);
         try {
             Product product = productDao.getProduct(id);
             if (product != null)
@@ -163,6 +165,13 @@ public class ProductController {
         }
     }
 
+    /**
+     * 
+     * @param id
+     * @return
+     * 
+     * @author Connor McRoberts
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Product> deleteProduct(@PathVariable int id) {
         LOG.info("DELETE /heroes/" + id);
