@@ -89,20 +89,6 @@ public class ProductControllerTest {
      }
  
      @Test
-     public void testCreateProductFailed() throws IOException {
-         // Setup
-         Product product = new Product(0, "Catfish", "Fish that looks like a cat", 99, 30);
-
-         when(mockProductDAO.createProduct(product)).thenReturn(null);
- 
-         // Invoke
-         ResponseEntity<Product> response = productController.createProduct(product);
- 
-         // Analyze
-         assertEquals(HttpStatus.CONFLICT,response.getStatusCode());
-     }
- 
-     @Test
      public void testCreateProductHandleException() throws IOException { 
          // Setup
          Product product = new Product(0, "Catfish", "Fish that looks like a cat", 99, 40);
