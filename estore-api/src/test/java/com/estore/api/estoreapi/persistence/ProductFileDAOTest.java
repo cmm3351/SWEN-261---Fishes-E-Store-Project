@@ -41,9 +41,9 @@ public class ProductFileDAOTest {
     public void setupProductFileDAO() throws IOException {
         mockObjectMapper = mock(ObjectMapper.class);
         testProducts = new Product[3];
-        testProducts[0] = new Product(99,"Red Fish","It's Red",100,true);
-        testProducts[1] = new Product(100,"Blue Fish","It's Blue",100,true);
-        testProducts[2] = new Product(101,"One Fish","There's One",150,true);
+        testProducts[0] = new Product(99,"Red Fish","It's Red",100,1);
+        testProducts[1] = new Product(100,"Blue Fish","It's Blue",100,2);
+        testProducts[2] = new Product(101,"One Fish","There's One",150, 3);
 
         // When the object mapper is supposed to read from the file
         // the mock object mapper will return the product array above
@@ -101,7 +101,7 @@ public class ProductFileDAOTest {
     @Test
     public void testCreateProduct() {
         // Setup
-        Product product = new Product(102,"Two Fish","There's Two",200,true);
+        Product product = new Product(102,"Two Fish","There's Two",200, 4);
 
         // Invoke
         Product result = assertDoesNotThrow(() -> productFileDAO.createProduct(product),
@@ -117,7 +117,7 @@ public class ProductFileDAOTest {
     @Test
     public void testUpdateProduct() {
         // Setup
-        Product product = new Product(99,"Reddish Fish","It's Almost Red",250,true);
+        Product product = new Product(99,"Reddish Fish","It's Almost Red",250,3);
 
         // Invoke
         Product result = assertDoesNotThrow(() -> productFileDAO.updateProduct(product),
@@ -135,7 +135,7 @@ public class ProductFileDAOTest {
             .when(mockObjectMapper)
                 .writeValue(any(File.class),any(Product[].class));
 
-        Product product = new Product(102,"Two Fish","There's Two",200,true);
+        Product product = new Product(102,"Two Fish","There's Two",200,3);
 
         assertThrows(IOException.class,
                         () -> productFileDAO.createProduct(product),
@@ -165,7 +165,7 @@ public class ProductFileDAOTest {
     @Test
     public void testUpdateProductNotFound() {
         // Setup
-        Product product = new Product(98,"No Fish","...",500,true);
+        Product product = new Product(98,"No Fish","...",500,3);
 
         // Invoke
         Product result = assertDoesNotThrow(() -> productFileDAO.updateProduct(product),

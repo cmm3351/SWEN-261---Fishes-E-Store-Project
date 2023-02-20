@@ -12,7 +12,7 @@ public class Product {
     @JsonProperty("name") private String name;
     @JsonProperty("info") private String info;
     @JsonProperty("price") private int price;
-    @JsonProperty("inStock") private boolean inStock;
+    @JsonProperty("quantity") private int quantity;
 
     /**
      * Create a product for the estore with given parameters.
@@ -20,7 +20,7 @@ public class Product {
      * @param name The name of the product (fish)
      * @param info Extra info abot product (habitat, size, lifespan, etc.)
      * @param price Price of the product (fish)
-     * @param inStock If the fish is in stock or not
+     * @param quantity If the fish is in stock or not
      * 
      * {@literal @}JsonProperty is used in serialization and deserialization
      * of the JSON object to the Java object in mapping the fields.  If a field
@@ -29,12 +29,12 @@ public class Product {
      */
     public Product(@JsonProperty("id") int id, @JsonProperty("name") String name,
     @JsonProperty("info") String info, @JsonProperty("price") int price,
-    @JsonProperty("inStock") boolean inStock) {
+    @JsonProperty("quantity") int quantity) {
         this.id = id;
         this.name = name;
         this.info = info;
         this.price = price;
-        this.inStock = inStock;
+        this.quantity = quantity;
     }
 
     /**
@@ -62,10 +62,10 @@ public class Product {
     public int getPrice() {return price;}
 
     /**
-     * Retreives the inStock boolean of the Product object
-     * @return The inStock boolean of the Product 
+     * Retreives the quantity of the Product object
+     * @return The quantity of the Product 
      */
-    public boolean getInStock() {return inStock;}
+    public int getQuantity() {return quantity;}
 
     /**
      * Sets the name of the product
@@ -86,8 +86,8 @@ public class Product {
     public void setInfo(String info) {this.info = info;}
 
     /**
-     * Sets the inStock boolean of the product
-     * @param inStock The new instock Boolean of the product
+     * Sets the quantity of the product
+     * @param quantity The new quantity of the product
      */
-    public void setInStock(boolean inStock) {this.inStock = inStock;}
+    public void setQuantity(int quantity) {this.quantity = quantity;}
 }
