@@ -1,7 +1,9 @@
 package com.estore.api.estoreapi.model;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import com.estore.api.estoreapi.persistence.ProductFileDAO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode; // possiblbly for shopping cart
 
@@ -13,9 +15,7 @@ public class User {
     @JsonProperty("username") private String username;
     @JsonProperty("password") private String password;
     @JsonProperty("isAdmin") private boolean isAdmin;
-    // @JsonProperty("cart") private JsonNode cart;
-
-    //TODO shopping cart implementation
+    @JsonProperty("cart") private ArrayList<Integer> cart;
 
     /**
      * Create a user for the estore with the given parameters.
@@ -26,7 +26,7 @@ public class User {
      * @param id The id of the user
      * @param name The username of the user
      * @param password The password of the user (64-bit encryption)
-     * @author Connor McRoberts cjm6653@rit.edu
+     * @authors Connor McRoberts cjm6653@rit.edu, Harbor Wolff hmw2331@rit.edu
      */
     public User(@JsonProperty("id") int id, @JsonProperty("username") String username,
     @JsonProperty("password") String password, @JsonProperty("isAdmin") boolean isAdmin) {
@@ -55,7 +55,29 @@ public class User {
     public String getPassword() {return password;}
 
     public boolean getisAdmin() {return isAdmin;}
+    
+    /**
+     *Adds a product's id to the cart
+     *@param id: the id of the product to be added
+     *@pre: the product id exists in the store
+     */
+    public void addProductToCart(int id){
+        cart.add(id);
+    };
 
-    //TODO getters and setters for shopping cart
+    /**
+     *Removes a single instance (the first occurence) product's id from the cart
+     *@param id: the id of the product to be removed
+     *@pre: the product id exists in the cart
+     */
+    public void removeProductFromCart(){
+        cart.remove(id);
+    };
+
+    /**
+     *Displays the entire cart
+     *@return: the cart as an ArrayList of integers representing product ids
+     */
+    public ArrayList<Integer> showCart(){return cart;};
 
 }

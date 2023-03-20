@@ -25,7 +25,7 @@ import com.estore.api.estoreapi.model.User;
  * {@literal @}RestController Spring annotation identifies this class as a REST API
  * method handler to the Spring framework.
  * 
- * @author Connor McRoberts cjm6653@rit.edu
+ * @authors Connor McRoberts cjm6653@rit.edu, Harbor Wolff hmw2331@rit.edu
  */
 @RestController
 @RequestMapping("users")
@@ -88,4 +88,7 @@ public class UserController {
 
     //TODO possibly deleteUser
     //TODO shopping cart api calls
+
+
+
 }
