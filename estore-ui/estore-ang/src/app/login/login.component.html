@@ -1,0 +1,19 @@
+<div *ngIf="isLoggedin; else e" class="welcome_container">
+    <h2>Welcome, {{CurrentUser?.username}}</h2>
+    <div *ngIf="CurrentUser?.isAdmin">
+        <p>This user is an administrator.</p>
+    </div>
+</div>
+<ng-template #e class="login_container">
+    <div class="username_container">
+        <label for="username">Username:</label>
+        <input type="text" [(ngModel)]="tempName" id="username">
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" [(ngModel)]="tempPass" id="password">
+    </div>
+    <div class="button_container">
+        <button type="button" (click)="login()">Login</button>
+    </div>
+</ng-template>
