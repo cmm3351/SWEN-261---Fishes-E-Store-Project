@@ -1,6 +1,9 @@
 package com.estore.api.estoreapi.persistence;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
+import com.estore.api.estoreapi.model.Product;
 import com.estore.api.estoreapi.model.User;
 
 /**
@@ -38,4 +41,25 @@ public interface UserDAO {
      */
     User createUser(User user) throws IOException;
 
+    /**
+     * Adds an existing store product to the User cart inside the persistance data
+     * 
+     * @param product the product to add to the User
+     * @param user the user of the cart
+     * @return the added product
+     * @throws IOException If an issue arises
+     */
+    Product addProductToCart(Product product, User user) throws IOException;
+
+    /**
+     * Removes an existing product from the User cart inside the persistance data
+     * 
+     * @param product the product to be removed
+     * @param user the user of the cart
+     * @return the removed product
+     * @throws IOException if an issue arises
+     */
+    Product removeProductFromCart(Product product, User user) throws IOException;
+
+    ArrayList<Product> showCart(User user) throws IOException;
 }

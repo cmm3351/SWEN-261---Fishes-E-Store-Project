@@ -16,7 +16,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.estore.api.estoreapi.persistence.ProductDAO;
 import com.estore.api.estoreapi.persistence.UserDAO;
+import com.estore.api.estoreapi.model.Product;
 import com.estore.api.estoreapi.model.User;
 
 /**
@@ -33,6 +35,7 @@ public class UserController {
     private static final Logger LOG = Logger.getLogger(
         UserController.class.getName());
     private UserDAO userDao;
+
 
     public UserController(UserDAO userDao) {
         this.userDao = userDao;
@@ -88,7 +91,19 @@ public class UserController {
 
     //TODO possibly deleteUser
     //TODO shopping cart api calls
+    @PostMapping("/cart/")
+    public ResponseEntity<Product> addItemToCart(@RequestBody Product product) {
+        LOG.info("POST /cart/ " + product);
 
+        try{
+            //TODO once UserDao cart stuff is created
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        }catch(IOException e){
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    }
 
 
 }

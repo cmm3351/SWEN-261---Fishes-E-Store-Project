@@ -13,6 +13,7 @@ import java.io.File;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.estore.api.estoreapi.model.Product;
 import com.estore.api.estoreapi.model.User;
 
 /**
@@ -49,7 +50,7 @@ public class UserFileDAO implements UserDAO {
     }
 
     /**
-     * Generates the next id for a new {@linkplain Product product}
+     * Generates the next id for a new {@linkplain User user}
      * 
      * @return The next id
      */
@@ -87,6 +88,10 @@ public class UserFileDAO implements UserDAO {
         return newUser;
     }
 
+    public Product addProductToCart(Product product) throws IOException{
+        
+    }
+
 
     /**
      * Saves the {@linkplain User users} from the map into the file as an array of JSON objects
@@ -110,7 +115,7 @@ public class UserFileDAO implements UserDAO {
     }
 
     /**
-     * Loads {@linkplain Product products} from the JSON file into the map
+     * Loads {@linkplain Users users} from the JSON file into the map
      * <br>
      * Also sets next id to one more than the greatest id found in the file
      * 
@@ -137,4 +142,6 @@ public class UserFileDAO implements UserDAO {
         ++nextId;
         return true;
     }
+
+
 }
