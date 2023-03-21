@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.logging.Logger;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 import java.io.File;
@@ -88,10 +89,32 @@ public class UserFileDAO implements UserDAO {
         return newUser;
     }
 
-    public Product addProductToCart(Product product) throws IOException{
-        
+    /**
+     *{@inheritDoc}
+     * @author Harbor Wolff hmw2331@rit.edu
+     */
+    public Product addProductToCart(Product product, User user) throws IOException{
+        user.addProductToCart(product.getId());
+
+        return product;
+    }   
+
+    /**
+     *{@inheritDoc}
+     *@author Harbor Wolff hmw2331@rit.edu
+     */
+    public Product removeProductFromCart(Product product, User user){
+        user.removeProductFromCart(product.getId());
+        return product;
     }
 
+    /**
+     * {@inheritDoc}}
+     * @author Harbor Wolff hmw2331@rit.edu
+     */
+    public ArrayList<Integer> showCart(User user){
+        return user.showCart();
+    }
 
     /**
      * Saves the {@linkplain User users} from the map into the file as an array of JSON objects

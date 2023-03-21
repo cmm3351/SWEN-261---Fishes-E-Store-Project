@@ -92,7 +92,7 @@ public class UserController {
     //TODO possibly deleteUser
     //TODO shopping cart api calls
     @PostMapping("/cart/")
-    public ResponseEntity<Product> addItemToCart(@RequestBody Product product) {
+    public ResponseEntity<Product> addProductToCart(@RequestBody Product product) {
         LOG.info("POST /cart/ " + product);
 
         try{

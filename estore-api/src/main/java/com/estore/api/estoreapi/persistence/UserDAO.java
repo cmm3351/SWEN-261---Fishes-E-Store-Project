@@ -61,5 +61,12 @@ public interface UserDAO {
      */
     Product removeProductFromCart(Product product, User user) throws IOException;
 
-    ArrayList<Product> showCart(User user) throws IOException;
+    /**
+     * Displays the contents of a user's cart
+     * 
+     * @param user the user of the cart
+     * @return an arraylist of integers, corresponding to Product IDs
+     * @throws IOException
+     */
+    ArrayList<Integer> showCart(User user) throws IOException;
 }

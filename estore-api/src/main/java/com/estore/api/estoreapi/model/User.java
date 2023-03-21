@@ -70,7 +70,7 @@ public class User {
      *@param id: the id of the product to be removed
      *@pre: the product id exists in the cart
      */
-    public void removeProductFromCart(){
+    public void removeProductFromCart(int id){
         cart.remove(id);
     };
 
