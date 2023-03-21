@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -90,20 +91,61 @@ public class UserController {
     }
 
     //TODO possibly deleteUser
-    //TODO shopping cart api calls
+
+    /**
+     * Adds a product to a user's cart
+     * 
+     * @param product the product to add
+     * @param user the user of the cart
+     * @return the product that was added
+     */
     @PostMapping("/cart/")
-    public ResponseEntity<Product> addProductToCart(@RequestBody Product product) {
+    public ResponseEntity<Product> addProductToCart(@RequestBody Product product, @RequestBody User user) {
         LOG.info("POST /cart/ " + product);
 
         try{
-            //TODO once UserDao cart stuff is created
-            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+            userDao.addProductToCart(product, user);
+            return new ResponseEntity<Product>(product, HttpStatus.ACCEPTED);
         }catch(IOException e){
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+    /**
+     * Removes a product from the user's cart
+     * 
+     * @param product the product to remove
+     * @param user the user of the cart
+     * @return the product that was removed
+     */
+    @PostMapping("/cart/")
+    public ResponseEntity<Product> removeProductFromCart(@RequestBody Product product, @RequestBody User user){
+        LOG.info("POST /cart/ " + product);
 
+        try{
+            userDao.removeProductFromCart(product, user);
+            return new ResponseEntity<Product>(product, HttpStatus.ACCEPTED);
+        }catch (IOException e){
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
+    /**
+     * Displays a user's cart
+     * 
+     * @param user the user of the cart
+     * @return the contents of the user's cart, as an arraylist of product objects
+     */
+    @PostMapping("/cart/")
+    public ResponseEntity<ArrayList<Integer>> showCart(@RequestBody User user){
+        LOG.info("POST /cart/ " + user);
 
+        try{
+            return new ResponseEntity<ArrayList<Integer>>(userDao.showCart(user), HttpStatus.ACCEPTED);
+        }catch(IOException e){
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }
