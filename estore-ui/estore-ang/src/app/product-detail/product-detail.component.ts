@@ -3,7 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { Product } from '../product';
+import { User } from '../user';
 import { ProductService } from '../product.service';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -12,15 +14,18 @@ import { ProductService } from '../product.service';
 })
 export class ProductDetailComponent implements OnInit {
   product: Product | undefined;
+  currUser: User = {id:-1,username:"",password:"",isAdmin:false};
 
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService,
-    private location: Location
+    private location: Location,
+    private dataService: DataService
   ) {}
 
   ngOnInit(): void {
     this.getProduct();
+    this.dataService.currMessage.subscribe(currUser => this.currUser = currUser);
   }
 
   getProduct(): void {

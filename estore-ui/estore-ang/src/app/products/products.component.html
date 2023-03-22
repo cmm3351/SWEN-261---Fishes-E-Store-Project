@@ -1,6 +1,6 @@
 <h2>Exotic Fish</h2>
 
-<div>
+<div *ngIf="currUser.isAdmin; else e" class="admin_view">
   <label for="new-product">Product name: </label>
   <input id="new-product" #productName />
   <label for="new-product">Product info: </label>
@@ -20,7 +20,6 @@
     productQuantity.value=''">
     Add product
   </button>
-</div>
 
 <ul class="products">
   <li *ngFor="let product of products">
@@ -31,5 +30,16 @@
       (click)="delete(product)">x</button>
   </li>
 </ul>
+</div>
+
+<ng-template #e class="customer_view">
+<ul class="products">
+  <li *ngFor="let product of products">
+    <a routerLink="/detail/{{product.id}}">
+      <span class="badge">{{product.id}}</span> {{product.name}}
+    </a>
+  </li>
+</ul>
+</ng-template>
 
 <app-product-search></app-product-search>

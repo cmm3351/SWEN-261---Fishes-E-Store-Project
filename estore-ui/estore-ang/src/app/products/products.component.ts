@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Product } from '../product';
+import { User } from '../user';
 import { ProductService } from '../product.service';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-products',
@@ -10,11 +12,14 @@ import { ProductService } from '../product.service';
 })
 export class ProductsComponent implements OnInit {
   products: Product[] = [];
+  currUser: User = {id:-1,username:"",password:"",isAdmin:false};
 
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService,
+              private dataService: DataService) { }
 
   ngOnInit(): void {
     this.getProducts();
+    this.dataService.currMessage.subscribe(currUser => this.currUser = currUser);
   }
 
   getProducts(): void {
