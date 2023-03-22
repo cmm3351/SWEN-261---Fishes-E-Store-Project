@@ -1,7 +1,5 @@
 package com.estore.api.estoreapi.persistence;
 
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.logging.Logger;
@@ -15,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import com.estore.api.estoreapi.model.Product;
 import com.estore.api.estoreapi.model.User;
+
 
 /**
  * Implements the functionality for JSON file-based persistance for Users
@@ -64,7 +63,7 @@ public class UserFileDAO implements UserDAO {
      * {@inheritDoc}
      * @author Connor McRoberts cjm6653@rit.edu
      */
-    public User findUser(String username, String password) throws IOException {
+    public User findUser(String username, String password) {
 
         for(User user : users.values()) {
             if(user.getUsername().equals(username) &&
@@ -93,6 +92,8 @@ public class UserFileDAO implements UserDAO {
     /**
      * {@inheritDoc}
      * @author Connor McRoberts cjm6653@rit.edu
+     * 
+     * @throws IOException if save() function throws IOException
      */
     public User createUser(User user) throws IOException {
         User newUser = new User(nextId(), user.getUsername(), user.getPassword(), user.getisAdmin(), user.showCart());

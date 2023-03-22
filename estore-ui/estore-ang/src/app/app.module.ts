@@ -7,13 +7,14 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LoginComponent } from './login/login.component';
 import { CartComponent } from './cart/cart.component';
+import { CreateAccComponent } from './create-acc/create-acc.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    CartComponent
+    CreateAccComponent
   ],
   imports: [
     HttpClientModule,

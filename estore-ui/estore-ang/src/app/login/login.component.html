@@ -1,9 +1,6 @@
-<div *ngIf="isLoggedin; else e" class="welcome_container">
-    <h2>Welcome, {{CurrentUser?.username}}</h2>
-    <div class="button_container">
-        <button type="button" (click)="">Cart</button>
-    </div>
-    <div *ngIf="CurrentUser?.isAdmin">
+<div *ngIf="CurrentUser; else e" class="welcome_container">
+    <h2>Welcome, {{CurrentUser.username}}</h2>
+    <div *ngIf="CurrentUser.isAdmin">
         <p>This user is an administrator.</p>
     </div>
 </div>
@@ -20,3 +17,4 @@
         <button type="button" (click)="login()">Login</button>
     </div>
 </ng-template>
+<p>{{failLogin}}</p>

@@ -50,7 +50,7 @@ public class UserController {
                 return new ResponseEntity<User>(user, HttpStatus.OK);
             }
             else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(user, HttpStatus.NOT_FOUND);
             }
         }
         catch(IOException e) {
