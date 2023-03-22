@@ -59,6 +59,5 @@ export class LoginService {
 	}
   
 	//TODO add to cart, remove from cart, show cart
-	showCart(): 
 
 }
