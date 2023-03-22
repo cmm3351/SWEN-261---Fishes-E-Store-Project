@@ -95,7 +95,7 @@ public class UserFileDAO implements UserDAO {
      * @author Connor McRoberts cjm6653@rit.edu
      */
     public User createUser(User user) throws IOException {
-        User newUser = new User(nextId(), user.getUsername(), user.getPassword(), user.getisAdmin());
+        User newUser = new User(nextId(), user.getUsername(), user.getPassword(), user.getisAdmin(), user.showCart());
 
         users.put(newUser.getId(), newUser);
         save();
@@ -107,16 +107,25 @@ public class UserFileDAO implements UserDAO {
      * @author Harbor Wolff hmw2331@rit.edu
      */
     public int addProductToCart(int id, User user) throws IOException{
-        user.addProductToCart(id);
+        User updateUser = new User(user.getId(), user.getUsername(), user.getPassword(), user.getisAdmin(), user.showCart());
+        updateUser.addProductToCart(id);
+        
+        users.put(updateUser.getId(), updateUser);
+        save();
         return id;
     }   
 
     /**
      *{@inheritDoc}
      *@author Harbor Wolff hmw2331@rit.edu
+     * @throws IOException
      */
-    public int removeProductFromCart(int id, User user){
-        user.removeProductFromCart(id);
+    public int removeProductFromCart(int id, User user) throws IOException{
+        User updateUser = new User(user.getId(), user.getUsername(), user.getPassword(), user.getisAdmin(), user.showCart());
+        updateUser.removeProductFromCart(id);
+
+        users.put(updateUser.getId(), updateUser);
+        save();
         return id;
     }
 

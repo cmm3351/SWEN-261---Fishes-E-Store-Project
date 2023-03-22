@@ -1,5 +1,7 @@
 package com.estore.api.estoreapi.model;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode; // possiblbly for shopping cart
@@ -26,11 +28,12 @@ public class User {
      * @authors Connor McRoberts cjm6653@rit.edu, Harbor Wolff hmw2331@rit.edu
      */
     public User(@JsonProperty("id") int id, @JsonProperty("username") String username,
-    @JsonProperty("password") String password, @JsonProperty("isAdmin") boolean isAdmin) {
+    @JsonProperty("password") String password, @JsonProperty("isAdmin") boolean isAdmin, @JsonProperty("cart") int[] cart) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.isAdmin = isAdmin;
+        this.cart = cart;
     }
 
     /**
@@ -74,9 +77,13 @@ public class User {
      */
     public void removeProductFromCart(int id){
         int[] newArr = new int[this.cart.length - 1];
-        for(int i = 0, j = 0; i < this.cart.length; i++){
+        for(int i = 0, j = 0; i < this.cart.length;){
             if(this.cart[i] != id){
-                newArr[j++] = this.cart[i];
+                newArr[j] = this.cart[i];
+                i++;
+                j++;
+            }else{
+                i++;
             }
         }
         this.cart = newArr;

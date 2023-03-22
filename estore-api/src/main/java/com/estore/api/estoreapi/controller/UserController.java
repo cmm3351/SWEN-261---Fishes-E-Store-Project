@@ -119,7 +119,7 @@ public class UserController {
      */
     @DeleteMapping("/cart/")
     public ResponseEntity<Integer> removeProductFromCart(@RequestParam int uid, @RequestParam int pid){
-        LOG.info("DELETE /cart/?uid=" + uid + "&pid=" + pid);
+        LOG.info("DELETE /cart/?uid="+uid+"&pid="+pid);
 
         try{
             User user = userDao.findUserByID(uid);
