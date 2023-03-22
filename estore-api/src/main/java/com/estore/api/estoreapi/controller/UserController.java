@@ -137,16 +137,12 @@ public class UserController {
      * @param user the user of the cart
      * @return the contents of the user's cart, as an arraylist of product ids
      */
-    @PostMapping("/cart/")
+    @RequestMapping("/cart/")
     public ResponseEntity<int[]> showCart(@RequestBody User user){
-        LOG.info("POST /cart/ " + user);
+        LOG.info("GET /cart/ " + user);
 
         try{
-            Object[] preArray = userDao.showCart(user).toArray();
-            int[] array = new int[preArray.length];
-            for(int i = 0; i < preArray.length; i++){
-                array[i] = (int) preArray[i];
-            }
+            int[] array = userDao.showCart(user);
             return new ResponseEntity<int[]>(array, HttpStatus.ACCEPTED);
         }catch(IOException e){
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
