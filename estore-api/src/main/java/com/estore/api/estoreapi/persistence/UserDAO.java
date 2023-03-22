@@ -29,6 +29,18 @@ public interface UserDAO {
      */
     User findUser(String username, String password) throws IOException;
 
+    /**
+     * Retrieves a {@linkplain User user} that matches the same id as params
+     * 
+     * @param id The id of the {@link User}
+     * 
+     * @return The {@link User} with matching credentials or nukll
+     * if not found.
+     * 
+     * @throws IOException
+     */
+    User findUserByID(int id) throws IOException;
+
     
     /**
      * Creates a new {@linkplain User user} inside the persistance data

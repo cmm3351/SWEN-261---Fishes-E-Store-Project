@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,6 +35,7 @@ public class UserController {
     private static final Logger LOG = Logger.getLogger(
         UserController.class.getName());
     private UserDAO userDao;
+    private ProductDAO productDao;
 
 
     public UserController(UserDAO userDao) {
@@ -99,11 +99,13 @@ public class UserController {
      * @param user the user of the cart
      * @return the product that was added
      */
-    @PostMapping("/cart/")
-    public ResponseEntity<Product> addProductToCart(@RequestBody Product product, @RequestBody User user) {
-        LOG.info("PUT /cart/ " + product);
+    @PutMapping("/cart/{uid}/{pid}")
+    public ResponseEntity<Product> addProductToCart(@RequestBody int uid, @RequestBody int pid) {
+        LOG.info("PUT /cart/"+uid+"/"+pid);
 
         try{
+            User user = userDao.findUserByID(uid);
+            Product product = productDao.getProduct(pid);
             userDao.addProductToCart(product, user);
             return new ResponseEntity<Product>(product, HttpStatus.ACCEPTED);
         }catch(IOException e){
@@ -118,11 +120,13 @@ public class UserController {
      * @param user the user of the cart
      * @return the product that was removed
      */
-    @PostMapping("/cart/")
-    public ResponseEntity<Product> removeProductFromCart(@RequestBody Product product, @RequestBody User user){
-        LOG.info("DELETE /cart/ " + product);
+    @DeleteMapping("/cart/")
+    public ResponseEntity<Product> removeProductFromCart(@RequestBody int uid, @RequestBody int pid){
+        LOG.info("DELETE /cart/" + uid + "/" + pid);
 
         try{
+            User user = userDao.findUserByID(uid);
+            Product product = productDao.getProduct(pid);
             userDao.removeProductFromCart(product, user);
             return new ResponseEntity<Product>(product, HttpStatus.ACCEPTED);
         }catch (IOException e){
@@ -137,13 +141,19 @@ public class UserController {
      * @param user the user of the cart
      * @return the contents of the user's cart, as an arraylist of product ids
      */
-    @RequestMapping("/cart/")
-    public ResponseEntity<int[]> showCart(@RequestBody User user){
-        LOG.info("GET /cart/ " + user);
+    @GetMapping("/cart/")
+    public ResponseEntity<int[]> showCart(@RequestParam int uid){
+        LOG.info("GET /cart/?uid=" + uid);
 
         try{
+            User user = userDao.findUserByID(uid);
             int[] array = userDao.showCart(user);
-            return new ResponseEntity<int[]>(array, HttpStatus.ACCEPTED);
+            //TODO convert id arr to products here???
+            /**Product[] pArr = new Product[array.length];
+            for(int i = 0; i < array.length; i++){
+                pArr[i] = productDao.getProduct(array[i]);
+            };**/
+            return new ResponseEntity<int[]>(array, HttpStatus.OK);
         }catch(IOException e){
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

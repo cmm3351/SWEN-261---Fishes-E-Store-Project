@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.logging.Logger;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 import java.io.File;
@@ -70,6 +69,20 @@ public class UserFileDAO implements UserDAO {
         for(User user : users.values()) {
             if(user.getUsername().equals(username) &&
             user.getPassword().equals(password)) {
+                    return user;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @author Connor McRoberts cjm6653@rit.edu
+     */
+    public User findUserByID(int id) throws IOException {
+
+        for(User user : users.values()) {
+            if(user.getId() == id){
                     return user;
             }
         }
