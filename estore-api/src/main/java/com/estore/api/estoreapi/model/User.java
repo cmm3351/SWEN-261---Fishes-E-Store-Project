@@ -15,7 +15,7 @@ public class User {
     @JsonProperty("username") private String username;
     @JsonProperty("password") private String password;
     @JsonProperty("isAdmin") private boolean isAdmin;
-    @JsonProperty("cart") private ArrayList<Integer> cart;
+    @JsonProperty("cart") private int[] cart;
 
     /**
      * Create a user for the estore with the given parameters.
@@ -62,7 +62,9 @@ public class User {
      *@pre: the product id exists in the store
      */
     public void addProductToCart(int id){
-        cart.add(id);
+        int[] newArr = new int[this.cart.length + 1];
+        newArr[this.cart.length] = id;
+        this.cart = newArr;
     };
 
     /**
@@ -71,13 +73,18 @@ public class User {
      *@pre: the product id exists in the cart
      */
     public void removeProductFromCart(int id){
-        cart.remove(id);
+        int[] newArr = new int[this.cart.length - 1];
+        for(int i = 0, j = 0; i < this.cart.length; i++){
+            if(this.cart[i] != id){
+                newArr[j++] = this.cart[i];
+            }
+        }
+        this.cart = newArr;
     };
 
     /**
      *Displays the entire cart
      *@return: the cart as an ArrayList of integers representing product ids
      */
-    public ArrayList<Integer> showCart(){return cart;};
-
+    public int[] showCart(){return this.cart;};
 }
