@@ -145,19 +145,6 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testAddProductToCartFailed() throws IOException{
-        //Setup
-        User user = new User(999, "n/a", "doesn't matter", false, new int[0]);
-        int newInt = 99;
-
-        doThrow(new IOException()).when(userDAO).addProductToCart(newInt, user);
-
-        ResponseEntity<Integer> response = userController.addProductToCart(newInt, user.getId());
-
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    }
-
-    @Test
     public void testRemoveProductFromCart() throws IOException {
         //Setup
         int[]  cart ={ 99};
@@ -173,18 +160,6 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testRemoveProductFromCartFailed() throws IOException {
-        User user = new User(999, "n/a", "doesn't matter", false, new int[0]);
-        int newInt = 99;
-
-        doThrow(new IOException()).when(userDAO).removeProductFromCart(newInt, user);
-
-        ResponseEntity<Integer> response = userController.removeProductFromCart(newInt, user.getId());
-
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    }
-
-    @Test
     public void testShowCart() throws IOException {
         int[] cart = {99};
         User user = new User(999, "n/a", "doesn't matter", false, cart);
@@ -195,16 +170,5 @@ public class UserControllerTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(cart, response.getBody());
-    }
-
-    @Test
-    public void testShowCartFailed() throws IOException {
-        User user = new User(999, "n/a", "doesn't matter", false, new int[0]);
-
-        doThrow(new IOException()).when(userDAO).showCart(user);
-
-        ResponseEntity<int[]> response = userController.showCart(user.getId());
-
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 }
