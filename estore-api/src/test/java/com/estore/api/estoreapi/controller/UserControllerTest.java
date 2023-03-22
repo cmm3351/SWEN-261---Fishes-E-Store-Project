@@ -147,13 +147,13 @@ public class UserControllerTest {
     @Test
     public void testRemoveProductFromCart() throws IOException {
         //Setup
-        int[]  cart ={ 99};
+        int[]  cart ={1};
         User user = new User(999, "n/a", "doesn't matter", false, cart);
-        int newInt = 99;
+        int newInt = 1;
 
         when(userDAO.removeProductFromCart(newInt, user)).thenReturn(newInt);
 
-        ResponseEntity<Integer> response = userController.removeProductFromCart(newInt, user.getId());
+        ResponseEntity<Integer> response = userController.removeProductFromCart(user.getId(), newInt);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(newInt, response.getBody());
