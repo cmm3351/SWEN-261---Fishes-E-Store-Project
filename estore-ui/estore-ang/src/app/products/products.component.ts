@@ -22,7 +22,7 @@ export class ProductsComponent implements OnInit {
     .subscribe(products => this.products = products);
   }
 
-  add(name: string, info: string, price: number, quantity: number): void {
+  add( name: string, info: string, price: number, quantity: number): void {
     name = name.trim();
     info = info.trim();
     if (!name) { return; }
