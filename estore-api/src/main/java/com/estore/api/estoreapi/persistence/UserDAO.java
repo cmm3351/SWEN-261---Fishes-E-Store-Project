@@ -68,5 +68,5 @@ public interface UserDAO {
      * @return an arraylist of integers, corresponding to Product IDs
      * @throws IOException
      */
-    ArrayList<Integer> showCart(User user) throws IOException;
+    int[] showCart(User user) throws IOException;
 }

@@ -112,7 +112,7 @@ public class UserFileDAO implements UserDAO {
      * {@inheritDoc}}
      * @author Harbor Wolff hmw2331@rit.edu
      */
-    public ArrayList<Integer> showCart(User user){
+    public int[] showCart(User user){
         return user.showCart();
     }
 
