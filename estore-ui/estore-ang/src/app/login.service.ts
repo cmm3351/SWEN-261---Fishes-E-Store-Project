@@ -58,4 +58,6 @@ export class LoginService {
 		username + ', \"password\":' + password + '\"isAdmin\": false}');
 	}
   
+	//TODO add to cart, remove from cart, show cart
+	
 }

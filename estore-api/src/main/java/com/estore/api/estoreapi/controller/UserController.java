@@ -135,13 +135,14 @@ public class UserController {
      * Displays a user's cart
      * 
      * @param user the user of the cart
-     * @return the contents of the user's cart, as an arraylist of product objects
+     * @return the contents of the user's cart, as an arraylist of product ids
      */
     @PostMapping("/cart/")
     public ResponseEntity<ArrayList<Integer>> showCart(@RequestBody User user){
         LOG.info("POST /cart/ " + user);
 
         try{
+            //TODO Consider returning native array instead so that angular can parse the ids 
             return new ResponseEntity<ArrayList<Integer>>(userDao.showCart(user), HttpStatus.ACCEPTED);
         }catch(IOException e){
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
