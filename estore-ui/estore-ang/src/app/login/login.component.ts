@@ -43,4 +43,9 @@ export class LoginComponent {
 		this.isLoggedin = true;
 	}
 
+	showCart(): void {
+		
+
+	}
+
 }
