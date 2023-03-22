@@ -73,7 +73,7 @@ public class UserFileDAOTest {
     @Test
     public void testCreateUser() {
         // Setup
-        User user = new User(3, "connor", "geo", false);
+        User user = new User(3, "connor", "geo", false, new int[0]);
 
         // Invoke
         User result = assertDoesNotThrow(() -> 
