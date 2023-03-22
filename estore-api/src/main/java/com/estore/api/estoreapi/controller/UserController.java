@@ -101,7 +101,7 @@ public class UserController {
      */
     @PostMapping("/cart/")
     public ResponseEntity<Product> addProductToCart(@RequestBody Product product, @RequestBody User user) {
-        LOG.info("POST /cart/ " + product);
+        LOG.info("PUT /cart/ " + product);
 
         try{
             userDao.addProductToCart(product, user);
@@ -120,7 +120,7 @@ public class UserController {
      */
     @PostMapping("/cart/")
     public ResponseEntity<Product> removeProductFromCart(@RequestBody Product product, @RequestBody User user){
-        LOG.info("POST /cart/ " + product);
+        LOG.info("DELETE /cart/ " + product);
 
         try{
             userDao.removeProductFromCart(product, user);
