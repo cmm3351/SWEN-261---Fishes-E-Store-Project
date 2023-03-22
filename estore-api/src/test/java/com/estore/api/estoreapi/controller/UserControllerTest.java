@@ -41,7 +41,7 @@ public class UserControllerTest {
     @Test
     public void testFindUser() throws IOException {
         // setup
-        User user = new User(0, "username", "pass", false);
+        User user = new User(0, "username", "pass", false, new int[0]);
         when(userDAO.findUser(user.getUsername(), user.getPassword())).thenReturn(user);
 
         ResponseEntity<User> response = userController
@@ -54,7 +54,7 @@ public class UserControllerTest {
     @Test
     public void testFindUserNotFound() throws IOException {
         User user = new User(999, "n/a",
-        "doesnt matter", false);
+        "doesnt matter", false, new int[0]);
 
         when(userDAO.findUser(user.getUsername(), user.getPassword()))
         .thenReturn(null);
@@ -68,7 +68,7 @@ public class UserControllerTest {
     @Test
     public void testFindUserHandledException() throws Exception {
         User user = new User(999, "n/a",
-        "doesnt matter", false);
+        "doesnt matter", false, new int[0]);
 
         doThrow(new IOException()).when(userDAO)
         .findUser(user.getUsername(), user.getPassword());
@@ -83,7 +83,7 @@ public class UserControllerTest {
     public void testCreateUser() throws IOException {
         // setup
         User user = new User(999, "n/a",
-        "doesnt matter", false);
+        "doesnt matter", false, new int[0]);
 
         when(userDAO.createUser(user)).thenReturn(user);
 
@@ -100,7 +100,7 @@ public class UserControllerTest {
     public void testCreateUserConflict() throws IOException {
         // setup
         User user = new User(999, "n/a",
-        "doesnt matter", false);
+        "doesnt matter", false, new int[0]);
 
         // causes the user to 'already exist'
         when(userDAO.findUser(user.getUsername(), user.getPassword()))
@@ -117,7 +117,7 @@ public class UserControllerTest {
     public void testCreateUserHandledException() throws IOException {
         // setup
         User user = new User(999, "n/a",
-        "doesnt matter", false);
+        "doesnt matter", false, new int[0]);
 
         doThrow(new IOException()).when(userDAO).createUser(user);
 
