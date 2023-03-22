@@ -3,8 +3,8 @@
  */
 export interface Product {
     id: number;
-    name: String;
-    info: String;
+    name: string;
+    info: string;
     price: number;
     quantity: number;
 }
