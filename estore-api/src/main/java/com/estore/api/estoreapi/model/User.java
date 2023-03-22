@@ -76,12 +76,14 @@ public class User {
      *@pre: the product id exists in the cart
      */
     public void removeProductFromCart(int id){
+        boolean switchy = true;
         int[] newArr = new int[this.cart.length - 1];
         for(int i = 0, j = 0; i < this.cart.length;){
-            if(this.cart[i] != id){
+            if((this.cart[i] != id) && switchy){
                 newArr[j] = this.cart[i];
                 i++;
                 j++;
+                switchy = false;
             }else{
                 i++;
             }

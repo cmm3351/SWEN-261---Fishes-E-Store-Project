@@ -10,6 +10,7 @@ import java.io.IOException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -129,4 +130,81 @@ public class UserControllerTest {
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
 
+    @Test
+    public void testAddProductToCart() throws IOException{
+        //Setup
+        User user = new User(999, "n/a", "doesn't matter", false, new int[0]);
+        int newInt = 99;
+        
+        when(userDAO.addProductToCart(newInt, user)).thenReturn(newInt);
+
+        ResponseEntity<Integer> response = userController.addProductToCart(user.getId(), newInt);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(newInt, response.getBody());
+    }
+
+    @Test
+    public void testAddProductToCartFailed() throws IOException{
+        //Setup
+        User user = new User(999, "n/a", "doesn't matter", false, new int[0]);
+        int newInt = 99;
+
+        doThrow(new IOException()).when(userDAO).addProductToCart(newInt, user);
+
+        ResponseEntity<Integer> response = userController.addProductToCart(newInt, user.getId());
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void testRemoveProductFromCart() throws IOException {
+        //Setup
+        int[]  cart ={ 99};
+        User user = new User(999, "n/a", "doesn't matter", false, cart);
+        int newInt = 99;
+
+        when(userDAO.removeProductFromCart(newInt, user)).thenReturn(newInt);
+
+        ResponseEntity<Integer> response = userController.removeProductFromCart(newInt, user.getId());
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(newInt, response.getBody());
+    }
+
+    @Test
+    public void testRemoveProductFromCartFailed() throws IOException {
+        User user = new User(999, "n/a", "doesn't matter", false, new int[0]);
+        int newInt = 99;
+
+        doThrow(new IOException()).when(userDAO).removeProductFromCart(newInt, user);
+
+        ResponseEntity<Integer> response = userController.removeProductFromCart(newInt, user.getId());
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void testShowCart() throws IOException {
+        int[] cart = {99};
+        User user = new User(999, "n/a", "doesn't matter", false, cart);
+
+        when(userDAO.showCart(user)).thenReturn(cart);
+
+        ResponseEntity<int[]> response = userController.showCart(user.getId());
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(cart, response.getBody());
+    }
+
+    @Test
+    public void testShowCartFailed() throws IOException {
+        User user = new User(999, "n/a", "doesn't matter", false, new int[0]);
+
+        doThrow(new IOException()).when(userDAO).showCart(user);
+
+        ResponseEntity<int[]> response = userController.showCart(user.getId());
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
 }
