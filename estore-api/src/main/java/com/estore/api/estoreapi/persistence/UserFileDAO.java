@@ -106,19 +106,18 @@ public class UserFileDAO implements UserDAO {
      *{@inheritDoc}
      * @author Harbor Wolff hmw2331@rit.edu
      */
-    public Product addProductToCart(Product product, User user) throws IOException{
-        user.addProductToCart(product.getId());
-
-        return product;
+    public int addProductToCart(int id, User user) throws IOException{
+        user.addProductToCart(id);
+        return id;
     }   
 
     /**
      *{@inheritDoc}
      *@author Harbor Wolff hmw2331@rit.edu
      */
-    public Product removeProductFromCart(Product product, User user){
-        user.removeProductFromCart(product.getId());
-        return product;
+    public int removeProductFromCart(int id, User user){
+        user.removeProductFromCart(id);
+        return id;
     }
 
     /**

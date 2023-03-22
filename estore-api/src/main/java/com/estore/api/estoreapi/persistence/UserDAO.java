@@ -56,22 +56,22 @@ public interface UserDAO {
     /**
      * Adds an existing store product to the User cart inside the persistance data
      * 
-     * @param product the product to add to the User
+     * @param pid the id of the product to add to the User
      * @param user the user of the cart
      * @return the added product
      * @throws IOException If an issue arises
      */
-    Product addProductToCart(Product product, User user) throws IOException;
+    int addProductToCart(int pid, User user) throws IOException;
 
     /**
      * Removes an existing product from the User cart inside the persistance data
      * 
-     * @param product the product to be removed
+     * @param pid the id of the product to be removed
      * @param user the user of the cart
      * @return the removed product
      * @throws IOException if an issue arises
      */
-    Product removeProductFromCart(Product product, User user) throws IOException;
+    int removeProductFromCart(int pid, User user) throws IOException;
 
     /**
      * Displays the contents of a user's cart

@@ -35,8 +35,6 @@ public class UserController {
     private static final Logger LOG = Logger.getLogger(
         UserController.class.getName());
     private UserDAO userDao;
-    private ProductDAO productDao;
-
 
     public UserController(UserDAO userDao) {
         this.userDao = userDao;
@@ -97,17 +95,16 @@ public class UserController {
      * 
      * @param product the product to add
      * @param user the user of the cart
-     * @return the product that was added
+     * @return the id of the product that was added
      */
-    @PutMapping("/cart/{uid}/{pid}")
-    public ResponseEntity<Product> addProductToCart(@RequestBody int uid, @RequestBody int pid) {
-        LOG.info("PUT /cart/"+uid+"/"+pid);
+    @PutMapping("/cart/")
+    public ResponseEntity<Integer> addProductToCart(@RequestParam int uid, @RequestParam int pid) {
+        LOG.info("PUT /cart/?uid="+uid+"&pid="+pid);
 
         try{
             User user = userDao.findUserByID(uid);
-            Product product = productDao.getProduct(pid);
-            userDao.addProductToCart(product, user);
-            return new ResponseEntity<Product>(product, HttpStatus.ACCEPTED);
+            userDao.addProductToCart(pid, user);
+            return new ResponseEntity<Integer>(pid, HttpStatus.OK);
         }catch(IOException e){
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -118,17 +115,16 @@ public class UserController {
      * 
      * @param product the product to remove
      * @param user the user of the cart
-     * @return the product that was removed
+     * @return the id of the product that was removed
      */
     @DeleteMapping("/cart/")
-    public ResponseEntity<Product> removeProductFromCart(@RequestBody int uid, @RequestBody int pid){
-        LOG.info("DELETE /cart/" + uid + "/" + pid);
+    public ResponseEntity<Integer> removeProductFromCart(@RequestParam int uid, @RequestParam int pid){
+        LOG.info("DELETE /cart/?uid=" + uid + "&pid=" + pid);
 
         try{
             User user = userDao.findUserByID(uid);
-            Product product = productDao.getProduct(pid);
-            userDao.removeProductFromCart(product, user);
-            return new ResponseEntity<Product>(product, HttpStatus.ACCEPTED);
+            userDao.removeProductFromCart(pid, user);
+            return new ResponseEntity<Integer>(pid, HttpStatus.OK);
         }catch (IOException e){
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -139,7 +135,7 @@ public class UserController {
      * Displays a user's cart
      * 
      * @param user the user of the cart
-     * @return the contents of the user's cart, as an arraylist of product ids
+     * @return the contents of the user's cart, as an int[] of product ids
      */
     @GetMapping("/cart/")
     public ResponseEntity<int[]> showCart(@RequestParam int uid){
@@ -148,11 +144,6 @@ public class UserController {
         try{
             User user = userDao.findUserByID(uid);
             int[] array = userDao.showCart(user);
-            //TODO convert id arr to products here???
-            /**Product[] pArr = new Product[array.length];
-            for(int i = 0; i < array.length; i++){
-                pArr[i] = productDao.getProduct(array[i]);
-            };**/
             return new ResponseEntity<int[]>(array, HttpStatus.OK);
         }catch(IOException e){
             LOG.log(Level.SEVERE, e.getLocalizedMessage());

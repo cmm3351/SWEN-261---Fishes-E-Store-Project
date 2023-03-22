@@ -1,9 +1,6 @@
 package com.estore.api.estoreapi.model;
 
-import java.util.ArrayList;
 import java.util.logging.Logger;
-
-import com.estore.api.estoreapi.persistence.ProductFileDAO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode; // possiblbly for shopping cart
 
@@ -63,6 +60,9 @@ public class User {
      */
     public void addProductToCart(int id){
         int[] newArr = new int[this.cart.length + 1];
+        for(int i = 0; i < this.cart.length; i++){
+            newArr[i] = this.cart[i];
+        }
         newArr[this.cart.length] = id;
         this.cart = newArr;
     };
