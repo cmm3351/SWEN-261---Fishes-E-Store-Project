@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { LoginService } from '../login.service';
+import { ProductsComponent } from '../products/products.component';
 import { User } from '../user';
 
 /**
@@ -17,7 +18,8 @@ import { User } from '../user';
 })
 export class LoginComponent {
 
-	constructor(private loginService: LoginService) {}
+	constructor(private loginService: LoginService,
+				) {}
 
 	CurrentUser?: User;
 	isLoggedin: boolean = false;
@@ -40,6 +42,7 @@ export class LoginComponent {
 				.subscribe((data) => {this.CurrentUser = data})
 		}
 		this.isLoggedin = true;
+		
 	}
 
 	getCurrUser() : User | undefined {

@@ -19,6 +19,9 @@
             <label for="product-quantity">Product Quantity: </label>
             <input id="product-quantity" [(ngModel)]="product.quantity" placeholder="Product quantity"/>
         </div>
+
+        <button type="button" (click)="goBack()">go back</button>
+        <button type="button" (click)="save()">save</button>
     </div>
 
     <ng-template #e class="customer_view">
@@ -34,8 +37,7 @@
         <div>
             <label for="product-quantity">Product Quantity: {{product.quantity}}</label>
         </div>
-    </ng-template>
 
-    <button type="button" (click)="goBack()">go back</button>
-    <button type="button" (click)="save()">save</button>
+        <button type="button" (click)="goBack()">go back</button>
+    </ng-template>
   </div>
