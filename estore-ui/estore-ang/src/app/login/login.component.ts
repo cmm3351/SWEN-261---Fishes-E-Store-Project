@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 
 import { LoginService } from '../login.service';
 import { User } from '../user';
-import { DataService } from '../data.service';
-
 
 /**
  * Login component for the web-application. Contains
@@ -19,14 +17,12 @@ import { DataService } from '../data.service';
 })
 export class LoginComponent {
 
-	constructor(private loginService: LoginService,
-				private dataService: DataService) {}
+	constructor(private loginService: LoginService) {}
 
 	CurrentUser?: User;
 	isLoggedin: boolean = false;
 	tempName: String = "";
 	tempPass: String = "";
-	currUser: User = {id:-1,username:"",password:"",isAdmin:false};
 
 	/**
 	 * A login function, attached to the 'button container' div
@@ -44,10 +40,10 @@ export class LoginComponent {
 				.subscribe((data) => {this.CurrentUser = data})
 		}
 		this.isLoggedin = true;
-		if (this.CurrentUser != undefined) {
-			this.dataService.currMessage.subscribe(currUser => this.currUser = currUser);
-			this.dataService.sendUser(this.CurrentUser);
-		}
+	}
+
+	getCurrUser() : User | undefined {
+		return this.CurrentUser;
 	}
 
 }

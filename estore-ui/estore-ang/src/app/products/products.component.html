@@ -1,6 +1,6 @@
 <h2>Exotic Fish</h2>
 
-<div *ngIf="currUser.isAdmin; else e" class="admin_view">
+<div *ngIf="currUser?.isAdmin; else e" class="admin_view">
   <label for="new-product">Product name: </label>
   <input id="new-product" #productName />
   <label for="new-product">Product info: </label>

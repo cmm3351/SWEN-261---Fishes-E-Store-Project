@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { Product } from '../product';
 import { User } from '../user';
+import { LoginComponent } from '../login/login.component';
 import { ProductService } from '../product.service';
-import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-products',
@@ -12,14 +12,15 @@ import { DataService } from '../data.service';
 })
 export class ProductsComponent implements OnInit {
   products: Product[] = [];
-  currUser: User = {id:-1,username:"",password:"",isAdmin:false};
+  currUser? : User;
+
 
   constructor(private productService: ProductService,
-              private dataService: DataService) { }
+              private loginComponent: LoginComponent) { }
 
   ngOnInit(): void {
     this.getProducts();
-    this.dataService.currMessage.subscribe(currUser => this.currUser = currUser);
+    this.currUser = this.loginComponent.getCurrUser();
   }
 
   getProducts(): void {

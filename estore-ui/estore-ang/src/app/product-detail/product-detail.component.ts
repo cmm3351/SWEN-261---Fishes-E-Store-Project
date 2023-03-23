@@ -5,7 +5,7 @@ import { Location } from '@angular/common';
 import { Product } from '../product';
 import { User } from '../user';
 import { ProductService } from '../product.service';
-import { DataService } from '../data.service';
+import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'app-product-detail',
@@ -14,18 +14,18 @@ import { DataService } from '../data.service';
 })
 export class ProductDetailComponent implements OnInit {
   product: Product | undefined;
-  currUser: User = {id:-1,username:"",password:"",isAdmin:false};
+  currUser? : User;
 
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService,
     private location: Location,
-    private dataService: DataService
+    private loginComponent: LoginComponent
   ) {}
 
   ngOnInit(): void {
     this.getProduct();
-    this.dataService.currMessage.subscribe(currUser => this.currUser = currUser);
+    this.currUser = this.loginComponent.getCurrUser();
   }
 
   getProduct(): void {

@@ -2,6 +2,7 @@
     <h2>{{product.name | uppercase}} Details</h2>
     <div><span>id: </span>{{product.id}}</div>
 
+    <div *ngIf="currUser?.isAdmin; else e" class="admin_view">
         <div>
             <label for="product-name">Product Name: </label>
             <input id="product-name" [(ngModel)]="product.name" placeholder="Product name"/>
@@ -18,6 +19,22 @@
             <label for="product-quantity">Product Quantity: </label>
             <input id="product-quantity" [(ngModel)]="product.quantity" placeholder="Product quantity"/>
         </div>
+    </div>
+
+    <ng-template #e class="customer_view">
+        <div>
+            <label for="product-name">Product Name: {{product.name}}</label>
+        </div>
+        <div>
+            <label for="product-info">Product Information: {{product.info}}</label>
+        </div>
+        <div>
+            <label for="product-price">Product Price: {{product.price}}</label>
+        </div>
+        <div>
+            <label for="product-quantity">Product Quantity: {{product.quantity}}</label>
+        </div>
+    </ng-template>
 
     <button type="button" (click)="goBack()">go back</button>
     <button type="button" (click)="save()">save</button>
