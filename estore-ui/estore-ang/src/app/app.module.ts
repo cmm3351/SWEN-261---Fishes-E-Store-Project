@@ -26,7 +26,8 @@ import { ProductSearchComponent } from './product-search/product-search.componen
     FormsModule
   ],
   providers: [LoginComponent,
-              ProductsComponent],
+              ProductsComponent,
+              ProductDetailComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 
 import { Product } from '../product';
 import { User } from '../user';
@@ -8,11 +8,12 @@ import { ProductService } from '../product.service';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
-  styleUrls: ['./products.component.css']
+  styleUrls: ['./products.component.css'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
-export class ProductsComponent implements OnInit {
-  products: Product[] = [];
-  currUser? : User;
+export class ProductsComponent implements OnInit, OnChanges {
+  products: Product[] = []; 
+  @Input() currUser? : User; 
 
 
   constructor(private productService: ProductService,
@@ -21,8 +22,12 @@ export class ProductsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProducts();
-    this.currUser = this.loginComponent.getCurrUser();
   }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.currUser = changes['currUser'].currentValue;
+  }
+
 
   getProducts(): void {
     this.productService.getProducts()

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
@@ -10,11 +10,12 @@ import { LoginComponent } from '../login/login.component';
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
-  styleUrls: [ './product-detail.component.css' ]
+  styleUrls: [ './product-detail.component.css' ],
+  changeDetection: ChangeDetectionStrategy.Default
 })
-export class ProductDetailComponent implements OnInit {
+export class ProductDetailComponent implements OnInit, OnChanges {
   product: Product | undefined;
-  currUser? : User;
+  @Input() currUser? : User; 
 
   constructor(
     private route: ActivatedRoute,
@@ -23,9 +24,14 @@ export class ProductDetailComponent implements OnInit {
     private loginComponent: LoginComponent
   ) {}
 
+
+
   ngOnInit(): void {
     this.getProduct();
-    this.currUser = this.loginComponent.getCurrUser();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.currUser = changes['currUser'].currentValue;
   }
 
   getProduct(): void {
