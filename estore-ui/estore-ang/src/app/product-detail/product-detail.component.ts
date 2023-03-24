@@ -5,7 +5,6 @@ import { Location } from '@angular/common';
 import { Product } from '../product';
 import { User } from '../user';
 import { ProductService } from '../product.service';
-import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'app-product-detail',
@@ -15,15 +14,14 @@ import { LoginComponent } from '../login/login.component';
 })
 export class ProductDetailComponent implements OnInit, OnChanges {
   product: Product | undefined;
-  @Input() currUser? : User; 
+  @Input() currUser? : User;
+  isAdmin : boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService,
     private location: Location,
-    private loginComponent: LoginComponent
   ) {}
-
 
 
   ngOnInit(): void {
@@ -31,7 +29,9 @@ export class ProductDetailComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.currUser = changes['currUser'].currentValue;
+    if (changes['currUser'].currentValue != undefined) {
+      this.isAdmin = changes['currUser'].currentValue.isAdmin;
+    }
   }
 
   getProduct(): void {

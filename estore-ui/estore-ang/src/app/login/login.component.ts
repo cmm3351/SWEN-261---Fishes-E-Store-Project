@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 
 import { LoginService } from '../login.service';
-import { ProductDetailComponent } from '../product-detail/product-detail.component';
-import { ProductsComponent } from '../products/products.component';
 import { User } from '../user';
 
 /**
@@ -42,10 +40,6 @@ export class LoginComponent {
 				.subscribe((data) => {this.CurrentUser = data})
 		}
 		this.isLoggedin = true;
-	}
-
-	getCurrUser() : User | undefined {
-		return this.CurrentUser;
 	}
 
 }

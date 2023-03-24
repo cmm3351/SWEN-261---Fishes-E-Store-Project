@@ -1,6 +1,6 @@
 <h2>Exotic Fish</h2>
 
-<div *ngIf="currUser?.isAdmin; else e" class="admin_view">
+<div *ngIf="isAdmin; else e" class="admin_view">
   <label for="new-product">Product name: </label>
   <input id="new-product" #productName />
   <label for="new-product">Product info: </label>
@@ -31,7 +31,6 @@
   </li>
 </ul>
 </div>
-
 <ng-template #e class="customer_view">
 <ul class="products">
   <li *ngFor="let product of products">

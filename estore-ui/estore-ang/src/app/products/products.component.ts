@@ -2,7 +2,6 @@ import { Component, OnInit, OnChanges, Input, SimpleChanges, ChangeDetectionStra
 
 import { Product } from '../product';
 import { User } from '../user';
-import { LoginComponent } from '../login/login.component';
 import { ProductService } from '../product.service';
 
 @Component({
@@ -14,10 +13,10 @@ import { ProductService } from '../product.service';
 export class ProductsComponent implements OnInit, OnChanges {
   products: Product[] = []; 
   @Input() currUser? : User; 
+  isAdmin : boolean = false;
 
 
   constructor(private productService: ProductService,
-              private loginComponent: LoginComponent
               ) { }
 
   ngOnInit(): void {
@@ -25,7 +24,11 @@ export class ProductsComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.currUser = changes['currUser'].currentValue;
+    console.log(changes['currUser'].currentValue);
+    if (changes['currUser'].currentValue != undefined) {
+      this.isAdmin = changes['currUser'].currentValue.isAdmin;
+    }
+    console.log(this.isAdmin);
   }
 
 
