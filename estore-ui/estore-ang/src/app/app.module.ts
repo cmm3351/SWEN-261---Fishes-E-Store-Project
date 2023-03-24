@@ -10,11 +10,14 @@ import { ProductsComponent } from './products/products.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { ProductSearchComponent } from './product-search/product-search.component';
 
+import { CartComponent } from './cart/cart.component';
+import { CreateAccComponent } from './create-acc/create-acc.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    CreateAccComponent,
     ProductsComponent,
     ProductDetailComponent,
     ProductSearchComponent

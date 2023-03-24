@@ -9,20 +9,27 @@ geometry: margin=1in
 > and appear in the generated PDF in italics._
 
 ## Team Information
-* Team name: TEAMNAME
+* Team name: b-fishes
 * Team members
-  * MEMBER1
-  * MEMBER2
-  * MEMBER3
+  * Cristian Malone
+  * Connor McRoberts
+  * Harbor Wolff
   * MEMBER4
 
 ## Executive Summary
 
-This is a summary of the project.
+Our rare fish e-store is a cutting-edge platform designed to provide customers with an easy-to-use and secure online shopping experience. The website is built using a single-page application (SPA) architecture, utilizing the Angular framework for the front-end and Java Springboot for the back-end. This technology combination enables us to provide a fast, responsive and dynamic user interface.
+
+The website allows users to create an account and log in. Once logged in, users can browse our extensive selection of rare fish, view detailed product information, and add their desired fish to their shopping cart. The shopping cart is designed to be user-friendly, allowing users to easily edit and update their orders before checkout.
+
+The website also features an admin login, providing the administrators with a secure back-end portal to manage product information, customer data, and order fulfillment. Administrators can add, edit, and remove products, view and manage customer data, and process orders, ensuring the website's operations run smoothly.
+
+In conclusion, our rare fish e-store offers customers an exciting and hassle-free shopping experience. With our extensive selection of rare fish, user-friendly shopping cart, we are confident that our customers will enjoy shopping with us.
 
 ### Purpose
-> _Provide a very brief statement about the project and the most
-> important user group and user goals._
+> The purpose of this project is to allow customers to purchase their favorite
+> exotic fish, all while our product owner gets to make some profit while providing 
+> a needed service.
 
 ### Glossary and Acronyms
 > _Provide a table of terms and acronyms._
@@ -41,10 +48,12 @@ This section describes the features of the application.
 > maybe Epics and critical Stories._
 
 ### Definition of MVP
-> _Provide a simple description of the Minimum Viable Product._
+> _A reward points system made for users.
 
 ### MVP Features
-> _Provide a list of top-level Epics and/or Stories of the MVP._
+> * Calculating points for each product
+> * Integrating it into User and product backends
+> * Building working rewards points component in angular
 
 ### Roadmap of Enhancements
 > _Provide a list of top-level features in the order you plan to consider them._
@@ -54,7 +63,7 @@ This section describes the features of the application.
 
 This section describes the application domain.
 
-![Domain Model](domain-model-placeholder.png)
+![Domain Model](swen_domain.png)
 
 > _Provide a high-level overview of the domain for this application. You
 > can discuss the more important domain entities and their relationship

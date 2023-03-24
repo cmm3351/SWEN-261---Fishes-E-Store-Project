@@ -16,7 +16,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.estore.api.estoreapi.persistence.ProductDAO;
 import com.estore.api.estoreapi.persistence.UserDAO;
+import com.estore.api.estoreapi.model.Product;
 import com.estore.api.estoreapi.model.User;
 
 /**
@@ -25,7 +27,7 @@ import com.estore.api.estoreapi.model.User;
  * {@literal @}RestController Spring annotation identifies this class as a REST API
  * method handler to the Spring framework.
  * 
- * @author Connor McRoberts cjm6653@rit.edu
+ * @authors Connor McRoberts cjm6653@rit.edu, Harbor Wolff hmw2331@rit.edu
  */
 @RestController
 @RequestMapping("users")
@@ -48,7 +50,7 @@ public class UserController {
                 return new ResponseEntity<User>(user, HttpStatus.OK);
             }
             else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(user, HttpStatus.NOT_FOUND);
             }
         }
         catch(IOException e) {
@@ -87,5 +89,65 @@ public class UserController {
     }
 
     //TODO possibly deleteUser
-    //TODO shopping cart api calls
+
+    /**
+     * Adds a product to a user's cart
+     * 
+     * @param product the product to add
+     * @param user the user of the cart
+     * @return the id of the product that was added
+     */
+    @PutMapping("/cart/")
+    public ResponseEntity<Integer> addProductToCart(@RequestParam int uid, @RequestParam int pid) {
+        LOG.info("PUT /cart/?uid="+uid+"&pid="+pid);
+
+        try{
+            User user = userDao.findUserByID(uid);
+            userDao.addProductToCart(pid, user);
+            return new ResponseEntity<Integer>(pid, HttpStatus.OK);
+        }catch(IOException e){
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    /**
+     * Removes a product from the user's cart
+     * 
+     * @param product the product to remove
+     * @param user the user of the cart
+     * @return the id of the product that was removed
+     */
+    @DeleteMapping("/cart/")
+    public ResponseEntity<Integer> removeProductFromCart(@RequestParam int uid, @RequestParam int pid){
+        LOG.info("DELETE /cart/?uid="+uid+"&pid="+pid);
+
+        try{
+            User user = userDao.findUserByID(uid);
+            userDao.removeProductFromCart(pid, user);
+            return new ResponseEntity<Integer>(pid, HttpStatus.OK);
+        }catch (IOException e){
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    /**
+     * Displays a user's cart
+     * 
+     * @param user the user of the cart
+     * @return the contents of the user's cart, as an int[] of product ids
+     */
+    @GetMapping("/cart/")
+    public ResponseEntity<int[]> showCart(@RequestParam int uid){
+        LOG.info("GET /cart/?uid=" + uid);
+
+        try{
+            User user = userDao.findUserByID(uid);
+            int[] array = userDao.showCart(user);
+            return new ResponseEntity<int[]>(array, HttpStatus.OK);
+        }catch(IOException e){
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }

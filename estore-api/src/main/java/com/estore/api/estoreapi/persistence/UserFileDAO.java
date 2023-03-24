@@ -1,7 +1,5 @@
 package com.estore.api.estoreapi.persistence;
 
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.logging.Logger;
@@ -13,7 +11,9 @@ import java.io.File;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.estore.api.estoreapi.model.Product;
 import com.estore.api.estoreapi.model.User;
+
 
 /**
  * Implements the functionality for JSON file-based persistance for Users
@@ -49,7 +49,7 @@ public class UserFileDAO implements UserDAO {
     }
 
     /**
-     * Generates the next id for a new {@linkplain Product product}
+     * Generates the next id for a new {@linkplain User user}
      * 
      * @return The next id
      */
@@ -63,7 +63,7 @@ public class UserFileDAO implements UserDAO {
      * {@inheritDoc}
      * @author Connor McRoberts cjm6653@rit.edu
      */
-    public User findUser(String username, String password) throws IOException {
+    public User findUser(String username, String password) {
 
         for(User user : users.values()) {
             if(user.getUsername().equals(username) &&
@@ -74,19 +74,69 @@ public class UserFileDAO implements UserDAO {
         return null;
     }
 
-    
     /**
      * {@inheritDoc}
      * @author Connor McRoberts cjm6653@rit.edu
      */
+    public User findUserByID(int id) throws IOException {
+
+        for(User user : users.values()) {
+            if(user.getId() == id){
+                    return user;
+            }
+        }
+        return null;
+    }
+
+    
+    /**
+     * {@inheritDoc}
+     * @author Connor McRoberts cjm6653@rit.edu
+     * 
+     * @throws IOException if save() function throws IOException
+     */
     public User createUser(User user) throws IOException {
-        User newUser = new User(nextId(), user.getUsername(), user.getPassword(), user.getisAdmin());
+        User newUser = new User(nextId(), user.getUsername(), user.getPassword(), user.getisAdmin(), user.showCart());
 
         users.put(newUser.getId(), newUser);
         save();
         return newUser;
     }
 
+    /**
+     *{@inheritDoc}
+     * @author Harbor Wolff hmw2331@rit.edu
+     */
+    public int addProductToCart(int id, User user) throws IOException{
+        User updateUser = new User(user.getId(), user.getUsername(), user.getPassword(), user.getisAdmin(), user.showCart());
+        updateUser.addProductToCart(id);
+        
+        users.put(updateUser.getId(), updateUser);
+        save();
+        return id;
+    }   
+
+    /**
+     *{@inheritDoc}
+     *@author Harbor Wolff hmw2331@rit.edu
+     * @throws IOException
+     */
+    public int removeProductFromCart(int id, User user) throws IOException{
+        User updateUser = new User(user.getId(), user.getUsername(), user.getPassword(), user.getisAdmin(), user.showCart());
+        updateUser.removeProductFromCart(id);
+
+        users.put(updateUser.getId(), updateUser);
+        save();
+        return id;
+    }
+
+    /**
+     * {@inheritDoc}}
+     * @author Harbor Wolff hmw2331@rit.edu
+     */
+    public int[] showCart(User user){
+        return user.showCart();
+    }
 
     /**
      * Saves the {@linkplain User users} from the map into the file as an array of JSON objects
@@ -110,7 +160,7 @@ public class UserFileDAO implements UserDAO {
     }
 
     /**
-     * Loads {@linkplain Product products} from the JSON file into the map
+     * Loads {@linkplain Users users} from the JSON file into the map
      * <br>
      * Also sets next id to one more than the greatest id found in the file
      * 
@@ -137,4 +187,6 @@ public class UserFileDAO implements UserDAO {
         ++nextId;
         return true;
     }
+
+
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { catchError } from 'rxjs';
 
 import { LoginService } from '../login.service';
 import { User } from '../user';
@@ -20,9 +21,9 @@ export class LoginComponent {
 	constructor(private loginService: LoginService) {}
 
 	CurrentUser?: User;
-	isLoggedin: boolean = false;
 	tempName: String = "";
 	tempPass: String = "";
+	failLogin: String = "";
 
 	/**
 	 * A login function, attached to the 'button container' div
@@ -32,14 +33,20 @@ export class LoginComponent {
 	login(): void {
 		
 		this.loginService.verifyLogin(this.tempName, this.tempPass)
-			.subscribe((data: User) => {this.CurrentUser = data});
+			.subscribe((data) => {
+				this.CurrentUser = data;
 
-		//TODO find conditional to stop this from firing 
-		if(this.CurrentUser == undefined) {
-			this.loginService.createAccount(this.tempName, this.tempPass)
-				.subscribe((data) => {this.CurrentUser = data})
-		}
-		this.isLoggedin = true;
+				if(this.CurrentUser == undefined ) {
+					this.failLogin = 
+					"invalid password or username"
+				}
+			})
+	}
+
+	showCart(): void {
+		
+
 	}
 
 }
+ 

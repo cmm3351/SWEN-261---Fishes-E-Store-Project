@@ -1,5 +1,1 @@
-[{"id":1,"username":"harbor","password":"pass", "isAdmin": false},
-{"id":2,"username":"connor","password":"word", "isAdmin":false},
-{"id":3,"username":"christian","password":"123", "isAdmin": false},
-{"id":4,"username":"japan","password":"generate", "isAdmin": false},
-{"id": 5, "username": "admin", "password": "password", "isAdmin": true}]
+[{"id":1,"username":"harbor","password":"pass","isAdmin":false,"cart":[]},{"id":2,"username":"connor","password":"word","isAdmin":false,"cart":[3,4,5]},{"id":3,"username":"christian","password":"123","isAdmin":false,"cart":[6]},{"id":4,"username":"japan","password":"generate","isAdmin":false,"cart":[]},{"id":5,"username":"admin","password":"password","isAdmin":true,"cart":[7,8]}]

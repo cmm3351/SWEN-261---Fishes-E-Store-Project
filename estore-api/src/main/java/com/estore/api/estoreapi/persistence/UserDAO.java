@@ -1,6 +1,9 @@
 package com.estore.api.estoreapi.persistence;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
+import com.estore.api.estoreapi.model.Product;
 import com.estore.api.estoreapi.model.User;
 
 /**
@@ -26,6 +29,18 @@ public interface UserDAO {
      */
     User findUser(String username, String password) throws IOException;
 
+    /**
+     * Retrieves a {@linkplain User user} that matches the same id as params
+     * 
+     * @param id The id of the {@link User}
+     * 
+     * @return The {@link User} with matching credentials or nukll
+     * if not found.
+     * 
+     * @throws IOException
+     */
+    User findUserByID(int id) throws IOException;
+
     
     /**
      * Creates a new {@linkplain User user} inside the persistance data
@@ -38,4 +53,32 @@ public interface UserDAO {
      */
     User createUser(User user) throws IOException;
 
+    /**
+     * Adds an existing store product to the User cart inside the persistance data
+     * 
+     * @param pid the id of the product to add to the User
+     * @param user the user of the cart
+     * @return the added product
+     * @throws IOException If an issue arises
+     */
+    int addProductToCart(int pid, User user) throws IOException;
+
+    /**
+     * Removes an existing product from the User cart inside the persistance data
+     * 
+     * @param pid the id of the product to be removed
+     * @param user the user of the cart
+     * @return the removed product
+     * @throws IOException if an issue arises
+     */
+    int removeProductFromCart(int pid, User user) throws IOException;
+
+    /**
+     * Displays the contents of a user's cart
+     * 
+     * @param user the user of the cart
+     * @return an arraylist of integers, corresponding to Product IDs
+     * @throws IOException
+     */
+    int[] showCart(User user) throws IOException;
 }
