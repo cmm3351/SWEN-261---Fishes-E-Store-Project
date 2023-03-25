@@ -87,5 +87,7 @@ export class LoginService {
   	}
   
 	//TODO add to cart, remove from cart, show cart
-
+	getCart(user: User){
+		return this.http.get<number[]>(this.usersUrl + '/cart/?uid=' + user.id);
+	}
 }
