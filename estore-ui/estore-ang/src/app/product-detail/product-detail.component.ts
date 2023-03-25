@@ -35,9 +35,15 @@ export class ProductDetailComponent implements OnInit, OnChanges {
   }
 
   getProduct(): void {
-    const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
+    const id = parseInt(this.route.snapshot.paramMap.get('id')!);
+    console.log(this.route);
+    console.log(this.route.snapshot);
+    console.log(this.route.snapshot.paramMap);
+    console.log(id);
+    if (!Number.isNaN(id)) {
     this.productService.getProduct(id)
       .subscribe(product => this.product = product);
+    }
   }
 
   goBack(): void {
