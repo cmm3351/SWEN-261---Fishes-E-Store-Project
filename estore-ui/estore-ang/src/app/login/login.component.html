@@ -5,6 +5,7 @@
     <div *ngIf="CurrentUser.isAdmin">
         <p>This user is an administrator.</p>
     </div>
+    <button type="button" (click)="goToCart()">Review Cart</button>
 </div>
 <ng-template #e class="login_container">
     <div class="username_container">

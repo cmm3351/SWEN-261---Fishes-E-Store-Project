@@ -43,10 +43,8 @@ export class LoginComponent {
 			})
 	}
 
-	showCart(): void {
+	goToCart(): void{
 		
-
 	}
-
 }
  
