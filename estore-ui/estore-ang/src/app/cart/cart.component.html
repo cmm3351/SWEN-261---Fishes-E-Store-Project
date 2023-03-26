@@ -1,10 +1,10 @@
-<h2>Your Cart</h2>
+<h2>{{currUser?.username}}'s' Cart</h2>
 
 <ul class="cart">
     <li *ngFor="let product of cart">
-      <a routerLink="/cart/?{{user.id}}">
+      <a routerLink="users/cart/?uid={{currUser.id!}}?pid={{product.id}}">
         <span class="badge">{{product.id}}</span> {{product.name}}
+
       </a>
-      
     </li>
   </ul>
