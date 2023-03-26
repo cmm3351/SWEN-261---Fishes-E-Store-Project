@@ -18,7 +18,7 @@ import { User } from '../user';
 })
 export class LoginComponent {
 
-	constructor(private loginService: LoginService) {}
+	constructor(private loginService: LoginService, private location: Location) {}
 
 	CurrentUser?: User;
 	tempName: String = "";
