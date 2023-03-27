@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 import { Product } from '../product';
 import { User } from '../user';
@@ -10,25 +10,17 @@ import { ProductService } from '../product.service';
   styleUrls: ['./products.component.css'],
   changeDetection: ChangeDetectionStrategy.Default
 })
-export class ProductsComponent implements OnInit, OnChanges {
+export class ProductsComponent implements OnInit {
   products: Product[] = []; 
-  @Input() currUser? : User; 
   isAdmin : boolean = false;
+  currUser? : User;
 
 
-  constructor(private productService: ProductService,
-              ) { }
+  constructor(private productService: ProductService) { }
 
   ngOnInit(): void {
     this.getProducts();
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    console.log(changes['currUser'].currentValue);
-    if (changes['currUser'].currentValue != undefined) {
-      this.isAdmin = changes['currUser'].currentValue.isAdmin;
-    }
-    console.log(this.isAdmin);
+    this.currUser = history.state.currUser;
   }
 
 

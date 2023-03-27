@@ -1,6 +1,21 @@
+<div *ngIf="currUser; else l" class="welcome_container">
+  <h2>Welcome, {{currUser.username}}</h2>
+  <div *ngIf="currUser?.isAdmin">
+      <p>This user is an administrator.</p>
+  </div>
+  <div class="logout_button_container">
+    <button type="button" routerLink="/login">Log Out</button>
+  </div>
+</div>
+<ng-template #l class="l">
+  <div class="logout_button_container">
+    <button type="button" routerLink="/login">Login</button>
+  </div>
+</ng-template>
+
 <h2>Exotic Fish</h2>
 
-<div *ngIf="isAdmin; else e" class="admin_view">
+<div *ngIf="currUser?.isAdmin; else e" class="admin_view">
   <label for="new-product">Product name: </label>
   <input id="new-product" #productName />
   <label for="new-product">Product info: </label>
@@ -23,7 +38,7 @@
 
 <ul class="products">
   <li *ngFor="let product of products">
-    <a routerLink="/detail/{{product.id}}">
+    <a routerLink="/detail/{{product.id}}" [state]="{isAdmin: true}">
       <span class="badge">{{product.id}}</span> {{product.name}}
     </a>
     <button type="button" class="delete" title="delete product"
@@ -35,7 +50,7 @@
 <ng-template #e class="customer_view">
 <ul class="products">
   <li *ngFor="let product of products">
-    <a routerLink="/detail/{{product.id}}">
+    <a routerLink="/detail/{{product.id}}" [state]="{isAdmin: false}">
       <span class="badge">{{product.id}}</span> {{product.name}}
     </a>
   </li>

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { catchError } from 'rxjs';
 
 import { LoginService } from '../login.service';
@@ -18,7 +19,9 @@ import { User } from '../user';
 })
 export class LoginComponent {
 
-	constructor(private loginService: LoginService) {}
+
+	constructor(private loginService: LoginService,
+				private router: Router) {}
 
 	CurrentUser?: User;
 	tempName: String = "";
@@ -39,6 +42,9 @@ export class LoginComponent {
 				if(this.CurrentUser == undefined ) {
 					this.failLogin = 
 					"invalid password or username"
+				}
+				else {
+					this.router.navigateByUrl('',{state : {currUser: this.CurrentUser}});
 				}
 			})
 	}

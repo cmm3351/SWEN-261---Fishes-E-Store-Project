@@ -12,6 +12,7 @@ import { ProductSearchComponent } from './product-search/product-search.componen
 
 import { CartComponent } from './cart/cart.component';
 import { CreateAccComponent } from './create-acc/create-acc.component';
+import { LoginService } from './login.service';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { CreateAccComponent } from './create-acc/create-acc.component';
   ],
   providers: [LoginComponent,
               ProductsComponent,
-              ProductDetailComponent],
+              ProductDetailComponent,
+              LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

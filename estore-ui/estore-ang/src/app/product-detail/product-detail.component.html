@@ -2,7 +2,7 @@
     <h2>{{product.name | uppercase}} Details</h2>
     <div><span>id: </span>{{product.id}}</div>
 
-    <div *ngIf="currUser?.isAdmin; else e" class="admin_view">
+    <div *ngIf="isAdmin; else e" class="admin_view">
         <div>
             <label for="product-name">Product Name: </label>
             <input id="product-name" [(ngModel)]="product.name" placeholder="Product name"/>

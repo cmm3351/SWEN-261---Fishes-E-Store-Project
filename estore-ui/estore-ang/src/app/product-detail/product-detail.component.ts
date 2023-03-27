@@ -1,9 +1,8 @@
-import { Component, OnInit, OnChanges, Input, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { Product } from '../product';
-import { User } from '../user';
 import { ProductService } from '../product.service';
 
 @Component({
@@ -12,9 +11,8 @@ import { ProductService } from '../product.service';
   styleUrls: [ './product-detail.component.css' ],
   changeDetection: ChangeDetectionStrategy.Default
 })
-export class ProductDetailComponent implements OnInit, OnChanges {
+export class ProductDetailComponent implements OnInit {
   product: Product | undefined;
-  @Input() currUser? : User;
   isAdmin : boolean = false;
 
   constructor(
@@ -26,20 +24,11 @@ export class ProductDetailComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.getProduct();
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['currUser'].currentValue != undefined) {
-      this.isAdmin = changes['currUser'].currentValue.isAdmin;
-    }
+    this.isAdmin = history.state.isAdmin;
   }
 
   getProduct(): void {
     const id = parseInt(this.route.snapshot.paramMap.get('id')!);
-    console.log(this.route);
-    console.log(this.route.snapshot);
-    console.log(this.route.snapshot.paramMap);
-    console.log(id);
     if (!Number.isNaN(id)) {
     this.productService.getProduct(id)
       .subscribe(product => this.product = product);

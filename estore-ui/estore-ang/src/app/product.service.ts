@@ -31,28 +31,28 @@ export class ProductService {
       );
   }
 
-  /** GET product by id. Return `undefined` when id not found */
-  getProduct<Data>(id: number): Observable<Product> {
-    const url = `${this.productsUrl}/?id=${id}`;
-    return this.http.get<Product[]>(url)
-      .pipe(
-        map(products => products[0]), // returns a {0|1} element array
-        tap(p => {
-          const outcome = p ? 'fetched' : 'did not find';
-          //this.log(`${outcome} product id=${id}`);
-        }),
-        catchError(this.handleError<Product>(`getProduct id=${id}`))
-      );
-  }
-
-  // /** GET product by id. Will 404 if id not found */
-  // getProduct(id: number): Observable<Product> {
-  //   const url = `${this.productsUrl}/${id}`;
-  //   return this.http.get<Product>(url).pipe(
-  //     //tap(_ => this.log(`fetched product id=${id}`)),
-  //     catchError(this.handleError<Product>(`getProduct id=${id}`))
-  //   );
+  // /** GET product by id. Return `undefined` when id not found */
+  // getProduct1(id: number): Observable<Product> {
+  //   const url = `${this.productsUrl}/?id=${id}`;
+  //   return this.http.get<Product[]>(url)
+  //     .pipe(
+  //       map(products => products[0]), // returns a {0|1} element array
+  //       tap(p => {
+  //         const outcome = p ? 'fetched' : 'did not find';
+  //         //this.log(`${outcome} product id=${id}`);
+  //       }),
+  //       catchError(this.handleError<Product>(`getProduct id=${id}`))
+  //     );
   // }
+
+  /** GET product by id. Will 404 if id not found */
+  getProduct(id: number): Observable<Product> {
+    const url = `${this.productsUrl}/${id}`;
+    return this.http.get<Product>(url).pipe(
+      //tap(_ => this.log(`fetched product id=${id}`)),
+      catchError(this.handleError<Product>(`getProduct id=${id}`))
+    );
+  }
 
   /* GET products whose name contains search term */
   searchProducts(term: string): Observable<Product[]> {
