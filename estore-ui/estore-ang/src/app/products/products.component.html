@@ -1,8 +1,13 @@
 <div *ngIf="currUser; else l" class="welcome_container">
   <h2>Welcome, {{currUser.username}}</h2>
-  <div *ngIf="currUser?.isAdmin">
+
+    <div *ngIf="currUser?.isAdmin; else s">
       <p>This user is an administrator.</p>
-  </div>
+    </div>
+    <ng-template #s class="shopping_cart_container">
+      <button type="button" routerLink="/cart/?uid={{currUser.id}}">Review Cart</button>
+    </ng-template>
+
   <div class="logout_button_container">
     <button type="button" routerLink="/login">Log Out</button>
   </div>
