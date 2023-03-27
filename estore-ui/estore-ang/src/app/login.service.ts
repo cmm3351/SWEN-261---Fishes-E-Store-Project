@@ -25,6 +25,10 @@ export class LoginService {
 	
 	// headers neaded for create account
 	headers = new HttpHeaders({'Content-Type':'application/json; charset=utf-8'});
+
+	httpOptions = {
+		headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+	  };
 	
   	constructor(private http: HttpClient) { }
 
@@ -92,7 +96,8 @@ export class LoginService {
 		return this.http.get<number[]>(this.usersUrl + '/cart/?uid=' + user.id);
 	}
 
-	deleteFromCart(product: Product){
-		return 
+	deleteFromCart(user: User, product: Product){
+		let url = this.usersUrl + '/cart/?uid=' + user.id + '&pid=' + product.id;
+		return this.http.delete<any>(url, this.httpOptions)
 	}
 }

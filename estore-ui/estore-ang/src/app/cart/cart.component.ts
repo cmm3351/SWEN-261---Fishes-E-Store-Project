@@ -35,7 +35,7 @@ export class CartComponent implements OnInit{
   }
 
   deleteFromCart(product: Product) {
-    throw new Error('Method not implemented.');
+    this.loginService.deleteFromCart(this.currUser!, product).subscribe();
   }
 
   goBack(): void {
