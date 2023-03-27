@@ -32,7 +32,7 @@ export class ProductService {
   }
 
   /** GET product by id. Return `undefined` when id not found */
-  getHeroNo404<Data>(id: number): Observable<Product> {
+  getProduct<Data>(id: number): Observable<Product> {
     const url = `${this.productsUrl}/?id=${id}`;
     return this.http.get<Product[]>(url)
       .pipe(
@@ -45,14 +45,14 @@ export class ProductService {
       );
   }
 
-  /** GET product by id. Will 404 if id not found */
-  getProduct(id: number): Observable<Product> {
-    const url = `${this.productsUrl}/${id}`;
-    return this.http.get<Product>(url).pipe(
-      //tap(_ => this.log(`fetched product id=${id}`)),
-      catchError(this.handleError<Product>(`getProduct id=${id}`))
-    );
-  }
+  // /** GET product by id. Will 404 if id not found */
+  // getProduct(id: number): Observable<Product> {
+  //   const url = `${this.productsUrl}/${id}`;
+  //   return this.http.get<Product>(url).pipe(
+  //     //tap(_ => this.log(`fetched product id=${id}`)),
+  //     catchError(this.handleError<Product>(`getProduct id=${id}`))
+  //   );
+  // }
 
   /* GET products whose name contains search term */
   searchProducts(term: string): Observable<Product[]> {
