@@ -1,5 +1,6 @@
 package com.estore.api.estoreapi.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
@@ -76,19 +77,12 @@ public class User {
      *@pre: the product id exists in the cart
      */
     public void removeProductFromCart(int id){
-        boolean switchy = true;
-        int[] newArr = new int[this.cart.length - 1];
-        for(int i = 0, j = 0; i < this.cart.length;){
-            if((this.cart[i] != id) && switchy){
-                newArr[j] = this.cart[i];
-                i++;
-                j++;
-                switchy = false;
-            }else{
-                i++;
-            }
+        List<Integer> list = new ArrayList<Integer>();
+        for(int i =0; i < cart.length; i++){
+            list.add((Integer) cart[i]);
         }
-        this.cart = newArr;
+        list.remove((Integer) id);
+        this.cart = list.stream().mapToInt(i -> i).toArray();
     };
 
     /**
