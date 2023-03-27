@@ -20,7 +20,8 @@ import { CreateAccComponent } from './create-acc/create-acc.component';
     CreateAccComponent,
     ProductsComponent,
     ProductDetailComponent,
-    ProductSearchComponent
+    ProductSearchComponent,
+    CartComponent
   ],
   imports: [
     HttpClientModule,
