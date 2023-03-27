@@ -1,3 +1,4 @@
+import { Location} from '@angular/common';
 import { Component } from '@angular/core';
 import { LoginService } from '../login.service';
 
@@ -8,7 +9,8 @@ import { LoginService } from '../login.service';
 })
 export class CreateAccComponent {
 
-	constructor(private loginServoce: LoginService) {}
+	constructor(private loginService: LoginService,
+				private location: Location) {}
 
 	tempName: String = "";
 	tempPass: String = "";
@@ -16,15 +18,19 @@ export class CreateAccComponent {
 	success: boolean = false;
 
 	create_account(): void {
-		this.loginServoce.createAccount(this.tempName, this.tempPass)
+		this.loginService.createAccount(this.tempName, this.tempPass)
 		.subscribe((data) => {
 			if(data == undefined) {
 				this.failCreateAcc = "failed to create account, \
-				please try again with a different username"
+				please try again with a different username";
 			}
 			else {
 				this.success = true;
 			}
 		})
 	}
+
+	goBack(): void {
+		this.location.back();
+	  }
 }
