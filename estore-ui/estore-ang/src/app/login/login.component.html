@@ -4,8 +4,8 @@
     <app-product-detail hidden="hidden" [currUser]="CurrentUser"></app-product-detail>
     <div *ngIf="CurrentUser.isAdmin">
         <p>This user is an administrator.</p>
+        <button type="button" routerLink="/cart/?uid={{CurrentUser.id}}">Review Cart</button>
     </div>
-    <button type="button" routerLink="/cart/?uid={{CurrentUser.id}}">Review Cart</button>
 </div>
 <ng-template #e class="login_container">
     <div class="username_container">
