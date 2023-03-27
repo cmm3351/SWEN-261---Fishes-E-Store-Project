@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { Product } from './product';
+import { User } from './user';
 //import { MessageService } from './message.service';
 
 
@@ -12,6 +13,7 @@ import { Product } from './product';
 export class ProductService {
 
   private productsUrl = 'http://localhost:8080/products';  // URL to web api
+  private cartUrl = 'http://localhost:8080/users/cart'; //URL to web api for cart things
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -94,6 +96,13 @@ export class ProductService {
       //tap(_ => this.log(`updated product id=${product.id}`)),
       catchError(this.handleError<any>('updateProduct'))
     );
+  }
+
+  addToCart(user: User, product: Product){
+    return this.http.put(this.cartUrl, '?uid=' + user.id + '&pid=' + product.id, this.httpOptions).pipe(
+      //tap(_ => this.log(`updated product id=${product.id}`)),
+      catchError(this.handleError<any>('updateProduct'))
+    );;
   }
 
   /**

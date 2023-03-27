@@ -4,6 +4,7 @@ import { User } from '../user';
 import { Product } from '../product';
 import { LoginService } from '../login.service';
 import { ProductService } from '../product.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-cart',
@@ -14,7 +15,7 @@ export class CartComponent implements OnInit{
   currUser? : User; 
   cart: Product[] = [];
 
-  constructor(private loginService: LoginService, private productService: ProductService){}
+  constructor(private loginService: LoginService, private productService: ProductService, private location: Location){}
 
   ngOnInit(): void {
     this.currUser = history.state.user;
@@ -31,5 +32,13 @@ export class CartComponent implements OnInit{
     }
     );
     this.cart = prodArr;
+  }
+
+  deleteFromCart(product: Product) {
+    throw new Error('Method not implemented.');
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }

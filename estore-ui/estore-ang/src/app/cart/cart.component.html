@@ -1,6 +1,11 @@
 <h2>{{currUser?.username}}'s Cart</h2>
 
+<div>
 <ul class="cart">
     <li *ngFor="let product of cart">
-        <span class="badge">{{product.id}}</span> {{product.name}}    </li>
-  </ul>
+        <span class="badge">{{product.id}}</span> {{product.name}}
+        <button type="button" (click)="deleteFromCart(product)">remove {{product}}</button>    
+    </li>
+</ul>
+<button type="button" (click)="goBack()">go back</button>
+</div>

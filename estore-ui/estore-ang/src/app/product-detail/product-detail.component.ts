@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 
 import { Product } from '../product';
 import { ProductService } from '../product.service';
+import { User } from '../user';
 
 @Component({
   selector: 'app-product-detail',
@@ -12,6 +13,7 @@ import { ProductService } from '../product.service';
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class ProductDetailComponent implements OnInit {
+  currUser?: User;
   product: Product | undefined;
   isAdmin : boolean = false;
 
@@ -23,6 +25,7 @@ export class ProductDetailComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.currUser = history.state.user;
     this.getProduct();
     this.isAdmin = history.state.isAdmin;
   }
@@ -33,6 +36,10 @@ export class ProductDetailComponent implements OnInit {
     this.productService.getProduct(id)
       .subscribe(product => this.product = product);
     }
+  }
+
+  addToCart(product: Product){
+    this.productService.addToCart(this.currUser!, this.product!);
   }
 
   goBack(): void {
