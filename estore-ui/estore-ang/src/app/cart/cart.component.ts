@@ -36,6 +36,7 @@ export class CartComponent implements OnInit{
 
   deleteFromCart(product: Product) {
     this.loginService.deleteFromCart(this.currUser!, product).subscribe();
+    location.reload();
   }
 
   goBack(): void {
