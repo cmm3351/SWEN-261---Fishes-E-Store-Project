@@ -55,7 +55,7 @@
 <ng-template #e class="customer_view">
 <ul class="products">
   <li *ngFor="let product of products">
-    <a routerLink="/detail/{{product.id}}" [state]="{isAdmin: false}" [state]="{user: currUser}">
+    <a routerLink="/detail/{{product.id}}" [state]="{isAdmin: false, user: currUser}">
       <span class="badge">{{product.id}}</span> {{product.name}}
     </a>
   </li>

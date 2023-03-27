@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { User } from './user';
 import { Observable } from 'rxjs/internal/Observable';
 import { BehaviorSubject, catchError, of } from 'rxjs';
+import { Product } from './product';
 
 
 /**
@@ -89,5 +90,9 @@ export class LoginService {
 	//TODO add to cart, remove from cart, show cart
 	getCart(user: User){
 		return this.http.get<number[]>(this.usersUrl + '/cart/?uid=' + user.id);
+	}
+
+	deleteFromCart(product: Product){
+		return 
 	}
 }

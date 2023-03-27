@@ -38,8 +38,10 @@ export class ProductDetailComponent implements OnInit {
     }
   }
 
-  addToCart(product: Product){
-    this.productService.addToCart(this.currUser!, this.product!);
+  addToCart(){
+    //console.log("hit detail comp level" + this.product?.name);
+    //console.log("hit detail comp level" + this.currUser?.username);
+    this.productService.addToCart(this.currUser!, this.product!).subscribe();
   }
 
   goBack(): void {

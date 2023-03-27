@@ -13,7 +13,7 @@ import { User } from './user';
 export class ProductService {
 
   private productsUrl = 'http://localhost:8080/products';  // URL to web api
-  private cartUrl = 'http://localhost:8080/users/cart'; //URL to web api for cart things
+  private cartUrl = 'http://localhost:8080/users/cart/'; //URL to web api for cart things
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -99,10 +99,10 @@ export class ProductService {
   }
 
   addToCart(user: User, product: Product){
-    return this.http.put(this.cartUrl, '?uid=' + user.id + '&pid=' + product.id, this.httpOptions).pipe(
-      //tap(_ => this.log(`updated product id=${product.id}`)),
+    let url = '?uid=' + user.id + '&pid=' + product.id;
+    return this.http.put<any>(this.cartUrl+url, this.httpOptions).pipe(
       catchError(this.handleError<any>('updateProduct'))
-    );;
+    );
   }
 
   /**

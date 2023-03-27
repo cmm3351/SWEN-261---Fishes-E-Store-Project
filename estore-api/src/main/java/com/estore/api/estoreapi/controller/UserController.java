@@ -88,8 +88,6 @@ public class UserController {
         }
     }
 
-    //TODO possibly deleteUser
-
     /**
      * Adds a product to a user's cart
      * 
