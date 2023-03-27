@@ -42,9 +42,5 @@ export class LoginComponent {
 				}
 			})
 	}
-
-	goToCart(): void{
-		
-	}
 }
  
