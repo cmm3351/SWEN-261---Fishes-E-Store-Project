@@ -96,7 +96,7 @@ public class UserFileDAO implements UserDAO {
      * @throws IOException if save() function throws IOException
      */
     public User createUser(User user) throws IOException {
-        User newUser = new User(nextId(), user.getUsername(), user.getPassword(), user.getisAdmin(), user.showCart());
+        User newUser = new User(nextId(), user.getUsername(), user.getPassword(), user.getisAdmin(), new int[0]);
 
         users.put(newUser.getId(), newUser);
         save();
