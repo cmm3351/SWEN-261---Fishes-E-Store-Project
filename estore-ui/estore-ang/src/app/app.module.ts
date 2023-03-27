@@ -21,7 +21,8 @@ import { LoginService } from './login.service';
     CreateAccComponent,
     ProductsComponent,
     ProductDetailComponent,
-    ProductSearchComponent
+    ProductSearchComponent,
+    CartComponent
   ],
   imports: [
     HttpClientModule,

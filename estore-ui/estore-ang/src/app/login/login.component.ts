@@ -48,11 +48,5 @@ export class LoginComponent {
 				}
 			})
 	}
-
-	showCart(): void {
-		
-
-	}
-
 }
  
