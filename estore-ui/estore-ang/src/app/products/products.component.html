@@ -5,7 +5,7 @@
       <p>This user is an administrator.</p>
     </div>
     <ng-template #s class="shopping_cart_container">
-      <button type="button" routerLink="/cart/{{currUser.id}}">Review Cart</button>
+      <button type="button" routerLink="/cart/{{currUser.id}}" [state]="{user: currUser}">Review Cart</button>
     </ng-template>
 
   <div class="logout_button_container">

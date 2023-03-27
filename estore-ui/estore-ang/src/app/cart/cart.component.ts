@@ -11,22 +11,25 @@ import { ProductService } from '../product.service';
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit{
-  @Input() currUser? : User; 
+  currUser? : User; 
   cart: Product[] = [];
 
   constructor(private loginService: LoginService, private productService: ProductService){}
 
   ngOnInit(): void {
+    this.currUser = history.state.user;
+
     let idArr: number[] | any[] = [];
-    this.loginService.getCart(this.currUser!).subscribe(
-      array => idArr = array
-    );
     let prodArr: Product[] | any[] = [];
-    for(let i = 0; i < idArr.length; i++){
-      this.productService.getProduct(idArr[i]).subscribe(
-        product => prodArr[i] = product
-      );
+    this.loginService.getCart(this.currUser!).subscribe(
+      (array) => {idArr = array;
+      for(let i = 0; i < idArr.length; i++){
+        this.productService.getProduct(idArr[i]).subscribe(
+          product => prodArr[i] = product
+        );
+      }
     }
+    );
     this.cart = prodArr;
   }
 }
