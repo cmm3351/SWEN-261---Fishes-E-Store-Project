@@ -148,4 +148,25 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    /**
+     * When the customer checks out from their shopping cart,
+     * this function removes all items from their cart and
+     * updates each product's quantity accordingly.
+     * 
+     * @param uid integer id of the current user
+     * @return 
+     */
+    @PutMapping("/cart/checkout") 
+    public ResponseEntity<int[]> checkout(@RequestParam int uid){
+        LOG.info("GET /cart/checkout/?uid=" + uid);
+        try {
+            User user = userDao.findUserByID(uid);
+            int[] emptyCart = userDao.checkout(user);
+            return new ResponseEntity<>(emptyCart, HttpStatus.OK);
+        }catch (IOException e){
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }
