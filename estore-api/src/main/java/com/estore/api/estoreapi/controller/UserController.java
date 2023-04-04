@@ -35,9 +35,11 @@ public class UserController {
     private static final Logger LOG = Logger.getLogger(
         UserController.class.getName());
     private UserDAO userDao;
+    private ProductDAO productDao;
 
-    public UserController(UserDAO userDao) {
+    public UserController(UserDAO userDao, ProductDAO productDao) {
         this.userDao = userDao;
+        this.productDao = productDao;
     }
 
     @GetMapping("/")
@@ -162,6 +164,14 @@ public class UserController {
         LOG.info("GET /cart/checkout/?uid=" + uid);
         try {
             User user = userDao.findUserByID(uid);
+            int[] cart = userDao.showCart(user);
+            for (int i = 0; i < cart.length; i++) {
+                Product currProduct = productDao.getProduct(cart[i]);
+                if (currProduct.getQuantity() != 0) {
+                    Product updatedProduct = new Product(currProduct.getId(), currProduct.getName(), currProduct.getInfo(), currProduct.getPrice(), currProduct.getQuantity() - 1);
+                    productDao.updateProduct(updatedProduct);
+                }
+            }
             int[] emptyCart = userDao.checkout(user);
             return new ResponseEntity<>(emptyCart, HttpStatus.OK);
         }catch (IOException e){

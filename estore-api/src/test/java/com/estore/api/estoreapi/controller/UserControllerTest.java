@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.estore.api.estoreapi.model.User;
+import com.estore.api.estoreapi.persistence.ProductDAO;
 import com.estore.api.estoreapi.persistence.UserDAO;
 
 /**
@@ -28,6 +29,7 @@ public class UserControllerTest {
     
     private UserController userController;
     private UserDAO userDAO;
+    private ProductDAO productDao;
 
     /**
      * Before each test, create a new ProductController object and inject
@@ -36,7 +38,7 @@ public class UserControllerTest {
     @BeforeEach
     public void setUpUserController() {
         userDAO = mock(UserDAO.class);
-        userController = new UserController(userDAO);
+        userController = new UserController(userDAO,productDao);
     }
 
     @Test
