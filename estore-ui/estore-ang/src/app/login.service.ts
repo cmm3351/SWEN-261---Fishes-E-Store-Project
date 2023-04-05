@@ -100,4 +100,9 @@ export class LoginService {
 		let url = this.usersUrl + '/cart/?uid=' + user.id + '&pid=' + product.id;
 		return this.http.delete<any>(url, this.httpOptions)
 	}
+
+	checkout(user: User) {
+		let url = this.usersUrl + '/cart/checkout/?uid=' + user.id;
+		return this.http.put<any>(url,this.httpOptions);
+	}
 }

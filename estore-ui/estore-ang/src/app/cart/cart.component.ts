@@ -14,6 +14,7 @@ import { Location } from '@angular/common';
 export class CartComponent implements OnInit{
   currUser? : User; 
   cart: Product[] = [];
+  checkoutMessage: String = "";
 
   constructor(private loginService: LoginService, private productService: ProductService, private location: Location){}
 
@@ -37,6 +38,17 @@ export class CartComponent implements OnInit{
   deleteFromCart(product: Product) {
     this.loginService.deleteFromCart(this.currUser!, product).subscribe();
     location.reload();
+  }
+
+  checkout() : void {
+    if (this.cart.length != 0) {
+      this.loginService.checkout(this.currUser!).subscribe();
+      location.reload();
+      this.checkoutMessage = "Checkout Succesful! Thank You for Your Purchase."
+    }
+    else {
+      this.checkoutMessage = "No Fish Present in the Cart to Purchase!"
+    }
   }
 
   goBack(): void {
