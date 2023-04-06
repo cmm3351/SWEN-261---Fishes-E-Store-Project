@@ -16,7 +16,7 @@ export class ProductDetailComponent implements OnInit {
   currUser?: User;
   product: Product | undefined;
   isAdmin : boolean = false;
-  imageName! : string;
+  imgSource? : String;
 
   constructor(
     private route: ActivatedRoute,
@@ -29,12 +29,7 @@ export class ProductDetailComponent implements OnInit {
     this.currUser = history.state.user;
     this.getProduct();
     this.isAdmin = history.state.isAdmin;
-    this.imageName = "default";
-    let imagename : string[] = [];
-    let productname = this.product!.name.split(" ")
-    for(let i = productname.length-1; i >= 0; i--){
-      imagename.push(productname[i]);
-    }
+    this.imgSource = this.product?.imgSource;
   }
 
   getProduct(): void {

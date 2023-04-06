@@ -13,6 +13,7 @@ public class Product {
     @JsonProperty("info") private String info;
     @JsonProperty("price") private int price;
     @JsonProperty("quantity") private int quantity;
+    @JsonProperty("imgSource") private String imgSource;
 
     /**
      * Create a product for the estore with given parameters.
@@ -29,12 +30,13 @@ public class Product {
      */
     public Product(@JsonProperty("id") int id, @JsonProperty("name") String name,
     @JsonProperty("info") String info, @JsonProperty("price") int price,
-    @JsonProperty("quantity") int quantity) {
+    @JsonProperty("quantity") int quantity, @JsonProperty("imgSource") String imgSource ){
         this.id = id;
         this.name = name;
         this.info = info;
         this.price = price;
         this.quantity = quantity;
+        this.imgSource = imgSource;
     }
 
     /**
@@ -90,4 +92,15 @@ public class Product {
      * @param quantity The new quantity of the product
      */
     public void setQuantity(int quantity) {this.quantity = quantity;}
+
+    /**
+     * Sets the imgSource of the product
+     * @param imgSource The new source of the image
+     */
+    public void setImgSource(String imgSource) {this.imgSource = imgSource;}
+
+    /**
+     * Gets the source of the product's image
+     */
+    public String getImgSource(){return this.imgSource;}
 }

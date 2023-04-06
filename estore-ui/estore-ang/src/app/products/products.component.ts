@@ -33,10 +33,11 @@ export class ProductsComponent implements OnInit {
     var id:number = -1;
     name = name.trim();
     info = info.trim();
+    let imgSource = "";
     var price: number = +priceStr;
     var quantity: number = +quantityStr;
     if (!name) { return; }
-    this.productService.addProduct({ id,name,info,price,quantity } as Product)
+    this.productService.addProduct({ id,name,info,price,quantity,imgSource } as Product)
       .subscribe(product => {
         this.products.push(product);
       });
