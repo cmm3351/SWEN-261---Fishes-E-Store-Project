@@ -29,7 +29,12 @@ export class ProductDetailComponent implements OnInit {
     this.currUser = history.state.user;
     this.getProduct();
     this.isAdmin = history.state.isAdmin;
-    this.imgSource = this.product?.imgSource;
+    if (this.product?.imgSource == ""){
+      this.imgSource = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTb_efLzKZwsee4N3qaHean61gR6AWXvFqzF4aOlw44hg&s";
+    }else{
+      this.imgSource = this.product?.imgSource;
+    }
+    
   }
 
   getProduct(): void {
