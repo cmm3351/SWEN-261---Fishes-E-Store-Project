@@ -15,6 +15,7 @@ export class CartComponent implements OnInit{
   currUser? : User; 
   cart: Product[] = [];
   checkoutMessage?: string;
+  totalPrice: number = 0;
 
   constructor(private loginService: LoginService, private productService: ProductService, private location: Location){}
 
@@ -27,8 +28,10 @@ export class CartComponent implements OnInit{
       (array) => {idArr = array;
       for(let i = 0; i < idArr.length; i++){
         this.productService.getProduct(idArr[i]).subscribe(
-          product => prodArr[i] = product
-        );
+          (product) => {
+            prodArr[i] = product;
+            this.totalPrice += product.price;
+      });
       }
     }
     );

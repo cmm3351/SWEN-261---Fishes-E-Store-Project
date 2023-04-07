@@ -7,8 +7,11 @@
           <button type="button" (click)="deleteFromCart(product)">remove {{product.name}}</button>    
       </li>
   </ul>
+
+  <div>Total Price: ${{totalPrice}}</div>
+
   <div>{{checkoutMessage}}</div>
-  
+
   <button type="button" (click)="checkout()">Checkout</button>
   <button type="button" (click)="goBack()">go back</button>
 </div>
