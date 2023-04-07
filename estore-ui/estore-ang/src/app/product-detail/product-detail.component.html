@@ -37,9 +37,10 @@
         <div>
             <label for="product-quantity">Product Quantity: {{product.quantity}}</label>
         </div>
-        <div *ngIf=currUser>
+        <div *ngIf="currUser">
             <button type="button" (click)="addToCart()">Add to Cart</button>
         </div>
         <button type="button" (click)="goBack()">go back</button>
+        <div>{{errorMessage}}</div>
     </ng-template>
   </div>

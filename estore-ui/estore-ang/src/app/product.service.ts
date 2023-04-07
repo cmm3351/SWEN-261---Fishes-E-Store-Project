@@ -15,6 +15,8 @@ export class ProductService {
   private productsUrl = 'http://localhost:8080/products';  // URL to web api
   private cartUrl = 'http://localhost:8080/users/cart/'; //URL to web api for cart things
 
+  isInCart: Map<number,number> = new Map<number,number>();
+
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -103,6 +105,16 @@ export class ProductService {
     return this.http.put<any>(this.cartUrl+url, this.httpOptions).pipe(
       catchError(this.handleError<any>('updateProduct'))
     );
+  }
+
+  /** Returns Map detailing current contents of the user's cart */
+  getIsInCart() : Map<number,number> {
+    return this.isInCart;
+  }
+
+  /** Modifies contents of Map to correctly represent contents of the cart */
+  setIsInCart(id: number, value: number) : void {
+    this.isInCart.set(id,value);
   }
 
   /**
