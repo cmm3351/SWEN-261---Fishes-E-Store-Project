@@ -36,8 +36,8 @@ export class CartComponent implements OnInit{
   }
 
   deleteFromCart(product: Product) {
-    let isInCart = this.productService.getIsInCart().get(product.id);
-    this.productService.setIsInCart(product.id,isInCart! - 1);
+    let isInCart = this.loginService.getIsInCart().get(product.id);
+    this.loginService.setIsInCart(product.id,isInCart! - 1);
     this.loginService.deleteFromCart(this.currUser!, product).subscribe();
     location.reload();
   }

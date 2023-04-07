@@ -5,6 +5,7 @@ import { Location } from '@angular/common';
 import { Product } from '../product';
 import { ProductService } from '../product.service';
 import { User } from '../user';
+import { LoginService } from '../login.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -22,6 +23,7 @@ export class ProductDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService,
+    private loginService: LoginService,
     private location: Location,
   ) {}
 
@@ -41,16 +43,16 @@ export class ProductDetailComponent implements OnInit {
   }
 
   addToCart(){
-    if (this.productService.getIsInCart().has(this.product!.id)) {
-      this.isInCart = this.productService.getIsInCart().get(this.product!.id);
+    if (this.loginService.getIsInCart().has(this.product!.id)) {
+      this.isInCart = this.loginService.getIsInCart().get(this.product!.id);
     }
     else {
       this.isInCart = 0;
-      this.productService.setIsInCart(this.product!.id,this.isInCart)
+      this.loginService.setIsInCart(this.product!.id,this.isInCart)
     }
 
     if (this.isInCart! < this.product!.quantity) {
-      this.productService.setIsInCart(this.product!.id,this.isInCart! + 1);
+      this.loginService.setIsInCart(this.product!.id,this.isInCart! + 1);
       this.productService.addToCart(this.currUser!, this.product!).subscribe();
       this.errorMessage = "Fish Successfully Added to Cart!"
     }
