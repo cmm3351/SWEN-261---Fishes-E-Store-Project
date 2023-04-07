@@ -46,7 +46,7 @@ public class UserControllerTest {
     @Test
     public void testFindUser() throws IOException {
         // setup
-        User user = new User(0, "username", "pass", false, new int[0]);
+        User user = new User(0, "username", "pass", false, new int[0],0);
         when(userDAO.findUser(user.getUsername(), user.getPassword())).thenReturn(user);
 
         ResponseEntity<User> response = userController
@@ -59,7 +59,7 @@ public class UserControllerTest {
     @Test
     public void testFindUserNotFound() throws IOException {
         User user = new User(999, "n/a",
-        "doesnt matter", false, new int[0]);
+        "doesnt matter", false, new int[0],0);
 
         when(userDAO.findUser(user.getUsername(), user.getPassword()))
         .thenReturn(null);
@@ -73,7 +73,7 @@ public class UserControllerTest {
     @Test
     public void testFindUserHandledException() throws Exception {
         User user = new User(999, "n/a",
-        "doesnt matter", false, new int[0]);
+        "doesnt matter", false, new int[0],0);
 
         doThrow(new IOException()).when(userDAO)
         .findUser(user.getUsername(), user.getPassword());
@@ -88,7 +88,7 @@ public class UserControllerTest {
     public void testCreateUser() throws IOException {
         // setup
         User user = new User(999, "n/a",
-        "doesnt matter", false, new int[0]);
+        "doesnt matter", false, new int[0],0);
 
         when(userDAO.createUser(user)).thenReturn(user);
 
@@ -105,7 +105,7 @@ public class UserControllerTest {
     public void testCreateUserConflict() throws IOException {
         // setup
         User user = new User(999, "n/a",
-        "doesnt matter", false, new int[0]);
+        "doesnt matter", false, new int[0],0);
 
         // causes the user to 'already exist'
         when(userDAO.findUser(user.getUsername(), user.getPassword()))
@@ -122,7 +122,7 @@ public class UserControllerTest {
     public void testCreateUserHandledException() throws IOException {
         // setup
         User user = new User(999, "n/a",
-        "doesnt matter", false, new int[0]);
+        "doesnt matter", false, new int[0],0);
 
         doThrow(new IOException()).when(userDAO).createUser(user);
 
@@ -137,7 +137,7 @@ public class UserControllerTest {
     @Test
     public void testAddProductToCart() throws IOException{
         //Setup
-        User user = new User(999, "n/a", "doesn't matter", false, new int[0]);
+        User user = new User(999, "n/a", "doesn't matter", false, new int[0],0);
         int newInt = 99;
         
         when(userDAO.addProductToCart(newInt, user)).thenReturn(newInt);
@@ -152,7 +152,7 @@ public class UserControllerTest {
     public void testRemoveProductFromCart() throws IOException {
         //Setup
         int[]  cart ={1};
-        User user = new User(999, "n/a", "doesn't matter", false, cart);
+        User user = new User(999, "n/a", "doesn't matter", false, cart,0);
         int newInt = 1;
 
         when(userDAO.removeProductFromCart(newInt, user)).thenReturn(newInt);
@@ -166,7 +166,7 @@ public class UserControllerTest {
     @Test
     public void testShowCart() throws IOException {
         int[] cart = {99};
-        User user = new User(999, "n/a", "doesn't matter", false, cart);
+        User user = new User(999, "n/a", "doesn't matter", false, cart,0);
 
         when(userDAO.findUserByID(user.getId())).thenReturn(user);
         when(userDAO.showCart(user)).thenReturn(cart);
@@ -180,7 +180,7 @@ public class UserControllerTest {
     @Test
     public void testCheckout() throws IOException {
         int[] cart = {99,99,99};
-        User user = new User(999, "n/a", "doesn't matter", false, cart);
+        User user = new User(999, "n/a", "doesn't matter", false, cart,0);
         Product product = new Product(99, "n/a", "doesn't matter", 100, 5);
         int[] emptyCart = null;
 

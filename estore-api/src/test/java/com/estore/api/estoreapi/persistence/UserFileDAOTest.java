@@ -40,9 +40,9 @@ public class UserFileDAOTest {
     public void setupProductFileDAO() throws IOException {
         mockObjectMapper = mock(ObjectMapper.class);
         users = new User[3];
-        users[0] = new User(0, "harbor", "password", false, new int[0]);
-        users[1] = new User(1, "pokemon", "1234", false, new int[0]);
-        users[2] = new User(2,"admin","password", true, new int[0]);
+        users[0] = new User(0, "harbor", "password", false, new int[0],0);
+        users[1] = new User(1, "pokemon", "1234", false, new int[0],0);
+        users[2] = new User(2,"admin","password", true, new int[0],0);
 
         // When the object mapper is supposed to read from the file
         // the mock object mapper will return the product array above
@@ -73,7 +73,7 @@ public class UserFileDAOTest {
     @Test
     public void testCreateUser() {
         // Setup
-        User user = new User(3, "connor", "geo", false, new int[0]);
+        User user = new User(3, "connor", "geo", false, new int[0],0);
 
         // Invoke
         User result = assertDoesNotThrow(() -> 

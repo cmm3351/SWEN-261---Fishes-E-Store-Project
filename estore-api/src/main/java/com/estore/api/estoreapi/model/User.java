@@ -16,6 +16,7 @@ public class User {
     @JsonProperty("password") private String password;
     @JsonProperty("isAdmin") private boolean isAdmin;
     @JsonProperty("cart") private int[] cart;
+    @JsonProperty("rewards") private int rewards;
 
     /**
      * Create a user for the estore with the given parameters.
@@ -29,12 +30,14 @@ public class User {
      * @authors Connor McRoberts cjm6653@rit.edu, Harbor Wolff hmw2331@rit.edu
      */
     public User(@JsonProperty("id") int id, @JsonProperty("username") String username,
-    @JsonProperty("password") String password, @JsonProperty("isAdmin") boolean isAdmin, @JsonProperty("cart") int[] cart) {
+    @JsonProperty("password") String password, @JsonProperty("isAdmin") boolean isAdmin, 
+    @JsonProperty("cart") int[] cart, @JsonProperty("rewards") int rewards) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.isAdmin = isAdmin;
         this.cart = cart;
+        this.rewards = rewards;
     }
 
     /**
@@ -90,4 +93,10 @@ public class User {
      *@return: the cart as an ArrayList of integers representing product ids
      */
     public int[] showCart(){return this.cart;};
+
+    /**
+     * Retrieves the rewards points of the user
+     * @return The rewards points of the user
+     */
+    public int getRewards() {return this.rewards;}
 }
