@@ -194,4 +194,40 @@ public class UserControllerTest {
         assertEquals(emptyCart, response.getBody());
         //assertEquals(2, productDao.getProduct(99).getQuantity());
     }
+
+    @Test
+    public void testRewardsPoints() throws IOException {
+        int[] cart = {99,98,98};
+        User user = new User(999, "n/a", "doesn't matter", false, cart,10);
+        Product product = new Product(99, "n/a", "doesn't matter", 100, 5);
+        int[] newCart = {98,98};
+
+        when(userDAO.findUserByID(user.getId())).thenReturn(user);
+        when(userDAO.showCart(user)).thenReturn(cart);
+        when(productDao.getProduct(product.getId())).thenReturn(product);
+        when(userDAO.useRewardsPoints(user,0)).thenReturn(newCart);
+
+        ResponseEntity<int[]> response = userController.useRewardsPoints(user.getId(), 0);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(newCart, response.getBody());
+        assertEquals(0, user.getRewards());
+    }
+
+    @Test
+    public void testNotEnoughRewardsPoints() throws IOException {
+        int[] cart = {99,98,98};
+        User user = new User(999, "n/a", "doesn't matter", false, cart,9);
+        Product product = new Product(99, "n/a", "doesn't matter", 100, 5);
+
+        when(userDAO.findUserByID(user.getId())).thenReturn(user);
+        when(userDAO.showCart(user)).thenReturn(cart);
+        when(productDao.getProduct(product.getId())).thenReturn(product);
+
+        ResponseEntity<int[]> response = userController.useRewardsPoints(user.getId(), 0);
+
+        assertEquals(HttpStatus.EXPECTATION_FAILED, response.getStatusCode());
+        assertEquals(cart, response.getBody());
+        assertEquals(9, user.getRewards());
+    }
 }
