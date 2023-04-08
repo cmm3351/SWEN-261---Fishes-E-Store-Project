@@ -99,4 +99,12 @@ public class User {
      * @return The rewards points of the user
      */
     public int getRewards() {return this.rewards;}
+
+    /**
+     * Changes the rewards points of the user
+     * @param newPoints: New rewards points of the user
+     */
+    public void setRewards(int newPoints) {
+         this.rewards = newPoints;
+    }
 }

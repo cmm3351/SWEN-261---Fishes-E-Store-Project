@@ -91,4 +91,16 @@ public interface UserDAO {
      * @throws IOException
      */
     int[] checkout(User user) throws IOException;
+
+    /**
+     * When the customer has 10 or more rewards points, 
+     * they can purchase an item for free in exchange
+     * for 10 rewards points
+     * 
+     * @param uid integer id of the current user
+     * @param cid integer index of the cart item to be purchased
+     * @return modified integer array representing the user's cart
+     * @throws IOException
+     */
+    int[] useRewardsPoints(User user, int cid) throws IOException;
 }

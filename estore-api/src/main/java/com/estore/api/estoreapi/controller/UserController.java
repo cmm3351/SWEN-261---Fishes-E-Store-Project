@@ -157,7 +157,7 @@ public class UserController {
      * updates each product's quantity accordingly.
      * 
      * @param uid integer id of the current user
-     * @return 
+     * @return Empty integer representing an empty cart after checkout
      */
     @PutMapping("/cart/checkout") 
     public ResponseEntity<int[]> checkout(@RequestParam int uid){
@@ -169,11 +169,48 @@ public class UserController {
                 Product currProduct = productDao.getProduct(cart[i]);
                 if (currProduct.getQuantity() != 0) {
                     Product updatedProduct = new Product(currProduct.getId(), currProduct.getName(), currProduct.getInfo(), currProduct.getPrice(), currProduct.getQuantity() - 1);
+                    int newPoints = user.getRewards() + 1;
+                    user.setRewards(newPoints);
                     productDao.updateProduct(updatedProduct);
                 }
             }
             int[] emptyCart = userDao.checkout(user);
             return new ResponseEntity<>(emptyCart, HttpStatus.OK);
+        }catch (IOException e){
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    /**
+     * When the customer has 10 or more rewards points, 
+     * they can purchase an item for free in exchange
+     * for 10 rewards points
+     * 
+     * @param uid integer id of the current user
+     * @param cid integer index of the cart item to be purchased
+     * @return modified integer array representing the user's cart
+     */
+    @PutMapping("/cart/rewards") 
+    public ResponseEntity<int[]> useRewardsPoints(@RequestParam int uid, @RequestParam int cid){
+        LOG.info("GET /cart/rewards/?uid=" + uid + "&cid=" + cid);
+        try {
+            User user = userDao.findUserByID(uid);
+            int[] cart = userDao.showCart(user);
+            if (user.getRewards() >= 10) {
+                Product currProduct = productDao.getProduct(cart[cid]);
+                if (currProduct.getQuantity() != 0) {
+                    Product updatedProduct = new Product(currProduct.getId(), currProduct.getName(), currProduct.getInfo(), currProduct.getPrice(), currProduct.getQuantity() - 1);
+                    int newPoints = user.getRewards() - 10;
+                    user.setRewards(newPoints);
+                    productDao.updateProduct(updatedProduct);
+                }
+            int[] emptyCart = userDao.useRewardsPoints(user,cid);
+            return new ResponseEntity<>(emptyCart, HttpStatus.OK);
+            }
+            else {
+                return new ResponseEntity<>(cart,HttpStatus.EXPECTATION_FAILED);
+            }
         }catch (IOException e){
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
