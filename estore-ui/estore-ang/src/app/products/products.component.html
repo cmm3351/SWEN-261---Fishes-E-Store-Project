@@ -29,15 +29,18 @@
   <input price="new-product" #productPrice />
   <label for="new-product">Product quantity: </label>
   <input quan="new-product" #productQuantity />
+  <label for="new-product">Image source: </label>
+  <input quan="new-product" #imgSrc />
   
 
   <!-- (click) passes input value to add() and then clears the input -->
   <button type="button" class="add-button" (click)="add(productName.value,productInfo.value,
-    productPrice.value,productQuantity.value); 
+    productPrice.value,productQuantity.value, imgSrc.value); 
     productName.value=''; 
     productInfo.value='';
     productPrice.value=''; 
-    productQuantity.value=''">
+    productQuantity.value='';
+    imgSrc.value=''">
     Add product
   </button>
 
