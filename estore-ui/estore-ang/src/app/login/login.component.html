@@ -1,17 +1,21 @@
-<div class="login_container">
-    <div class="username_container">
-        <label for="username">Username:</label>
-        <input type="text" [(ngModel)]="tempName" id="username">
+<div class="component_container">
+    <div class="login_container">
+        <h2 id="title">Login</h2>
+        <div class="username_container">
+            <input type="text" [(ngModel)]="tempName" placeholder="username"
+            id="username">
+        </div>
+        <div class="password_container">
+            <input type="password" [(ngModel)]="tempPass" placeholder="password"
+            id="password">
+        </div>
+        <div class="button_container">
+            <button type="button" id="login_but" (click)="login()">Login</button>
+        </div>
     </div>
-    <div>
-        <label for="password">Password:</label>
-        <input type="password" [(ngModel)]="tempPass" id="password">
+    <p class="error">{{failLogin}}</p>
+    <div class="create_acc_banner">
+        New User? <button id="new_acc_but" routerLink="/login/create">
+            Create Account</button>
     </div>
-    <div class="button_container">
-        <button type="button" (click)="login()">Login</button>
-    </div>
-</div>
-<p>{{failLogin}}</p>
-<div class="create_acc_banner">
-    <span>New User? </span><button routerLink="/login/create">Create Account</button>
 </div>

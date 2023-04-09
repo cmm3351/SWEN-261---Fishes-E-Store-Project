@@ -1,12 +1,17 @@
 <div id="search-component">
-    <label for="search-box">Product Search</label>
-    <input #searchBox id="search-box" (input)="search(searchBox.value)" />
-  
+    <div class="search_bar">
+      <div id="start_cap"></div> 
+      <img id="mag_glass" src="assets\mag.png" alt="" width="20" height="20">
+      <input #searchBox id="search-box" (input)="search(searchBox.value)" 
+      placeholder="product search"/>
+    </div>
     <ul class="search-result">
       <li *ngFor="let product of products$ | async" >
         <a routerLink="/detail/{{product.id}}">
-          {{product.name}}
+          <div class="single_product">
+            {{product.name}}
+          </div>
         </a>
       </li>
     </ul>
-  </div>
+</div>

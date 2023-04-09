@@ -1,0 +1,101 @@
+
+.component_container {
+    padding-top: 50px;
+    padding-bottom: 20%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#title {
+    color: #ffff;
+    background-color: #e86a92;
+}
+
+.login_container {
+    padding: 15px;
+    border-style: solid;
+    border-color: #2b2d42;
+    border-width: 2px;
+    border-radius: 20px;
+    width: fit-content;
+    background-color: #e86a92;
+}
+
+.username_container, .password_container, .button_container {
+    padding: 10px;
+    background-color: #e86a92;
+}
+
+#username, #password {
+    border-radius: 10px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #2b2d42;
+    text-align: center;
+    font-size: large;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all .5s;
+}
+
+#username:focus, #password:focus {
+    background-color: #d4d3d2;
+}
+
+#login_but {
+    transition: all .5s;
+    border-radius: 45px;
+    border-width: 0px;
+    background-color: #ffff;
+    width: 90px;
+    height: 30px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    border-style: solid;
+    border-color: #2b2d42;
+    border-width: 2px;
+    border-radius: 20px;
+}
+
+#login_but:hover {
+    transform: scale(1.2);
+    background-color: #d4d3d2;
+}
+
+.create_acc_banner {
+    width:fit-content;
+    background-color: #7d83ff;
+    color: #ffff;
+    padding: 10px;
+    border-style: solid;
+    border-color: #2b2d42;
+    border-width: 2px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+#new_acc_but {
+    margin-left: 10px;
+    border-style: solid;
+    border-color: #2b2d42;
+    border-width: 2px;
+    border-radius: 20px;
+    padding: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    background-color: #ffff;
+    transition: all .5s;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+
+#new_acc_but:hover {
+    transform: scale(1.1);
+    background-color: #ffba49;
+}
+
+.error {
+    color:red
+}

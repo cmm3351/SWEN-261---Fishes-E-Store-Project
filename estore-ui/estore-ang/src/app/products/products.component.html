@@ -1,6 +1,7 @@
-<div *ngIf="currUser; else l" class="welcome_container">
-  <h2>Welcome, {{currUser.username}}</h2>
 
+<div *ngIf="currUser; else l" class="welcome_container">
+  <app-product-search></app-product-search>
+  <h2>Welcome, {{currUser.username}}</h2>
     <div *ngIf="currUser?.isAdmin; else s">
       <p>This user is an administrator.</p>
     </div>
@@ -12,14 +13,20 @@
     <button type="button" routerLink="/login">Log Out</button>
   </div>
 </div>
-<ng-template #l class="l">
-  <div class="logout_button_container">
-    <button type="button" routerLink="/login">Login</button>
+
+<ng-template #l>
+  <div class="product_taskbar">
+    <div class="search_container">
+      <app-product-search></app-product-search>
+    </div>
+    <div class="button_container">
+      <button class="login_but" type="button" routerLink="/login">Login</button>
+    </div>
   </div>
 </ng-template>
+  
 
-<h2>Exotic Fish</h2>
-
+<h2 class="title_bar">Our Products:</h2>
 <div *ngIf="currUser?.isAdmin; else e" class="admin_view">
   <label for="new-product">Product name: </label>
   <input id="new-product" #productName />
@@ -41,25 +48,31 @@
     Add product
   </button>
 
-<ul class="products">
-  <li *ngFor="let product of products">
+<div class="products">
+  <ng-container *ngFor="let product of products">
     <a routerLink="/detail/{{product.id}}" [state]="{isAdmin: true}">
-      <span class="badge">{{product.id}}</span> {{product.name}}
+      <div class="product_container">
+       <div class="product_display">{{product.name}} </div>
+      </div> 
     </a>
     <button type="button" class="delete" title="delete product"
       (click)="delete(product)">x</button>
-  </li>
-</ul>
+  </ng-container>
+</div>
 </div>
 
 <ng-template #e class="customer_view">
-<ul class="products">
-  <li *ngFor="let product of products">
-    <a routerLink="/detail/{{product.id}}" [state]="{isAdmin: false, user: currUser}">
-      <span class="badge">{{product.id}}</span> {{product.name}}
-    </a>
-  </li>
-</ul>
-</ng-template>
+  <div class="products">
+    <ng-container *ngFor="let product of products">
+      <a routerLink="/detail/{{product.id}}" [state]="{isAdmin: true}">
+        <div class="product_container">
+         <div class="product_display">
+            {{product.name}} 
+          </div>
+        </div> 
+      </a>
+    </ng-container>  
+  </div>
 
-<app-product-search></app-product-search>
+
+</ng-template>

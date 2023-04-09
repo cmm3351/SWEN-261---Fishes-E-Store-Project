@@ -14,7 +14,6 @@ geometry: margin=1in
   * Cristian Malone
   * Connor McRoberts
   * Harbor Wolff
-  * MEMBER4
 
 ## Executive Summary
 
