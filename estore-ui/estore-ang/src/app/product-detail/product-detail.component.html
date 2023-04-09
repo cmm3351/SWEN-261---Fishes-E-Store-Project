@@ -1,6 +1,6 @@
 <div *ngIf="product">
     <h2>{{product.name | uppercase}} Details</h2>
-    <img src={{product.imgSource}} width="500" height="500"/>
+    <img src={{product.imgSource}} width="300" height="300"/>
     <div><span>id: </span>{{product.id}}</div>
 
     <div *ngIf="isAdmin; else e" class="admin_view">

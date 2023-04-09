@@ -33,7 +33,7 @@ export class ProductsComponent implements OnInit {
     var id:number = -1;
     name = name.trim();
     info = info.trim();
-    let imgSource = "";
+    let imgSource = "https://i.pinimg.com/originals/a4/9b/7e/a49b7ed6a8b8e96b29a38c69019bf6e3.png";
     var price: number = +priceStr;
     var quantity: number = +quantityStr;
     if (!name) { return; }
