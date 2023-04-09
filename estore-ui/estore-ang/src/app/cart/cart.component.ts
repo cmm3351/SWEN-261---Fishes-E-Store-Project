@@ -14,6 +14,8 @@ import { Location } from '@angular/common';
 export class CartComponent implements OnInit{
   currUser? : User; 
   cart: Product[] = [];
+  checkoutMessage?: string;
+  totalPrice: number = 0;
 
   constructor(private loginService: LoginService, private productService: ProductService, private location: Location){}
 
@@ -26,8 +28,10 @@ export class CartComponent implements OnInit{
       (array) => {idArr = array;
       for(let i = 0; i < idArr.length; i++){
         this.productService.getProduct(idArr[i]).subscribe(
-          product => prodArr[i] = product
-        );
+          (product) => {
+            prodArr[i] = product;
+            this.totalPrice += product.price;
+      });
       }
     }
     );
@@ -35,8 +39,20 @@ export class CartComponent implements OnInit{
   }
 
   deleteFromCart(product: Product) {
+    let isInCart = this.loginService.getIsInCart().get(product.id);
+    this.loginService.setIsInCart(product.id,isInCart! - 1);
     this.loginService.deleteFromCart(this.currUser!, product).subscribe();
     location.reload();
+  }
+
+  checkout() : void {
+    if (this.cart.length != 0) {
+      this.loginService.checkout(this.currUser!).subscribe();
+      location.reload();
+    }
+    else {
+      this.checkoutMessage = "No Fish Present in the Cart to Purchase!";
+    }
   }
 
   goBack(): void {

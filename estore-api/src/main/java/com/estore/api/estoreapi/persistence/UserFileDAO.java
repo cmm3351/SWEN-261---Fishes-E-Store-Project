@@ -139,6 +139,20 @@ public class UserFileDAO implements UserDAO {
     }
 
     /**
+     * {@inheritDoc}}
+     * @author Cristian Malone cmm3351@rit.edu
+     */
+    public int[] checkout(User user) throws IOException{
+        int[] originalCart = user.showCart();
+        for (int i = 0; i < originalCart.length; i++) {
+            user.removeProductFromCart(originalCart[i]);
+        }
+        users.put(user.getId(),user);
+        save();
+        return user.showCart();
+    }
+
+    /**
      * Saves the {@linkplain User users} from the map into the file as an array of JSON objects
      * 
      * @return true if the {@link User user} were written successfully
@@ -187,6 +201,5 @@ public class UserFileDAO implements UserDAO {
         ++nextId;
         return true;
     }
-
 
 }

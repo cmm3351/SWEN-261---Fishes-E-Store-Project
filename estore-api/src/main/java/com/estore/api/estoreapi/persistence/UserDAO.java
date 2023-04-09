@@ -81,4 +81,14 @@ public interface UserDAO {
      * @throws IOException
      */
     int[] showCart(User user) throws IOException;
+
+    /**
+     * Removes all items from the user's cart once the user checks
+     * out
+     * 
+     * @param user the user of the cart
+     * @return Empty integer array representing user's new cart
+     * @throws IOException
+     */
+    int[] checkout(User user) throws IOException;
 }
