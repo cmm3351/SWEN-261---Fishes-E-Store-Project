@@ -3,6 +3,8 @@ package com.estore.api.estoreapi.persistence;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.springframework.boot.autoconfigure.couchbase.CouchbaseProperties.Io;
+
 import com.estore.api.estoreapi.model.Product;
 import com.estore.api.estoreapi.model.User;
 
@@ -91,6 +93,14 @@ public interface UserDAO {
      * @throws IOException
      */
     int[] checkout(User user) throws IOException;
+
+    /**
+     * Returns the current rewards points of a user
+     * 
+     * @param user User object representing the curret user
+     * @return integer representing current rewars points of a user
+     */
+    int getRewardsPoints(User user) throws IOException;
 
     /**
      * When the customer has 10 or more rewards points, 

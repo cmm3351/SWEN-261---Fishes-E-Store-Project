@@ -169,8 +169,6 @@ public class UserController {
                 Product currProduct = productDao.getProduct(cart[i]);
                 if (currProduct.getQuantity() != 0) {
                     Product updatedProduct = new Product(currProduct.getId(), currProduct.getName(), currProduct.getInfo(), currProduct.getPrice(), currProduct.getQuantity() - 1);
-                    // int newPoints = user.getRewards() + 1;
-                    // user.setRewards(newPoints);
                     productDao.updateProduct(updatedProduct);
                 }
             }
@@ -181,6 +179,32 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    /**
+     * Returns the current rewards points of a user
+     * 
+     * @param uid integer id of the user
+     * @return integer representing current rewars points of a user
+     */
+    @GetMapping("/rewards/")
+    public ResponseEntity<Integer> getRewardsPoints(@RequestParam int uid) {
+        LOG.info("GET /rewards/?uid=" + uid);
+        try {
+            User user = userDao.findUserByID(uid);
+            if (user != null) {
+                int points = userDao.getRewardsPoints(user);
+                return new ResponseEntity<>(points, HttpStatus.OK);
+            }
+            else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }
+        catch (IOException e){
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     /**
      * When the customer has 10 or more rewards points, 
@@ -201,8 +225,6 @@ public class UserController {
                 Product currProduct = productDao.getProduct(cart[cid]);
                 if (currProduct.getQuantity() != 0) {
                     Product updatedProduct = new Product(currProduct.getId(), currProduct.getName(), currProduct.getInfo(), currProduct.getPrice(), currProduct.getQuantity() - 1);
-                    // int newPoints = user.getRewards() - 10;
-                    // user.setRewards(newPoints);
                     productDao.updateProduct(updatedProduct);
                 }
             int points = userDao.useRewardsPoints(user,cid);

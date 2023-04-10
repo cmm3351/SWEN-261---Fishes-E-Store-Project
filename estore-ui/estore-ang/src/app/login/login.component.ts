@@ -44,7 +44,7 @@ export class LoginComponent {
 					"invalid password or username"
 				}
 				else {
-					this.router.navigateByUrl('',{state : {currUser: this.CurrentUser}});
+					this.router.navigateByUrl('');
 				}
 			})
 	}

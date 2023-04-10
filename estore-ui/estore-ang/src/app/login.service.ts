@@ -22,6 +22,7 @@ export class LoginService {
 	// local api url
 	private usersUrl = 'http://localhost:8080/users'
 
+	user?: User;
 	
 	// headers neaded for create account
 	headers = new HttpHeaders({'Content-Type':'application/json; charset=utf-8'});
@@ -44,6 +45,10 @@ export class LoginService {
 	 * @author Connor McRoberts
 	 */
 	verifyLogin(username: String, password: String): Observable<User> {
+
+		this.http.get<User>(this.usersUrl + '/?username=' + username 
+		+ '&password=' + password).subscribe( (data) => this.user = data);
+
 
 		return this.http.get<User>(this.usersUrl + '/?username=' + username 
 		+ '&password=' + password).pipe(
@@ -116,6 +121,10 @@ export class LoginService {
 	/** Modifies contents of Map to correctly represent contents of the cart */
 	setIsInCart(id: number, value: number) : void {
 		this.isInCart.set(id,value);
+	}
+
+	getUser() {
+		return this.user;
 	}
 
 	useRewardsPoints(user: User, cid: number) {

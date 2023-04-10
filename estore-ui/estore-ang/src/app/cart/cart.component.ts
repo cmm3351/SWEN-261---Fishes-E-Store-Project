@@ -22,7 +22,8 @@ export class CartComponent implements OnInit{
               private location: Location, private router: Router){}
 
   ngOnInit(): void {
-    this.currUser = history.state.user;
+    this.currUser = this.loginService.getUser();
+    this.totalPrice = 0;
 
     let idArr: number[] | any[] = [];
     let prodArr: Product[] | any[] = [];
@@ -43,14 +44,18 @@ export class CartComponent implements OnInit{
   deleteFromCart(product: Product) {
     let isInCart = this.loginService.getIsInCart().get(product.id);
     this.loginService.setIsInCart(product.id,isInCart! - 1);
-    this.loginService.deleteFromCart(this.currUser!, product).subscribe();
-    location.reload();
+    this.loginService.deleteFromCart(this.currUser!, product).subscribe(
+      () => this.ngOnInit());
   }
 
   checkout() : void {
     if (this.cart.length != 0) {
-      this.loginService.checkout(this.currUser!).subscribe();
-      location.reload();
+      this.loginService.checkout(this.currUser!).subscribe(
+        () => { 
+          this.ngOnInit();
+          this.checkoutMessage = "Thank You for Your Purchase!"
+      });
+      
     }
     else {
       this.checkoutMessage = "No Fish Present in the Cart to Purchase!";
@@ -60,8 +65,8 @@ export class CartComponent implements OnInit{
   /** TODO */
   useRewardsPoints(cid: number) : void {
     this.loginService.useRewardsPoints(this.currUser!,cid).subscribe(
-      (data) => {
-        location.reload();
+      () => {
+        this.ngOnInit();
         this.checkoutMessage = "Thank You for Using Your Rewards!";
       });
 

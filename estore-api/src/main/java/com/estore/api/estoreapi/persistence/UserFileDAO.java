@@ -158,6 +158,14 @@ public class UserFileDAO implements UserDAO {
      * {@inheritDoc}}
      * @author Cristian Malone cmm3351@rit.edu
      */
+    public int getRewardsPoints(User user) throws IOException {
+        return user.getRewards();
+    }
+
+    /**
+     * {@inheritDoc}}
+     * @author Cristian Malone cmm3351@rit.edu
+     */
     public int useRewardsPoints(User user, int cid) throws IOException {
         int[] originalCart = user.showCart();
         user.removeProductFromCart(originalCart[cid]);

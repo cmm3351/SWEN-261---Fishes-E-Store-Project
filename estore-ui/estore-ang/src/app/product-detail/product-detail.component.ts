@@ -29,9 +29,8 @@ export class ProductDetailComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.currUser = history.state.user;
+    this.currUser = this.loginService.getUser();
     this.getProduct();
-    this.isAdmin = history.state.isAdmin;
   }
 
   getProduct(): void {

@@ -5,7 +5,7 @@
       <p>This user is an administrator.</p>
     </div>
     <ng-template #s class="shopping_cart_container">
-      <button type="button" routerLink="/cart/{{currUser.id}}" [state]="{user: currUser}">Review Cart</button>
+      <button type="button" routerLink="/cart/{{currUser.id}}">Review Cart</button>
     </ng-template>
 
   <div class="logout_button_container">
@@ -43,7 +43,7 @@
 
 <ul class="products">
   <li *ngFor="let product of products">
-    <a routerLink="/detail/{{product.id}}" [state]="{isAdmin: true}">
+    <a routerLink="/detail/{{product.id}}">
       <span class="badge">{{product.id}}</span> {{product.name}}
     </a>
     <button type="button" class="delete" title="delete product"
@@ -55,7 +55,7 @@
 <ng-template #e class="customer_view">
 <ul class="products">
   <li *ngFor="let product of products">
-    <a routerLink="/detail/{{product.id}}" [state]="{isAdmin: false, user: currUser}">
+    <a routerLink="/detail/{{product.id}}">
       <span class="badge">{{product.id}}</span> {{product.name}}
     </a>
   </li>
