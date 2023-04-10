@@ -19,6 +19,7 @@ export class ProductDetailComponent implements OnInit {
   isAdmin : boolean = false;
   errorMessage: string = "";
   isInCart?: number;
+  imgSource? : String;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,6 +32,12 @@ export class ProductDetailComponent implements OnInit {
   ngOnInit(): void {
     this.currUser = this.loginService.getUser();
     this.getProduct();
+    if (this.product?.imgSource == ""){
+      this.imgSource = "https://i.pinimg.com/originals/a4/9b/7e/a49b7ed6a8b8e96b29a38c69019bf6e3.png";
+    }else{
+      this.imgSource = this.product?.imgSource;
+    }
+
   }
 
   getProduct(): void {

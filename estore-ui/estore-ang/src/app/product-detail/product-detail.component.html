@@ -1,46 +1,51 @@
-<div *ngIf="product">
-    <h2>{{product.name | uppercase}} Details</h2>
-    <div><span>id: </span>{{product.id}}</div>
-
-    <div *ngIf="isAdmin; else e" class="admin_view">
-        <div>
-            <label for="product-name">Product Name: </label>
-            <input id="product-name" [(ngModel)]="product.name" placeholder="Product name"/>
-        </div>
-        <div>
-            <label for="product-info">Product Information: </label>
-            <input id="product-info" [(ngModel)]="product.info" placeholder="Product info"/>
-        </div>
-        <div>
-            <label for="product-price">Product Price: </label>
-            <input id="product-price" [(ngModel)]="product.price" placeholder="Product price"/>
-        </div>
-        <div>
-            <label for="product-quantity">Product Quantity: </label>
-            <input id="product-quantity" [(ngModel)]="product.quantity" placeholder="Product quantity"/>
-        </div>
-
-        <button type="button" (click)="goBack()">go back</button>
-        <button type="button" (click)="save()">save</button>
+<div *ngIf="product" class="view">
+    <div class="navbar">
+        <button type="button" (click)="goBack()" class="go_back">go back</button>
+        <h2 class="title">{{product.name}} Details</h2>
+        <img src={{product.imgSource}} width="300" height="300"/>
     </div>
+        <div *ngIf="currUser?.isAdmin; else e">
+            <div class="product_container">
+                <div class="name_container">
+                    Product Name:
+                    <input id="product-name" [(ngModel)]="product.name" placeholder="Product name"/>
+                </div>
+                <div class="info_container">
+                    Product Information:
+                    <input id="product-info" [(ngModel)]="product.info" placeholder="Product info"/>
+                </div>
+                <div class="price_container">
+                    Product Price:
+                    <input id="product-price" [(ngModel)]="product.price" placeholder="Product price"/>
+                </div>
+                <div class="quantity_container">
+                    Product Quantity:
+                    <input id="product-quantity" [(ngModel)]="product.quantity" placeholder="Product quantity"/>
+                </div>
+                <div class="button_container">
+                    <button type="button" (click)="save()" id="save_but">save</button>
+                </div>
+            </div>
+        </div>
+        
 
-    <ng-template #e class="customer_view">
-        <div>
-            <label for="product-name">Product Name: {{product.name}}</label>
-        </div>
-        <div>
-            <label for="product-info">Product Information: {{product.info}}</label>
-        </div>
-        <div>
-            <label for="product-price">Product Price: {{product.price}}</label>
-        </div>
-        <div>
-            <label for="product-quantity">Product Quantity: {{product.quantity}}</label>
-        </div>
-        <div *ngIf="currUser">
-            <button type="button" (click)="addToCart()">Add to Cart</button>
-        </div>
-        <button type="button" (click)="goBack()">go back</button>
-        <div>{{errorMessage}}</div>
-    </ng-template>
-  </div>
+        <ng-template #e>
+            <div class="product_container">
+                <div class="name_container">
+                    <label for="product-name">Product Name: {{product.name}}</label>
+                </div>
+                <div class="info_container">
+                    <label for="product-info">Product Information: {{product.info}}</label>
+                </div>
+                <div class="price_container">
+                    <label for="product-price">Product Price: {{product.price}}</label>
+                </div>
+                <div class="quantity_container">
+                    <label for="product-quantity">Product Quantity: {{product.quantity}}</label>
+                </div>
+                <div *ngIf="!currUser?.isAdmin">
+                    <button type="button" (click)="addToCart()">Add to Cart</button>
+                </div>
+            </div>
+        </ng-template>
+</div>

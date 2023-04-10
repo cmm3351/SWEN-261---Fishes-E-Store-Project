@@ -183,7 +183,7 @@ public class ProductFileDAO implements ProductDAO {
     @Override
     public Product createProduct(Product product) throws IOException {
         synchronized(products){
-            Product newProduct = new Product(nextId(), product.getName(), product.getInfo(), product.getPrice(), product.getQuantity()) ;
+            Product newProduct = new Product(nextId(), product.getName(), product.getInfo(), product.getPrice(), product.getQuantity(), product.getImgSource()) ;
             products.put(newProduct.getId(), newProduct);
             save();
             return newProduct;
