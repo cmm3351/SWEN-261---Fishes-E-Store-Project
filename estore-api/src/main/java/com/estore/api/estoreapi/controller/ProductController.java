@@ -215,8 +215,14 @@ public class ProductController {
     public ResponseEntity<Map<String,Integer>> getReviews(@PathVariable int pid) {
         LOG.info("GET /products/" + pid + "/reviews");
         try {
-            Map<String,Integer> reviews = productDao.getReviews();
-            return new ResponseEntity<>(reviews, HttpStatus.OK);
+            Product product = productDao.getProduct(pid);
+            if (product != null) {
+                Map<String,Integer> reviews = productDao.getReviews(product);
+                return new ResponseEntity<>(reviews, HttpStatus.OK);
+            }
+            else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         }
         catch(IOException e) {
             LOG.log(Level.SEVERE,e.getLocalizedMessage());
@@ -236,26 +242,26 @@ public class ProductController {
      * 
      * @author Cristian Malone
      */
-    @GetMapping("/{id}/reviews")
-    public ResponseEntity<Integer> getReview(@PathVariable int pid, @PathVariable int uid) {
-        LOG.info("GET /products/" + pid + "/reviews/?uid=");
-        try {
-            User user = userDao.findUserByID(uid);
-            Product product = productDao.getProduct(pid);
-            if (user != null && product != null) {
-                Map<String,Integer> reviews = productDao.getReviews();
-                if (reviews.containsKey(user.getUsername())) {
-                    int rating = reviews.get(user.getUsername());
-                    return new ResponseEntity<Integer>(rating,HttpStatus.OK);
-                }
-            }
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        catch(IOException e) {
-            LOG.log(Level.SEVERE,e.getLocalizedMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+    // @GetMapping("/{id}/reviews")
+    // public ResponseEntity<Integer> getReview(@PathVariable int pid, @PathVariable int uid) {
+    //     LOG.info("GET /products/" + pid + "/reviews/?uid=");
+    //     try {
+    //         User user = userDao.findUserByID(uid);
+    //         Product product = productDao.getProduct(pid);
+    //         if (user != null && product != null) {
+    //             Map<String,Integer> reviews = productDao.getReviews();
+    //             if (reviews.containsKey(user.getUsername())) {
+    //                 int rating = reviews.get(user.getUsername());
+    //                 return new ResponseEntity<Integer>(rating,HttpStatus.OK);
+    //             }
+    //         }
+    //         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    //     }
+    //     catch(IOException e) {
+    //         LOG.log(Level.SEVERE,e.getLocalizedMessage());
+    //         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    //     }
+    // }
 
     /**
      * Creates a product review with the provided review information 
@@ -268,6 +274,7 @@ public class ProductController {
      * @return ResponseEntity with new review map and HTTP status of CREATED<br>
      * ResponseEntity with HTTP status of NOT_FOUND if the specfied user or product don't exist
      * ResponseEntity with HTTP status of CONFLICT if review already exists<br>
+     * ResponseEntity with HTTP status of EXPECTATION_FAILED if rating is not between 0 to 5
      * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
      * @author Cristian Malone
      */
@@ -280,8 +287,13 @@ public class ProductController {
             if(user != null && product != null){
                 Map<String,Integer> reviews = product.getReviews();
                 if (!reviews.containsKey(user.getUsername())) {
-                    Map<String,Integer> newReviews = productDao.createReview(user,product,rating);
-                    return new ResponseEntity<>(newReviews, HttpStatus.CREATED);
+                    if (rating >= 0 && rating <= 5) {
+                        Map<String,Integer> newReviews = productDao.createReview(user,product,rating);
+                        return new ResponseEntity<>(newReviews, HttpStatus.CREATED);
+                    }
+                    else {
+                        return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+                    }
                 }
                 else {
                     return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -305,6 +317,7 @@ public class ProductController {
      * 
      * @return ResponseEntity with updated review Map and HTTP status of OK if updated<br>
      * ResponseEntity with HTTP status of NOT_FOUND if not found<br>
+     * ResponseEntity with HTTP status of EXPECTATION_FAILED if rating is not between 0 to 5
      * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
      * 
      * @author Cristian Malone
@@ -318,8 +331,13 @@ public class ProductController {
             if(user != null && product != null){
                 Map<String,Integer> reviews = product.getReviews();
                 if (reviews.containsKey(user.getUsername())) {
-                    Map<String,Integer> newReviews = productDao.updateReview(user,product,rating);
-                    return new ResponseEntity<>(newReviews, HttpStatus.OK);
+                    if (rating >= 0 && rating <= 5) {
+                        Map<String,Integer> newReviews = productDao.editReview(user,product,rating);
+                        return new ResponseEntity<>(newReviews, HttpStatus.OK);
+                    }
+                    else {
+                        return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+                    }
                 }
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

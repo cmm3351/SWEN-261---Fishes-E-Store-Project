@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.estore.api.estoreapi.model.Product;
+import com.estore.api.estoreapi.model.User;
 
 /**
  * Implements the functionality for JSON file-based peristance for Products
@@ -222,5 +223,56 @@ public class ProductFileDAO implements ProductDAO {
             else
                 return false;
         }
+    }
+
+    /**
+     * @author Cristian Malone
+     * 
+    ** {@inheritDoc}
+     */
+    public Map<String,Integer> getReviews(Product product) throws IOException {
+        return product.getReviews();
+    }
+
+    /**
+     * @author Cristian Malone
+     * 
+    ** {@inheritDoc}
+     */
+    public Map<String,Integer> createReview(User user, Product product, int rating) throws IOException {
+        Map<String,Integer> currReviews = product.getReviews();
+        currReviews.put(user.getUsername(), rating);
+        product.setReviews(currReviews);
+        products.put(product.getId(),product);
+        save();
+        return currReviews;
+    }
+
+    /**
+     * @author Cristian Malone
+     * 
+    ** {@inheritDoc}
+     */
+    public Map<String,Integer> editReview(User user, Product product, int rating) throws IOException {
+        Map<String,Integer> currReviews = product.getReviews();
+        currReviews.put(user.getUsername(), rating);
+        product.setReviews(currReviews);
+        products.put(product.getId(),product);
+        save();
+        return currReviews;
+    }
+
+    /**
+     * @author Cristian Malone
+     * 
+    ** {@inheritDoc}
+     */
+    public Map<String,Integer> deleteReview(User user, Product product) throws IOException {
+        Map<String,Integer> currReviews = product.getReviews();
+        currReviews.remove(user.getUsername());
+        product.setReviews(currReviews);
+        products.put(product.getId(),product);
+        save();
+        return currReviews;
     }
 }

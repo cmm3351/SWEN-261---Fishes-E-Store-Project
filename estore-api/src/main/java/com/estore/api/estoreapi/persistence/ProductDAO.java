@@ -8,7 +8,10 @@
 package com.estore.api.estoreapi.persistence;
 
 import java.io.IOException;
+import java.util.Map;
+
 import com.estore.api.estoreapi.model.Product;
+import com.estore.api.estoreapi.model.User;
 
 public interface ProductDAO {
     /**
@@ -81,4 +84,45 @@ public interface ProductDAO {
      * @throws IOException if underlying storage cannot be accessed
      */
     boolean deleteProduct(int id) throws IOException;
+
+    /**
+     * Retrieves the user reviews for a certain product
+     * 
+     * @param product Product for which reviews will be retrieved
+     * @return Map representing user reviews with corresponsing usernames
+     * @throws IOException
+     */
+    Map<String,Integer> getReviews(Product product) throws IOException;
+
+    /**
+     * Creates a new review for a product if the user hasn't made one already
+     * 
+     * @param user User creating the review
+     * @param product Product for which the review is created
+     * @param rating intger value of rating out of 5
+     * @return Map representing user reviews with corresponsing usernames
+     * @throws IOException
+     */
+    Map<String,Integer> createReview(User user, Product product, int rating) throws IOException;
+
+    /**
+     * Edits a review for a product if user has made one already
+     * 
+     * @param user User editing the review
+     * @param product Product for which the review is edited
+     * @param rating intger value of rating out of 5
+     * @return Map representing user reviews with corresponsing usernames
+     * @throws IOException
+     */
+    Map<String,Integer> editReview(User user, Product product, int rating) throws IOException;
+
+    /**
+     * Deletes a review for a product if the user has made one already
+     * 
+     * @param user User deleting the review
+     * @param product Product for which the review is deleted
+     * @return Map representing user reviews with corresponsing usernames
+     * @throws IOException
+     */
+    Map<String,Integer> deleteReview(User user, Product product) throws IOException;
 }
