@@ -20,7 +20,7 @@ export class ProductDetailComponent implements OnInit {
   errorMessage: string = "";
   isInCart?: number;
   imgSource? : String;
-  reviews?: Map<String,Number>;
+  reviews: Map<String,Number> = new Map([]);
 
   constructor(
     private route: ActivatedRoute,
