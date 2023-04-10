@@ -1,17 +1,24 @@
-<h2>{{currUser?.username}}'s Cart</h2>
-
-<div>
-  <ul class="cart">
-      <li *ngFor="let product of cart">
-          <span class="badge">{{product.id}}</span> {{product.name}}
-          <button type="button" (click)="deleteFromCart(product)">remove {{product.name}}</button>    
-      </li>
-  </ul>
-
-  <div>Total Price: ${{totalPrice}}</div>
-
-  <div>{{checkoutMessage}}</div>
-
-  <button type="button" (click)="checkout()">Checkout</button>
-  <button type="button" (click)="goBack()">go back</button>
+<div class="component_container">
+  <div class="title">
+    <h2>{{currUser?.username}}'s cart </h2>
+  </div>
+  <div class="cart_container">
+    <ul class="cart">
+        <li *ngFor="let product of cart">
+            {{product.name}}
+            <div class="login_but">
+              <button type="button" (click)="deleteFromCart(product)">
+              remove {{product.name}}</button> 
+            </div>     
+        </li>
+    </ul>
+  
+    <div>Total Price: ${{totalPrice}}</div>
+  
+    <div>{{checkoutMessage}}</div>
+  
+    <button type="button" (click)="checkout()">Checkout</button>
+    <button type="button" (click)="goBack()">go back</button>
+  </div>
+  
 </div>

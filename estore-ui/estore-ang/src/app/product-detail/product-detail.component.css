@@ -84,3 +84,19 @@
     transform: scale(1.2);
 }
 
+.img_con {
+    background-color: #2b2d42;
+    padding-bottom: 20px;
+}
+
+.cart_but {
+    border-radius: 20px;
+    padding: 10px;
+    transition: all .5s;
+    cursor: pointer;
+}
+
+.cart_but:hover {
+    background-color: #ffba49;
+    transform: scale(1.2);
+}

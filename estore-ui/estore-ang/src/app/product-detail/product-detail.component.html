@@ -2,10 +2,10 @@
     <div class="navbar">
         <button type="button" (click)="goBack()" class="go_back">go back</button>
         <h2 class="title">{{product.name}} Details</h2>
-        <img src={{product.imgSource}} width="300" height="300"/>
     </div>
         <div *ngIf="currUser?.isAdmin; else e">
             <div class="product_container">
+                <img src={{product.imgSource}} width="300" height="300" class="img_con"/>
                 <div class="name_container">
                     Product Name:
                     <input id="product-name" [(ngModel)]="product.name" placeholder="Product name"/>
@@ -31,20 +31,23 @@
 
         <ng-template #e>
             <div class="product_container">
+                <div class="img_con">
+                    <img src={{product.imgSource}} width="300" height="300"/> 
+                </div>
                 <div class="name_container">
-                    <label for="product-name">Product Name: {{product.name}}</label>
+                    Product Name: {{product.name}}
                 </div>
                 <div class="info_container">
-                    <label for="product-info">Product Information: {{product.info}}</label>
+                    Product Information: {{product.info}}
                 </div>
                 <div class="price_container">
-                    <label for="product-price">Product Price: {{product.price}}</label>
+                    Product Price: {{product.price}}
                 </div>
                 <div class="quantity_container">
-                    <label for="product-quantity">Product Quantity: {{product.quantity}}</label>
+                    Product Quantity: {{product.quantity}}
                 </div>
-                <div *ngIf="!currUser?.isAdmin">
-                    <button type="button" (click)="addToCart()">Add to Cart</button>
+                <div *ngIf="!currUser?.isAdmin" class="button_container">
+                    <button type="button" (click)="addToCart()" class="cart_but">Add to Cart</button>
                 </div>
             </div>
         </ng-template>
