@@ -55,8 +55,8 @@
         <div class="reviews">
             <div class="title">Reviews</div>
             <ng-container *ngFor="let review of reviews | keyvalue">
-                <div>{{review.key}}: {{review.value}}</div>
-                <span *ngIf="review.key === this.currUser?.username">
+                <div class="single_review">{{review.key}}: {{review.value}}</div>
+                <span *ngIf="review.key === this.currUser?.username" class="add_review">
                     Edit?
                     <button type="button" (click)="editReview(1)">1</button>
                     <button type="button" (click)="editReview(2)">2</button>
@@ -68,7 +68,7 @@
             </ng-container>
 
             <div *ngIf="currUser && !currUser?.isAdmin" class="add_review">
-                <label>Add Review</label>
+                Add Review
                 <button type="button" (click)="addReview(1)">1</button>
                 <button type="button" (click)="addReview(2)">2</button>
                 <button type="button" (click)="addReview(3)">3</button>
