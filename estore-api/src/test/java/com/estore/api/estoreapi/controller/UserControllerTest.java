@@ -196,7 +196,21 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testRewardsPoints() throws IOException {
+    public void testGetRewardsPoints() throws IOException {
+        int[] cart = {99,98,98};
+        User user = new User(999, "n/a", "doesn't matter", false, cart,10);
+
+        when(userDAO.findUserByID(user.getId())).thenReturn(user);
+        when(userDAO.getRewardsPoints(user)).thenReturn(10);
+
+        ResponseEntity<Integer> response = userController.getRewardsPoints(user.getId());
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(10, response.getBody());
+    }
+
+    @Test
+    public void testUseRewardsPoints() throws IOException {
         int[] cart = {99,98,98};
         User user = new User(999, "n/a", "doesn't matter", false, cart,10);
         Product product = new Product(99, "n/a", "doesn't matter", 100, 5);
