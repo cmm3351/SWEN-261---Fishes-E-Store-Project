@@ -161,7 +161,7 @@ public class UserController {
      */
     @PutMapping("/cart/checkout") 
     public ResponseEntity<int[]> checkout(@RequestParam int uid){
-        LOG.info("GET /cart/checkout/?uid=" + uid);
+        LOG.info("PUT /cart/checkout/?uid=" + uid);
         try {
             User user = userDao.findUserByID(uid);
             int[] cart = userDao.showCart(user);
@@ -220,7 +220,7 @@ public class UserController {
      */
     @PutMapping("/cart/rewards") 
     public ResponseEntity<Integer> useRewardsPoints(@RequestParam int uid, @RequestParam int cid){
-        LOG.info("GET /cart/rewards/?uid=" + uid + "&cid=" + cid);
+        LOG.info("PUT /cart/rewards/?uid=" + uid + "&cid=" + cid);
         try {
             User user = userDao.findUserByID(uid);
             int[] cart = userDao.showCart(user);

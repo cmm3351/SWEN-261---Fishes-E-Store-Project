@@ -211,7 +211,7 @@ public class ProductController {
      * 
      * @author Cristian Malone
      */
-    @GetMapping("/{id}/reviews")
+    @GetMapping("/{pid}/reviews")
     public ResponseEntity<Map<String,Integer>> getReviews(@PathVariable int pid) {
         LOG.info("GET /products/" + pid + "/reviews");
         try {
@@ -278,9 +278,9 @@ public class ProductController {
      * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
      * @author Cristian Malone
      */
-    @PostMapping("/{id}/reviews")
-    public ResponseEntity<Map<String,Integer>> createReview(@PathVariable int uid, @PathVariable int pid, @PathVariable int rating) {
-        LOG.info("POST /products " + pid + "/reviews/?uid=" + uid + "&rating=" + rating);
+    @PostMapping("/{pid}/reviews/")
+    public ResponseEntity<Map<String,Integer>> createReview(@RequestParam int uid, @PathVariable int pid, @RequestParam int rating) {
+        LOG.info("PUT /products/" + pid + "/reviews/?uid=" + uid + "&rating=" + rating);
         try{
             User user = userDao.findUserByID(uid);
             Product product = productDao.getProduct(pid);
@@ -322,9 +322,9 @@ public class ProductController {
      * 
      * @author Cristian Malone
      */
-    @PutMapping("/{id}/reviews")
-    public ResponseEntity<Map<String,Integer>> editReview(@PathVariable int uid, @PathVariable int pid, @PathVariable int rating) {
-        LOG.info("PUT /products " + pid + "/reviews/?uid=" + uid + "&rating=" + rating);
+    @PutMapping("/{pid}/reviews/")
+    public ResponseEntity<Map<String,Integer>> editReview(@RequestParam int uid, @PathVariable int pid, @RequestParam int rating) {
+        LOG.info("PUT /products/" + pid + "/reviews/?uid=" + uid + "&rating=" + rating);
         try {
             User user = userDao.findUserByID(uid);
             Product product = productDao.getProduct(pid);
@@ -360,9 +360,9 @@ public class ProductController {
      * 
      * @author Cristian Malone
      */
-    @DeleteMapping("/{id}/reviews")
-    public ResponseEntity<Map<String,Integer>> deleteReview(@PathVariable int uid, @PathVariable int pid) {
-        LOG.info("DELETE /products " + pid + "/reviews/?uid=" + uid);
+    @DeleteMapping("/{pid}/reviews/")
+    public ResponseEntity<Map<String,Integer>> deleteReview(@RequestParam int uid, @PathVariable int pid) {
+        LOG.info("DELETE /products/" + pid + "/reviews/?uid=" + uid);
 
         try{
             User user = userDao.findUserByID(uid);
