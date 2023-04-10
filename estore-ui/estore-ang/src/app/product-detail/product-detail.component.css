@@ -68,18 +68,23 @@
     background-color: #2b2d42;
 }
 
-#save_but{
+button {
     background-color: #f7f7f9;
+    margin: 5px;
     padding-left: 10px;
     padding-right: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
     border-radius: 15px;
+    border-color: #2b2d42;
+    border-width: 2px;
+    border-style: solid;
     cursor: pointer;
     transition: all .5s;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 }
 
-#save_but:hover, .go_back:hover {
+button:hover, .go_back:hover {
     background-color: #ffba49;
     transform: scale(1.2);
 }
@@ -99,4 +104,9 @@
 .cart_but:hover {
     background-color: #ffba49;
     transform: scale(1.2);
+}
+
+.reviews, .add_review {
+    background-color: #2b2d42;
+    color: #f7f7f9;
 }

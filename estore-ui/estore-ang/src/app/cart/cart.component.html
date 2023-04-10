@@ -6,10 +6,13 @@
   </div>
   <div class="cart_container">
     <ul class="cart">
-        <div *ngFor="let product of cart" class="item_container">
+        <div *ngFor="let product of cart; let i = index" class="item_container">
             {{product.name}}
               <button type="button" (click)="deleteFromCart(product)">
-              remove {{product.name}}</button>      
+              remove {{product.name}}</button> 
+              <span *ngIf="rewards >= 10">
+                <button type="button" (click)="useRewardsPoints(i)">Use Rewards Points?</button> 
+              </span>       
         </div>
     </ul>
   

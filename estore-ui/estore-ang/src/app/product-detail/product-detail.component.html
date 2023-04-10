@@ -46,14 +46,14 @@
                 <div class="quantity_container">
                     Product Quantity: {{product.quantity}}
                 </div>
-                <div *ngIf="currUser && !currUser?.isAdmin">
+                <div *ngIf="currUser && !currUser?.isAdmin" class="button_container">
                     <button type="button" (click)="addToCart()">Add to Cart</button>
                 </div>
             </div>
         </ng-template>
 
         <div class="reviews">
-            <h4>Reviews</h4>
+            <div class="title">Reviews</div>
             <ng-container *ngFor="let review of reviews | keyvalue">
                 <div>{{review.key}}: {{review.value}}</div>
                 <span *ngIf="review.key === this.currUser?.username">
@@ -67,7 +67,7 @@
                 </span>
             </ng-container>
 
-            <div *ngIf="currUser && !currUser?.isAdmin">
+            <div *ngIf="currUser && !currUser?.isAdmin" class="add_review">
                 <label>Add Review</label>
                 <button type="button" (click)="addReview(1)">1</button>
                 <button type="button" (click)="addReview(2)">2</button>
