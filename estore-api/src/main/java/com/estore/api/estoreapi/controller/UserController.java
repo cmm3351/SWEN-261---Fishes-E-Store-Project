@@ -224,7 +224,7 @@ public class UserController {
             if (user.getRewards() >= 10) {
                 Product currProduct = productDao.getProduct(cart[cid]);
                 if (currProduct.getQuantity() != 0) {
-                    Product updatedProduct = new Product(currProduct.getId(), currProduct.getName(), currProduct.getInfo(), currProduct.getPrice(), currProduct.getQuantity() - 1);
+                    Product updatedProduct = new Product(currProduct.getId(), currProduct.getName(), currProduct.getInfo(), currProduct.getPrice(), currProduct.getQuantity() - 1, currProduct.getImgSource());
                     productDao.updateProduct(updatedProduct);
                 }
             int points = userDao.useRewardsPoints(user,cid);
