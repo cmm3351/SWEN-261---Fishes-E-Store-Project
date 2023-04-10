@@ -29,7 +29,9 @@ export class LoginService {
 	httpOptions = {
 		headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 	  };
-	
+
+	isInCart: Map<number,number> = new Map<number,number>();
+
   	constructor(private http: HttpClient) { }
 
 	/**
@@ -99,5 +101,20 @@ export class LoginService {
 	deleteFromCart(user: User, product: Product){
 		let url = this.usersUrl + '/cart/?uid=' + user.id + '&pid=' + product.id;
 		return this.http.delete<any>(url, this.httpOptions)
+	}
+
+	checkout(user: User) {
+		let url = this.usersUrl + '/cart/checkout/?uid=' + user.id;
+		return this.http.put<any>(url,this.httpOptions);
+	}
+
+	/** Returns Map detailing current contents of the user's cart */
+	getIsInCart() : Map<number,number> {
+		return this.isInCart;
+	  }
+	
+	/** Modifies contents of Map to correctly represent contents of the cart */
+	setIsInCart(id: number, value: number) : void {
+		this.isInCart.set(id,value);
 	}
 }

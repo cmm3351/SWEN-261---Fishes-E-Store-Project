@@ -39,16 +39,18 @@
     <input id="prod_info" #productInfo placeholder="product info"/>
     <input id="prod_price" #productPrice placeholder="product price"/>
     <input id="prod_quan" #productQuantity placeholder="product quantity"/>
+    <input id="prod_img" #imgSrc placeholder="product image"/>
     
   
 
   <!-- (click) passes input value to add() and then clears the input -->
     <button type="button" class="add-button" (click)="add(productName.value,productInfo.value,
-      productPrice.value,productQuantity.value); 
+      productPrice.value,productQuantity.value, imgSrc.value); 
       productName.value=''; 
       productInfo.value='';
       productPrice.value=''; 
-      productQuantity.value=''">
+      productQuantity.value='';
+      imgSrc.value=''">
       Add product
     </button>
   </div>

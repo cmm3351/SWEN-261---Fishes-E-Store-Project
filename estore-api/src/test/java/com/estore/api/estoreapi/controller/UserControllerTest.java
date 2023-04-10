@@ -14,7 +14,9 @@ import org.junit.jupiter.api.TestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.estore.api.estoreapi.model.Product;
 import com.estore.api.estoreapi.model.User;
+import com.estore.api.estoreapi.persistence.ProductDAO;
 import com.estore.api.estoreapi.persistence.UserDAO;
 
 /**
@@ -28,6 +30,7 @@ public class UserControllerTest {
     
     private UserController userController;
     private UserDAO userDAO;
+    private ProductDAO productDao;
 
     /**
      * Before each test, create a new ProductController object and inject
@@ -36,7 +39,8 @@ public class UserControllerTest {
     @BeforeEach
     public void setUpUserController() {
         userDAO = mock(UserDAO.class);
-        userController = new UserController(userDAO);
+        productDao = mock(ProductDAO.class);
+        userController = new UserController(userDAO,productDao);
     }
 
     @Test
@@ -164,11 +168,30 @@ public class UserControllerTest {
         int[] cart = {99};
         User user = new User(999, "n/a", "doesn't matter", false, cart);
 
+        when(userDAO.findUserByID(user.getId())).thenReturn(user);
         when(userDAO.showCart(user)).thenReturn(cart);
 
         ResponseEntity<int[]> response = userController.showCart(user.getId());
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(cart, response.getBody());
+    }
+
+    @Test
+    public void testCheckout() throws IOException {
+        int[] cart = {99,99,99};
+        User user = new User(999, "n/a", "doesn't matter", false, cart);
+        Product product = new Product(99, "n/a", "doesn't matter", 100, 5);
+        int[] emptyCart = null;
+
+        when(userDAO.findUserByID(user.getId())).thenReturn(user);
+        when(userDAO.showCart(user)).thenReturn(cart);
+        when(productDao.getProduct(product.getId())).thenReturn(product);
+
+        ResponseEntity<int[]> response = userController.checkout(user.getId());
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(emptyCart, response.getBody());
+        //assertEquals(2, productDao.getProduct(99).getQuantity());
     }
 }
