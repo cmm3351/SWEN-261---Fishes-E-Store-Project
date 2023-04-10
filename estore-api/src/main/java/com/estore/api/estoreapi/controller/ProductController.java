@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.estore.api.estoreapi.persistence.ProductDAO;
+import com.estore.api.estoreapi.persistence.UserDAO;
 import com.estore.api.estoreapi.model.Product;
+import com.estore.api.estoreapi.model.User;
 
 /**
  * Handles the API requests for the Product resource
@@ -32,10 +35,12 @@ import com.estore.api.estoreapi.model.Product;
 public class ProductController {
     private static final Logger LOG = Logger.getLogger(ProductController.class.getName());
     private ProductDAO productDao;
+    private UserDAO userDao;
 
 
-    public ProductController(ProductDAO productDAO) {
+    public ProductController(ProductDAO productDAO, UserDAO userDao) {
         this.productDao = productDAO;
+        this.userDao = userDao;
     }
 
     /**
@@ -115,7 +120,7 @@ public class ProductController {
     }
 
     /**
-     * Creates a {@linkplain Product product} with the provided hero object
+     * Creates a {@linkplain Product product} with the provided product object
      * 
      * @param product - The {@link Product product} to create
      * 
@@ -188,6 +193,170 @@ public class ProductController {
             }else{
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
+        }
+        catch(IOException e){
+            LOG.log(Level.SEVERE,e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Responds to the GET request for a product's reviews for the given id
+     * 
+     * @param pid The id used to locate the {@link Product product}
+     * 
+     * @return ResponseEntity with reviews map and HTTP status of OK if found<br>
+     * ResponseEntity with HTTP status of NOT_FOUND if not found<br>
+     * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
+     * 
+     * @author Cristian Malone
+     */
+    @GetMapping("/{id}/reviews")
+    public ResponseEntity<Map<String,Integer>> getReviews(@PathVariable int pid) {
+        LOG.info("GET /products/" + pid + "/reviews");
+        try {
+            Map<String,Integer> reviews = productDao.getReviews();
+            return new ResponseEntity<>(reviews, HttpStatus.OK);
+        }
+        catch(IOException e) {
+            LOG.log(Level.SEVERE,e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+     /**
+     * Responds to the GET request for a single product review for the given id
+     * 
+     * @param pid The id used to locate the {@link Product product}
+     * @param uid THe id of the user whose review will be returned
+     * 
+     * @return ResponseEntity with integer review and HTTP status of OK if found<br>
+     * ResponseEntity with HTTP status of NOT_FOUND if not found<br>
+     * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
+     * 
+     * @author Cristian Malone
+     */
+    @GetMapping("/{id}/reviews")
+    public ResponseEntity<Integer> getReview(@PathVariable int pid, @PathVariable int uid) {
+        LOG.info("GET /products/" + pid + "/reviews/?uid=");
+        try {
+            User user = userDao.findUserByID(uid);
+            Product product = productDao.getProduct(pid);
+            if (user != null && product != null) {
+                Map<String,Integer> reviews = productDao.getReviews();
+                if (reviews.containsKey(user.getUsername())) {
+                    int rating = reviews.get(user.getUsername());
+                    return new ResponseEntity<Integer>(rating,HttpStatus.OK);
+                }
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        catch(IOException e) {
+            LOG.log(Level.SEVERE,e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Creates a product review with the provided review information 
+     * 
+     * @param uid - The user's id to create the review for
+     * @param pid = id for product to be reviewed
+     * @param rating - new user rating to be stored
+     * 
+     * 
+     * @return ResponseEntity with new review map and HTTP status of CREATED<br>
+     * ResponseEntity with HTTP status of NOT_FOUND if the specfied user or product don't exist
+     * ResponseEntity with HTTP status of CONFLICT if review already exists<br>
+     * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
+     * @author Cristian Malone
+     */
+    @PostMapping("/{id}/reviews")
+    public ResponseEntity<Map<String,Integer>> createReview(@PathVariable int uid, @PathVariable int pid, @PathVariable int rating) {
+        LOG.info("POST /products " + pid + "/reviews/?uid=" + uid + "&rating=" + rating);
+        try{
+            User user = userDao.findUserByID(uid);
+            Product product = productDao.getProduct(pid);
+            if(user != null && product != null){
+                Map<String,Integer> reviews = product.getReviews();
+                if (!reviews.containsKey(user.getUsername())) {
+                    Map<String,Integer> newReviews = productDao.createReview(user,product,rating);
+                    return new ResponseEntity<>(newReviews, HttpStatus.CREATED);
+                }
+                else {
+                    return new ResponseEntity<>(HttpStatus.CONFLICT);
+                }
+            }else{
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }
+        catch(IOException e){
+            LOG.log(Level.SEVERE,e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Updates a review in the review map with the provided information, if it exists
+     * 
+     * @param uid - The user's id to edit the review for
+     * @param pid = id for product to be reviewed
+     * @param rating - new user rating to be stored
+     * 
+     * @return ResponseEntity with updated review Map and HTTP status of OK if updated<br>
+     * ResponseEntity with HTTP status of NOT_FOUND if not found<br>
+     * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
+     * 
+     * @author Cristian Malone
+     */
+    @PutMapping("/{id}/reviews")
+    public ResponseEntity<Map<String,Integer>> editReview(@PathVariable int uid, @PathVariable int pid, @PathVariable int rating) {
+        LOG.info("PUT /products " + pid + "/reviews/?uid=" + uid + "&rating=" + rating);
+        try {
+            User user = userDao.findUserByID(uid);
+            Product product = productDao.getProduct(pid);
+            if(user != null && product != null){
+                Map<String,Integer> reviews = product.getReviews();
+                if (reviews.containsKey(user.getUsername())) {
+                    Map<String,Integer> newReviews = productDao.updateReview(user,product,rating);
+                    return new ResponseEntity<>(newReviews, HttpStatus.OK);
+                }
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        catch(IOException e) {
+            LOG.log(Level.SEVERE,e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Deletes a user's review from the review Map
+     * 
+     * @param uid - The user's id to delete the review for
+     * @param pid = id for product to be reviewed
+     * 
+     * @return ResponseEntity with updated review Map and HTTP status of OK if review deleted<br>
+     * ResponseEntity with HTTP status of NOT_FOUND if not found<br>
+     * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
+     * 
+     * @author Cristian Malone
+     */
+    @DeleteMapping("/{id}/reviews")
+    public ResponseEntity<Map<String,Integer>> deleteReview(@PathVariable int uid, @PathVariable int pid) {
+        LOG.info("DELETE /products " + pid + "/reviews/?uid=" + uid);
+
+        try{
+            User user = userDao.findUserByID(uid);
+            Product product = productDao.getProduct(pid);
+            if(user != null && product != null){
+                Map<String,Integer> reviews = product.getReviews();
+                if (reviews.containsKey(user.getUsername())) {
+                    Map<String,Integer> newReviews = productDao.deleteReview(user,product);
+                    return new ResponseEntity<>(newReviews, HttpStatus.OK);
+                }
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         catch(IOException e){
             LOG.log(Level.SEVERE,e.getLocalizedMessage());

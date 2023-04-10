@@ -1,5 +1,6 @@
 package com.estore.api.estoreapi.model;
 
+import java.util.*;
 import java.util.logging.Logger;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,6 +15,7 @@ public class Product {
     @JsonProperty("price") private int price;
     @JsonProperty("quantity") private int quantity;
     @JsonProperty("imgSource") private String imgSource;
+    @JsonProperty("reviews") private Map<String,Integer> reviews;
 
     /**
      * Create a product for the estore with given parameters.
@@ -22,6 +24,8 @@ public class Product {
      * @param info Extra info abot product (habitat, size, lifespan, etc.)
      * @param price Price of the product (fish)
      * @param quantity If the fish is in stock or not
+     * @param imgSource String representing link to product's image
+     * @param reviews Map representing reviews for a product
      * 
      * {@literal @}JsonProperty is used in serialization and deserialization
      * of the JSON object to the Java object in mapping the fields.  If a field
@@ -30,13 +34,15 @@ public class Product {
      */
     public Product(@JsonProperty("id") int id, @JsonProperty("name") String name,
     @JsonProperty("info") String info, @JsonProperty("price") int price,
-    @JsonProperty("quantity") int quantity, @JsonProperty("imgSource") String imgSource ){
+    @JsonProperty("quantity") int quantity, @JsonProperty("imgSource") String imgSource,
+    @JsonProperty("reviews") Map<String,Integer> reviews ){
         this.id = id;
         this.name = name;
         this.info = info;
         this.price = price;
         this.quantity = quantity;
         this.imgSource = imgSource;
+        this.reviews = reviews;
     }
 
     /**
@@ -103,4 +109,19 @@ public class Product {
      * Gets the source of the product's image
      */
     public String getImgSource(){return this.imgSource;}
+
+    /**
+     * Gets the reviews for a product
+     */
+    public Map<String,Integer> getReviews(){
+        return this.reviews;
+    }
+
+    /**
+     * Modifies the reviews for a product
+     * @param newReviews New Map to represent reviews
+     */
+    public void setReviews(Map<String,Integer> newReviews){
+        this.reviews = newReviews;
+    }
 }
