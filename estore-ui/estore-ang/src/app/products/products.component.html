@@ -1,16 +1,22 @@
 
-<div *ngIf="currUser; else l" class="welcome_container">
-  <app-product-search></app-product-search>
-  <h2>Welcome, {{currUser.username}}</h2>
-    <div *ngIf="currUser?.isAdmin; else s">
-      <p>This user is an administrator.</p>
+<div *ngIf="currUser; else l">
+  <div class="product_taskbar">
+    <div class="search_container">
+      <app-product-search></app-product-search>
     </div>
-    <ng-template #s class="shopping_cart_container">
-      <button type="button" routerLink="/cart/{{currUser.id}}" [state]="{user: currUser}">Review Cart</button>
-    </ng-template>
-
-  <div class="logout_button_container">
-    <button type="button" routerLink="/login">Log Out</button>
+    <div class="e_else">
+      <div id="title">Welcome, {{currUser.username}}</div>
+      <div *ngIf="currUser?.isAdmin; else s" class="admin_notif"></div>
+      <ng-template #s>
+        <div class="shopping_cart_container">
+          <button type="button" routerLink="/cart/{{currUser.id}}"
+          [state]="{user: currUser}" id="cart">Review Cart</button>
+        </div>  
+      </ng-template>
+      <div class="button_container" id="but_2">
+        <button class="login_but" type="button" routerLink="/login">Logout</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -28,25 +34,24 @@
 
 <h2 class="title_bar">Our Products:</h2>
 <div *ngIf="currUser?.isAdmin; else e" class="admin_view">
-  <label for="new-product">Product name: </label>
-  <input id="new-product" #productName />
-  <label for="new-product">Product info: </label>
-  <input info="new-product" #productInfo />
-  <label for="new-product">Product price: </label>
-  <input price="new-product" #productPrice />
-  <label for="new-product">Product quantity: </label>
-  <input quan="new-product" #productQuantity />
+  <div class="new_product_con">
+    <input id="prod_info" #productName placeholder="product name"/>
+    <input id="prod_info" #productInfo placeholder="product info"/>
+    <input id="prod_price" #productPrice placeholder="product price"/>
+    <input id="prod_quan" #productQuantity placeholder="product quantity"/>
+    
   
 
   <!-- (click) passes input value to add() and then clears the input -->
-  <button type="button" class="add-button" (click)="add(productName.value,productInfo.value,
-    productPrice.value,productQuantity.value); 
-    productName.value=''; 
-    productInfo.value='';
-    productPrice.value=''; 
-    productQuantity.value=''">
-    Add product
-  </button>
+    <button type="button" class="add-button" (click)="add(productName.value,productInfo.value,
+      productPrice.value,productQuantity.value); 
+      productName.value=''; 
+      productInfo.value='';
+      productPrice.value=''; 
+      productQuantity.value=''">
+      Add product
+    </button>
+  </div>
 
 <div class="products">
   <ng-container *ngFor="let product of products">
@@ -55,8 +60,12 @@
        <div class="product_display">{{product.name}} </div>
       </div> 
     </a>
-    <button type="button" class="delete" title="delete product"
-      (click)="delete(product)">x</button>
+    <button type="button" class="delete" title="delete product" id="delete_but"
+      (click)="delete(product)">
+      delete 
+      <br>
+      {{product.name}}
+    </button>
   </ng-container>
 </div>
 </div>

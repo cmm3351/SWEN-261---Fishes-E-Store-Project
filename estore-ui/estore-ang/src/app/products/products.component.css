@@ -47,7 +47,7 @@ a:active {
     cursor: pointer;
 }
 
-.login_but:hover {
+.login_but:hover, #cart:hover {
     transform: scale(1.2) translate(-.4rem, -.4rem);
     background-color: #d4d3d2;
 }
@@ -95,4 +95,98 @@ a:active {
     padding-left: 20px;
     padding-top: 3px;
     padding-bottom: 3px;
+}
+
+#but_2 {
+    left: 0%;
+
+}
+
+#title {
+    color: #f7f7f9;
+    background-color: #e86a92;
+    font-size: 2rem;
+    font-weight: 600;
+    left: 50%;
+    padding-top: 15px;
+    padding-right: 25px;
+}
+
+.e_else {
+    display: flex;
+    justify-content: end;
+    background-color: #e86a92;
+    width: 88%;
+}
+
+.shopping_cart_container {
+    background-color:#e86a92;
+    padding-top: 20px;
+    padding-right: 25px;
+}
+
+#cart {
+    transition-duration: .5s;
+    height: 30px;
+    width: 110px;
+    border-radius: 45px;
+    border-width: 0px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+#delete_but {
+    width: fit-content;
+    min-width: 150px;
+    height: 100px;
+    margin-top: 100px;
+    cursor: pointer;
+    color: #2b2d42;
+    border-radius: 25px;
+    border-width: 2px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    background-image: linear-gradient(#2b2b2b 0 0);
+    background-size: 200% .08em;
+    background-position: 200% 100%;
+    background-repeat: no-repeat;
+    transition: background-size .3s, background-position .3s .3s;
+
+}
+
+#delete_but:hover {
+    transition: background-size .3s .3s, background-position .3s;
+    background-size: 200% 100%;
+    background-position: 100% 100%;
+    color: #f7f7f9;
+}
+
+.new_product_con {
+    background-color: #2b2d42;
+    padding-left: 20px;
+    padding-bottom: 10px;
+}
+
+#prod_name, #prod_info, #prod_price, #prod_quan {
+    background-color: #ffff;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.add-button {
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: .3s;
+    border-width: 2px;
+    border-color: #2b2d42;
+}
+
+.add-button:hover {
+    color: #ffff;
+    background-color: #2b2d42;
+    border-color: #f7f7f9;
 }
