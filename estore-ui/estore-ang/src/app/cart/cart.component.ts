@@ -17,6 +17,7 @@ export class CartComponent implements OnInit{
   cart: Product[] = [];
   checkoutMessage?: string;
   totalPrice: number = 0;
+  rewards: number = 0;
 
   constructor(private loginService: LoginService, private productService: ProductService, 
               private location: Location, private router: Router){}
@@ -39,6 +40,10 @@ export class CartComponent implements OnInit{
     }
     );
     this.cart = prodArr;
+
+    this.loginService.getRewardsPoints(this.currUser!).subscribe(
+      (points) => this.rewards = points
+    );
   }
 
   deleteFromCart(product: Product) {

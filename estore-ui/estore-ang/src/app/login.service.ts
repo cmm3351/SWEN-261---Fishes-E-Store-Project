@@ -109,6 +109,7 @@ export class LoginService {
 	}
 
 	checkout(user: User) {
+		this.isInCart.clear();
 		let url = this.usersUrl + '/cart/checkout/?uid=' + user.id;
 		return this.http.put<any>(url,this.httpOptions);
 	}
@@ -125,6 +126,10 @@ export class LoginService {
 
 	getUser() {
 		return this.user;
+	}
+
+	getRewardsPoints(user: User) {
+		return this.http.get<number>(this.usersUrl + '/rewards/?uid=' + user.id);
 	}
 
 	useRewardsPoints(user: User, cid: number) {
