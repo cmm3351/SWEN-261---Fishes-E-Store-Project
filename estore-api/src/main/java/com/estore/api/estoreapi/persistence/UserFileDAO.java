@@ -96,7 +96,7 @@ public class UserFileDAO implements UserDAO {
      * @throws IOException if save() function throws IOException
      */
     public User createUser(User user) throws IOException {
-        User newUser = new User(nextId(), user.getUsername(), user.getPassword(), user.getisAdmin(), new int[0]);
+        User newUser = new User(nextId(), user.getUsername(), user.getPassword(), user.getisAdmin(), new int[0],0);
 
         users.put(newUser.getId(), newUser);
         save();
@@ -108,7 +108,7 @@ public class UserFileDAO implements UserDAO {
      * @author Harbor Wolff hmw2331@rit.edu
      */
     public int addProductToCart(int id, User user) throws IOException{
-        User updateUser = new User(user.getId(), user.getUsername(), user.getPassword(), user.getisAdmin(), user.showCart());
+        User updateUser = new User(user.getId(), user.getUsername(), user.getPassword(), user.getisAdmin(), user.showCart(), user.getRewards());
         updateUser.addProductToCart(id);
         
         users.put(updateUser.getId(), updateUser);
@@ -122,7 +122,7 @@ public class UserFileDAO implements UserDAO {
      * @throws IOException
      */
     public int removeProductFromCart(int id, User user) throws IOException{
-        User updateUser = new User(user.getId(), user.getUsername(), user.getPassword(), user.getisAdmin(), user.showCart());
+        User updateUser = new User(user.getId(), user.getUsername(), user.getPassword(), user.getisAdmin(), user.showCart(), user.getRewards());
         updateUser.removeProductFromCart(id);
 
         users.put(updateUser.getId(), updateUser);
@@ -146,10 +146,34 @@ public class UserFileDAO implements UserDAO {
         int[] originalCart = user.showCart();
         for (int i = 0; i < originalCart.length; i++) {
             user.removeProductFromCart(originalCart[i]);
+            int newPoints = user.getRewards() + 1;
+            user.setRewards(newPoints);
         }
         users.put(user.getId(),user);
         save();
         return user.showCart();
+    }
+
+    /**
+     * {@inheritDoc}}
+     * @author Cristian Malone cmm3351@rit.edu
+     */
+    public int getRewardsPoints(User user) throws IOException {
+        return user.getRewards();
+    }
+
+    /**
+     * {@inheritDoc}}
+     * @author Cristian Malone cmm3351@rit.edu
+     */
+    public int useRewardsPoints(User user, int cid) throws IOException {
+        int[] originalCart = user.showCart();
+        user.removeProductFromCart(originalCart[cid]);
+        int rewards = user.getRewards();
+        user.setRewards(rewards-10);
+        users.put(user.getId(),user);
+        save();
+        return user.getRewards();
     }
 
     /**

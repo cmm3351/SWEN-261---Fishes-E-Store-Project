@@ -22,8 +22,8 @@ export class LoginService {
 	// local api url
 	private usersUrl = 'http://localhost:8080/users'
 
-	user?: User 
-
+	user?: User;
+	
 	// headers neaded for create account
 	headers = new HttpHeaders({'Content-Type':'application/json; charset=utf-8'});
 
@@ -46,8 +46,8 @@ export class LoginService {
 	 */
 	verifyLogin(username: String, password: String): Observable<User> {
 
-		 this.http.get<User>(this.usersUrl + '/?username=' + username 
-		+ '&password=' + password).subscribe((data) => this.user = data)
+		this.http.get<User>(this.usersUrl + '/?username=' + username 
+		+ '&password=' + password).subscribe( (data) => this.user = data);
 
 
 		return this.http.get<User>(this.usersUrl + '/?username=' + username 
@@ -109,6 +109,7 @@ export class LoginService {
 	}
 
 	checkout(user: User) {
+		this.isInCart.clear();
 		let url = this.usersUrl + '/cart/checkout/?uid=' + user.id;
 		return this.http.put<any>(url,this.httpOptions);
 	}
@@ -125,5 +126,15 @@ export class LoginService {
 
 	getUser() {
 		return this.user;
+	}
+
+	getRewardsPoints(user: User) {
+		return this.http.get<number>(this.usersUrl + '/rewards/?uid=' + user.id);
+	}
+
+	useRewardsPoints(user: User, cid: number) {
+		let url = this.usersUrl + '/cart/rewards/?uid=' + user.id + 
+			'&cid=' + cid;
+		return this.http.put<any>(url,this.httpOptions);
 	}
 }

@@ -157,7 +157,7 @@ public class UserController {
      * updates each product's quantity accordingly.
      * 
      * @param uid integer id of the current user
-     * @return 
+     * @return Empty integer representing an empty cart after checkout
      */
     @PutMapping("/cart/checkout") 
     public ResponseEntity<int[]> checkout(@RequestParam int uid){
@@ -174,6 +174,65 @@ public class UserController {
             }
             int[] emptyCart = userDao.checkout(user);
             return new ResponseEntity<>(emptyCart, HttpStatus.OK);
+        }catch (IOException e){
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    /**
+     * Returns the current rewards points of a user
+     * 
+     * @param uid integer id of the user
+     * @return integer representing current rewars points of a user
+     */
+    @GetMapping("/rewards/")
+    public ResponseEntity<Integer> getRewardsPoints(@RequestParam int uid) {
+        LOG.info("GET /rewards/?uid=" + uid);
+        try {
+            User user = userDao.findUserByID(uid);
+            if (user != null) {
+                int points = userDao.getRewardsPoints(user);
+                return new ResponseEntity<>(points, HttpStatus.OK);
+            }
+            else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }
+        catch (IOException e){
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    /**
+     * When the customer has 10 or more rewards points, 
+     * they can purchase an item for free in exchange
+     * for 10 rewards points
+     * 
+     * @param uid integer id of the current user
+     * @param cid integer index of the cart item to be purchased
+     * @return modified integer representing the user's rewards
+     */
+    @PutMapping("/cart/rewards") 
+    public ResponseEntity<Integer> useRewardsPoints(@RequestParam int uid, @RequestParam int cid){
+        LOG.info("GET /cart/rewards/?uid=" + uid + "&cid=" + cid);
+        try {
+            User user = userDao.findUserByID(uid);
+            int[] cart = userDao.showCart(user);
+            if (user.getRewards() >= 10) {
+                Product currProduct = productDao.getProduct(cart[cid]);
+                if (currProduct.getQuantity() != 0) {
+                    Product updatedProduct = new Product(currProduct.getId(), currProduct.getName(), currProduct.getInfo(), currProduct.getPrice(), currProduct.getQuantity() - 1, currProduct.getImgSource());
+                    productDao.updateProduct(updatedProduct);
+                }
+            int points = userDao.useRewardsPoints(user,cid);
+            return new ResponseEntity<>(points, HttpStatus.OK);
+            }
+            else {
+                return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+            }
         }catch (IOException e){
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

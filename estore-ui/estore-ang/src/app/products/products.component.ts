@@ -3,6 +3,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Product } from '../product';
 import { User } from '../user';
 import { ProductService } from '../product.service';
+import { LoginService } from '../login.service';
 
 @Component({
   selector: 'app-products',
@@ -17,11 +18,12 @@ export class ProductsComponent implements OnInit {
   imgSource? : String;
 
 
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService,
+              private loginService: LoginService) { }
 
   ngOnInit(): void {
     this.getProducts();
-    this.currUser = history.state.currUser;
+    this.currUser = this.loginService.getUser();
   }
 
 
