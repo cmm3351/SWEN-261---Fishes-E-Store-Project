@@ -205,13 +205,12 @@ public class UserControllerTest {
         when(userDAO.findUserByID(user.getId())).thenReturn(user);
         when(userDAO.showCart(user)).thenReturn(cart);
         when(productDao.getProduct(product.getId())).thenReturn(product);
-        when(userDAO.useRewardsPoints(user,0)).thenReturn(newCart);
+        when(userDAO.useRewardsPoints(user,0)).thenReturn(0);
 
-        ResponseEntity<int[]> response = userController.useRewardsPoints(user.getId(), 0);
+        ResponseEntity<Integer> response = userController.useRewardsPoints(user.getId(), 0);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(newCart, response.getBody());
-        assertEquals(0, user.getRewards());
+        assertEquals(0, response.getBody());
     }
 
     @Test
@@ -223,11 +222,12 @@ public class UserControllerTest {
         when(userDAO.findUserByID(user.getId())).thenReturn(user);
         when(userDAO.showCart(user)).thenReturn(cart);
         when(productDao.getProduct(product.getId())).thenReturn(product);
+        when(userDAO.useRewardsPoints(user,0)).thenReturn(9);
 
-        ResponseEntity<int[]> response = userController.useRewardsPoints(user.getId(), 0);
+        ResponseEntity<Integer> response = userController.useRewardsPoints(user.getId(), 0);
 
         assertEquals(HttpStatus.EXPECTATION_FAILED, response.getStatusCode());
-        assertEquals(cart, response.getBody());
-        assertEquals(9, user.getRewards());
+        assertEquals(null, response.getBody());
+        assertEquals(9,user.getRewards());
     }
 }

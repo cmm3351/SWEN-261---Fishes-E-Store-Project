@@ -1,14 +1,18 @@
 <h2>{{currUser?.username}}'s Cart</h2>
+<h3>Rewards Points: {{currUser?.rewards}}</h3>
 
 <div>
   <ul class="cart">
-      <li *ngFor="let product of cart">
+      <li *ngFor="let product of cart; let i=index">
           <span class="badge">{{product.id}}</span> {{product.name}}
-          <button type="button" (click)="deleteFromCart(product)">remove {{product.name}}</button>    
+          <button type="button" (click)="deleteFromCart(product)">remove {{product.name}}</button>
+          <span *ngIf="currUser!.rewards >= 10">
+            <button type="button" (click)="useRewardsPoints(i)">Use Rewards Points?</button> 
+          </span>   
       </li>
   </ul>
 
-  <div>Total Price: ${{totalPrice}}</div>
+  <h3>Total Price: ${{totalPrice}}</h3>
 
   <div>{{checkoutMessage}}</div>
 

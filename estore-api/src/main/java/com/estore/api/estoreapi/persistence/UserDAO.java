@@ -99,8 +99,8 @@ public interface UserDAO {
      * 
      * @param uid integer id of the current user
      * @param cid integer index of the cart item to be purchased
-     * @return modified integer array representing the user's cart
+     * @return modified integer representing the user's rewards points
      * @throws IOException
      */
-    int[] useRewardsPoints(User user, int cid) throws IOException;
+    int useRewardsPoints(User user, int cid) throws IOException;
 }

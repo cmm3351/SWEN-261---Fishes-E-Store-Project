@@ -1,10 +1,11 @@
-import { Component, OnInit, OnChanges, Input, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 
 import { User } from '../user';
 import { Product } from '../product';
 import { LoginService } from '../login.service';
 import { ProductService } from '../product.service';
 import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -17,7 +18,8 @@ export class CartComponent implements OnInit{
   checkoutMessage?: string;
   totalPrice: number = 0;
 
-  constructor(private loginService: LoginService, private productService: ProductService, private location: Location){}
+  constructor(private loginService: LoginService, private productService: ProductService, 
+              private location: Location, private router: Router){}
 
   ngOnInit(): void {
     this.currUser = history.state.user;
@@ -53,6 +55,16 @@ export class CartComponent implements OnInit{
     else {
       this.checkoutMessage = "No Fish Present in the Cart to Purchase!";
     }
+  }
+
+  /** TODO */
+  useRewardsPoints(cid: number) : void {
+    this.loginService.useRewardsPoints(this.currUser!,cid).subscribe(
+      (data) => {
+        location.reload();
+        this.checkoutMessage = "Thank You for Using Your Rewards!";
+      });
+
   }
 
   goBack(): void {

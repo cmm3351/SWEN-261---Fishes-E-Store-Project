@@ -117,4 +117,10 @@ export class LoginService {
 	setIsInCart(id: number, value: number) : void {
 		this.isInCart.set(id,value);
 	}
+
+	useRewardsPoints(user: User, cid: number) {
+		let url = this.usersUrl + '/cart/rewards/?uid=' + user.id + 
+			'&cid=' + cid;
+		return this.http.put<any>(url,this.httpOptions);
+	}
 }

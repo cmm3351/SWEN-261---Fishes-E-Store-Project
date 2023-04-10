@@ -14,5 +14,5 @@ export interface User {
     password: String;
     isAdmin: boolean;
     cart: []
-
+    rewards: number;
 }

@@ -146,6 +146,8 @@ public class UserFileDAO implements UserDAO {
         int[] originalCart = user.showCart();
         for (int i = 0; i < originalCart.length; i++) {
             user.removeProductFromCart(originalCart[i]);
+            int newPoints = user.getRewards() + 1;
+            user.setRewards(newPoints);
         }
         users.put(user.getId(),user);
         save();
@@ -156,12 +158,14 @@ public class UserFileDAO implements UserDAO {
      * {@inheritDoc}}
      * @author Cristian Malone cmm3351@rit.edu
      */
-    public int[] useRewardsPoints(User user, int cid) throws IOException {
+    public int useRewardsPoints(User user, int cid) throws IOException {
         int[] originalCart = user.showCart();
         user.removeProductFromCart(originalCart[cid]);
+        int rewards = user.getRewards();
+        user.setRewards(rewards-10);
         users.put(user.getId(),user);
         save();
-        return user.showCart();
+        return user.getRewards();
     }
 
     /**
