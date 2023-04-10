@@ -8,4 +8,5 @@ export interface Product {
     price: number;
     quantity: number;
     imgSource: String;
+    reviews: Map<String,Number>;
 }

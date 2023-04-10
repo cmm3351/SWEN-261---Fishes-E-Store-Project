@@ -42,8 +42,9 @@ export class ProductsComponent implements OnInit {
     }
     var price: number = +priceStr;
     var quantity: number = +quantityStr;
+    var reviews = new Map<String,Number>();
     if (!name) { return; }
-    this.productService.addProduct({ id,name,info,price,quantity,imgSource } as Product)
+    this.productService.addProduct({ id,name,info,price,quantity,imgSource,reviews} as Product)
       .subscribe(product => {
         this.products.push(product);
       });

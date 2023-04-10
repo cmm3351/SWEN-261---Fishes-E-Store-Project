@@ -43,9 +43,34 @@
                 <div class="quantity_container">
                     <label for="product-quantity">Product Quantity: {{product.quantity}}</label>
                 </div>
-                <div *ngIf="!currUser?.isAdmin">
+                <div *ngIf="currUser && !currUser?.isAdmin">
                     <button type="button" (click)="addToCart()">Add to Cart</button>
                 </div>
             </div>
         </ng-template>
+
+        <div class="reviews">
+            <h4>Reviews</h4>
+            <ng-container *ngFor="let review of reviews?.entries(); let i=index">
+                <span>{{review[0]}}: {{review[1]}}/5</span>
+                <span *ngIf="review[0] == this.currUser?.username">
+                    Edit?
+                    <button type="button" (click)="editReview(1)">1</button>
+                    <button type="button" (click)="editReview(2)">2</button>
+                    <button type="button" (click)="editReview(3)">3</button>
+                    <button type="button" (click)="editReview(4)">4</button>
+                    <button type="button" (click)="editReview(5)">5</button>
+                    <button type="button" (click)="deleteReview()">Delete?</button>
+                </span>
+            </ng-container>
+
+            <div *ngIf="currUser && !currUser?.isAdmin">
+                <label>Add Review</label>
+                <button type="button" (click)="editReview(1)">1</button>
+                <button type="button" (click)="editReview(2)">2</button>
+                <button type="button" (click)="editReview(3)">3</button>
+                <button type="button" (click)="editReview(4)">4</button>
+                <button type="button" (click)="editReview(5)">5</button>
+            </div>
+        </div>
 </div>

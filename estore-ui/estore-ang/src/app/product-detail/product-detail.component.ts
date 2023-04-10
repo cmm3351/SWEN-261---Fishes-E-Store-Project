@@ -20,6 +20,7 @@ export class ProductDetailComponent implements OnInit {
   errorMessage: string = "";
   isInCart?: number;
   imgSource? : String;
+  reviews?: Map<String,Number>;
 
   constructor(
     private route: ActivatedRoute,
@@ -37,7 +38,9 @@ export class ProductDetailComponent implements OnInit {
     }else{
       this.imgSource = this.product?.imgSource;
     }
-
+    this.productService.getReviews(this.product!).subscribe(
+      (data) => this.reviews = data
+    );
   }
 
   getProduct(): void {
@@ -64,6 +67,30 @@ export class ProductDetailComponent implements OnInit {
     }
     else {
       this.errorMessage = "Maximum Capacity of this Product Reached in Cart"
+    }
+  }
+
+  addReview(rating: number) {
+    if (!this.reviews?.has(this.currUser!.username)) {
+      this.productService.addReview(this.currUser!,this.product!,rating).subscribe(
+        () => this.ngOnInit()
+      )
+    }
+  }
+
+  editReview(rating: number) {
+    if (this.reviews?.has(this.currUser!.username)) {
+      this.productService.editReview(this.currUser!,this.product!,rating).subscribe(
+        () => this.ngOnInit()
+      )
+    }
+  }
+
+  deleteReview() {
+    if (this.reviews?.has(this.currUser!.username)) {
+      this.productService.deleteReview(this.currUser!,this.product!).subscribe(
+        () => this.ngOnInit()
+      )
     }
   }
 
