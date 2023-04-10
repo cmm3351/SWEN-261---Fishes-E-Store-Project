@@ -69,6 +69,11 @@ a:active {
 }
 
 .product_display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    row-gap: 30px;
     background-color: #7d83ff;
     color:#f7f7f9;
     width: 300px;
