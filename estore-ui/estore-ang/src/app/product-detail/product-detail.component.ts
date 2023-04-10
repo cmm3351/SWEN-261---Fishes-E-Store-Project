@@ -38,9 +38,13 @@ export class ProductDetailComponent implements OnInit {
     }else{
       this.imgSource = this.product?.imgSource;
     }
-    this.productService.getReviews(this.product!).subscribe(
-      (data) => this.reviews = data
-    );
+    if (this.product != undefined) {
+      this.productService.getReviews(this.product!).subscribe(
+        (data) => {
+          this.reviews = data
+          console.log(this.reviews)
+        });
+    }
   }
 
   getProduct(): void {
@@ -79,7 +83,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   editReview(rating: number) {
-    if (this.reviews?.has(this.currUser!.username)) {
+    if (this.reviews != undefined && this.reviews.has(this.currUser!.username)) {
       this.productService.editReview(this.currUser!,this.product!,rating).subscribe(
         () => this.ngOnInit()
       )
@@ -87,7 +91,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   deleteReview() {
-    if (this.reviews?.has(this.currUser!.username)) {
+    if (this.reviews != undefined && this.reviews.has(this.currUser!.username)) {
       this.productService.deleteReview(this.currUser!,this.product!).subscribe(
         () => this.ngOnInit()
       )

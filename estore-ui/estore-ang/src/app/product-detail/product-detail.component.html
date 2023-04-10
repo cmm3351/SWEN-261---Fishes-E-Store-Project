@@ -54,9 +54,9 @@
 
         <div class="reviews">
             <h4>Reviews</h4>
-            <ng-container *ngFor="let review of reviews?.entries(); let i=index">
-                <span>{{review[0]}}: {{review[1]}}/5</span>
-                <span *ngIf="review[0] == this.currUser?.username">
+            <ng-container *ngFor="let review of reviews | keyvalue">
+                <div>{{review.key}}: {{review.value}}</div>
+                <span *ngIf="review.key === this.currUser?.username">
                     Edit?
                     <button type="button" (click)="editReview(1)">1</button>
                     <button type="button" (click)="editReview(2)">2</button>
@@ -69,11 +69,11 @@
 
             <div *ngIf="currUser && !currUser?.isAdmin">
                 <label>Add Review</label>
-                <button type="button" (click)="editReview(1)">1</button>
-                <button type="button" (click)="editReview(2)">2</button>
-                <button type="button" (click)="editReview(3)">3</button>
-                <button type="button" (click)="editReview(4)">4</button>
-                <button type="button" (click)="editReview(5)">5</button>
+                <button type="button" (click)="addReview(1)">1</button>
+                <button type="button" (click)="addReview(2)">2</button>
+                <button type="button" (click)="addReview(3)">3</button>
+                <button type="button" (click)="addReview(4)">4</button>
+                <button type="button" (click)="addReview(5)">5</button>
             </div>
         </div>
 </div>
