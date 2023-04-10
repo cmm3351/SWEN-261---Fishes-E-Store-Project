@@ -1,21 +1,24 @@
-<h2>{{currUser?.username}}'s Cart</h2>
-<h3>Rewards Points: {{rewards}}</h3>
-
-<div>
-  <ul class="cart">
-      <li *ngFor="let product of cart; let i=index">
-          <span class="badge">{{product.id}}</span> {{product.name}}
-          <button type="button" (click)="deleteFromCart(product)">remove {{product.name}}</button>
-          <span *ngIf="rewards >= 10">
-            <button type="button" (click)="useRewardsPoints(i)">Use Rewards Points?</button> 
-          </span>   
-      </li>
-  </ul>
-
-  <h3>Total Price: ${{totalPrice}}</h3>
-
-  <div>{{checkoutMessage}}</div>
-
-  <button type="button" (click)="checkout()">Checkout</button>
-  <button type="button" (click)="goBack()">go back</button>
+<div class="component_container">
+  <div class="title">
+    {{currUser?.username}}'s cart
+    <br> 
+    Rewards Points: {{rewards}}
+  </div>
+  <div class="cart_container">
+    <ul class="cart">
+        <div *ngFor="let product of cart" class="item_container">
+            {{product.name}}
+              <button type="button" (click)="deleteFromCart(product)">
+              remove {{product.name}}</button>      
+        </div>
+    </ul>
+  
+    <div class="price">Total Price: ${{totalPrice}}</div>
+  
+    <div>{{checkoutMessage}}</div>
+  
+    <button type="button" (click)="checkout()">Checkout</button>
+    <button type="button" (click)="goBack()">go back</button>
+  </div>
+  
 </div>
