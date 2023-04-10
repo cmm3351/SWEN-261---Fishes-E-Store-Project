@@ -42,7 +42,7 @@ public class ProductControllerTest {
     @Test
     public void testGetProduct() throws IOException{
         //Setup
-        Product product = new Product(0, "Catfish", "Fish that looks like a cat", 99, 1);
+        Product product = new Product(0, "Catfish", "Fish that looks like a cat", 99, 1,null);
         when(mockProductDAO.getProduct(product.getId())).thenReturn(product);
 
         ResponseEntity<Product> response = productController.getProduct(product.getId());
@@ -76,7 +76,7 @@ public class ProductControllerTest {
      @Test
      public void testCreateProduct() throws IOException {
          // Setup
-         Product product = new Product(0, "Catfish", "Fish that looks like a cat", 99, 14);
+         Product product = new Product(0, "Catfish", "Fish that looks like a cat", 99, 14, null);
         
          when(mockProductDAO.createProduct(product)).thenReturn(product);
  
@@ -91,7 +91,7 @@ public class ProductControllerTest {
      @Test
      public void testCreateProductHandleException() throws IOException { 
          // Setup
-         Product product = new Product(0, "Catfish", "Fish that looks like a cat", 99, 40);
+         Product product = new Product(0, "Catfish", "Fish that looks like a cat", 99, 40, null);
  
          // When createProduct is called on the Mock Product DAO, throw an IOException
          doThrow(new IOException()).when(mockProductDAO).createProduct(product);
@@ -106,7 +106,7 @@ public class ProductControllerTest {
      @Test
      public void testUpdateProduct() throws IOException {
          // Setup
-         Product product = new Product(0, "Catfish", "Fish that looks like a cat", 99, 30);
+         Product product = new Product(0, "Catfish", "Fish that looks like a cat", 99, 30, null);
          
          // update and save
          when(mockProductDAO.updateProduct(product)).thenReturn(product);
@@ -124,7 +124,7 @@ public class ProductControllerTest {
      @Test
      public void testUpdateProductFailed() throws IOException {
          // Setup
-         Product product = new Product(0, "Catfish", "Fish that looks like a cat", 99, 1);
+         Product product = new Product(0, "Catfish", "Fish that looks like a cat", 99, 1, null);
          
          // update and save
          when(mockProductDAO.updateProduct(product)).thenReturn(null);
@@ -139,7 +139,7 @@ public class ProductControllerTest {
      @Test
      public void testUpdateProductHandleException() throws IOException { 
          // Setup
-         Product product = new Product(0, "Catfish", "Fish that looks like a cat", 99, 10);
+         Product product = new Product(0, "Catfish", "Fish that looks like a cat", 99, 10, null);
          // When updateProduct is called on the Mock Product DAO, throw an IOException
          doThrow(new IOException()).when(mockProductDAO).updateProduct(product);
  
@@ -154,8 +154,8 @@ public class ProductControllerTest {
      public void testGetProducts() throws IOException {
          // Setup
          Product[] products = new Product[2];
-         products[0] = new Product(0, "Catfish", "Fish that looks like a cat", 99, 20);
-         products[1] = new Product(100, "Dogfish", "Fish that doesn't look like a dog", 99, 11);
+         products[0] = new Product(0, "Catfish", "Fish that looks like a cat", 99, 20, null);
+         products[1] = new Product(100, "Dogfish", "Fish that doesn't look like a dog", 99, 11, null);
          // When getProducts is called return the products created above
          when(mockProductDAO.getProducts()).thenReturn(products);
  
@@ -185,8 +185,8 @@ public class ProductControllerTest {
          // Setup
          String searchString = "la";
          Product[] products = new Product[2];
-         products[0] = new Product(0, "Catfish", "Fish that looks like a cat", 99, 30);
-         products[1] = new Product(100, "Dogfish", "Fish that doesn't look like a dog", 99, 30);
+         products[0] = new Product(0, "Catfish", "Fish that looks like a cat", 99, 30, null);
+         products[1] = new Product(100, "Dogfish", "Fish that doesn't look like a dog", 99, 30, null);
          // When findProducts is called with the search string, return the two
          /// products above
          when(mockProductDAO.findProducts(searchString)).thenReturn(products);
