@@ -2,6 +2,7 @@
     <div class="navbar">
         <button type="button" (click)="goBack()" class="go_back">go back</button>
         <h2 class="title">{{product.name}} Details</h2>
+        <img src={{product.imgSource}} width="300" height="300"/>
     </div>
         <div *ngIf="isAdmin; else e">
             <div class="product_container">

@@ -7,4 +7,5 @@ export interface Product {
     info: string;
     price: number;
     quantity: number;
+    imgSource: String;
 }
