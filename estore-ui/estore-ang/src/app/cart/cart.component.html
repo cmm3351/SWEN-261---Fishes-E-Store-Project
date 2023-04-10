@@ -6,16 +6,14 @@
   </div>
   <div class="cart_container">
     <ul class="cart">
-        <li *ngFor="let product of cart">
+        <div *ngFor="let product of cart" class="item_container">
             {{product.name}}
-            <div class="login_but">
               <button type="button" (click)="deleteFromCart(product)">
-              remove {{product.name}}</button> 
-            </div>     
-        </li>
+              remove {{product.name}}</button>      
+        </div>
     </ul>
   
-    <div>Total Price: ${{totalPrice}}</div>
+    <div class="price">Total Price: ${{totalPrice}}</div>
   
     <div>{{checkoutMessage}}</div>
   
