@@ -6,9 +6,12 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+import java.util.*;
 
 import com.estore.api.estoreapi.model.Product;
+import com.estore.api.estoreapi.model.User;
 import com.estore.api.estoreapi.persistence.ProductDAO;
+import com.estore.api.estoreapi.persistence.UserDAO;
 
 import org.apache.tomcat.jni.Proc;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,31 +31,33 @@ import org.springframework.http.ResponseEntity;
 public class ProductControllerTest {
     private ProductController productController;
     private ProductDAO mockProductDAO;
+    private UserDAO mockUserDAO;
 
-    /**
-     * Before each test, create a new ProductController object and inject
-     * a mock Product DAO
-     */
-    @BeforeEach
-    public void setUpProductController() {
+     /**
+      * Before each test, create a new ProductController object and inject
+      * a mock Product DAO
+      */
+     @BeforeEach
+     public void setUpProductController() {
         mockProductDAO = mock(ProductDAO.class);
-        productController = new ProductController(mockProductDAO);
-    }
+        mockUserDAO = mock(UserDAO.class);
+        productController = new ProductController(mockProductDAO,mockUserDAO);
+     }
 
-    @Test
-    public void testGetProduct() throws IOException{
+     @Test
+     public void testGetProduct() throws IOException{
         //Setup
-        Product product = new Product(0, "Catfish", "Fish that looks like a cat", 99, 1,null);
+        Product product = new Product(0, "Catfish", "Fish that looks like a cat", 99, 1,null, null);
         when(mockProductDAO.getProduct(product.getId())).thenReturn(product);
 
         ResponseEntity<Product> response = productController.getProduct(product.getId());
 
         assertEquals(HttpStatus.OK,response.getStatusCode());
         assertEquals(product,response.getBody());
-    }
+     }
 
-    @Test
-    public void testGetProductNotFound() throws IOException{
+     @Test
+     public void testGetProductNotFound() throws IOException{
         int productId = 99;
 
         when(mockProductDAO.getProduct(productId)).thenReturn(null);
@@ -60,10 +65,10 @@ public class ProductControllerTest {
         ResponseEntity<Product> response = productController.getProduct(productId);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    }
+     }
 
-    @Test
-    public void testGetProductHandledException() throws Exception{
+     @Test
+     public void testGetProductHandledException() throws Exception{
         int productId = 99;
 
         doThrow(new IOException()).when(mockProductDAO).getProduct(productId);
@@ -71,12 +76,12 @@ public class ProductControllerTest {
         ResponseEntity<Product> response = productController.getProduct(productId);
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,response.getStatusCode());
-    }
+     }
 
      @Test
      public void testCreateProduct() throws IOException {
          // Setup
-         Product product = new Product(0, "Catfish", "Fish that looks like a cat", 99, 14, null);
+         Product product = new Product(0, "Catfish", "Fish that looks like a cat", 99, 14, null,null);
         
          when(mockProductDAO.createProduct(product)).thenReturn(product);
  
@@ -91,7 +96,7 @@ public class ProductControllerTest {
      @Test
      public void testCreateProductHandleException() throws IOException { 
          // Setup
-         Product product = new Product(0, "Catfish", "Fish that looks like a cat", 99, 40, null);
+         Product product = new Product(0, "Catfish", "Fish that looks like a cat", 99, 40, null,null);
  
          // When createProduct is called on the Mock Product DAO, throw an IOException
          doThrow(new IOException()).when(mockProductDAO).createProduct(product);
@@ -106,7 +111,7 @@ public class ProductControllerTest {
      @Test
      public void testUpdateProduct() throws IOException {
          // Setup
-         Product product = new Product(0, "Catfish", "Fish that looks like a cat", 99, 30, null);
+         Product product = new Product(0, "Catfish", "Fish that looks like a cat", 99, 30, null, null);
          
          // update and save
          when(mockProductDAO.updateProduct(product)).thenReturn(product);
@@ -124,7 +129,7 @@ public class ProductControllerTest {
      @Test
      public void testUpdateProductFailed() throws IOException {
          // Setup
-         Product product = new Product(0, "Catfish", "Fish that looks like a cat", 99, 1, null);
+         Product product = new Product(0, "Catfish", "Fish that looks like a cat", 99, 1, null, null);
          
          // update and save
          when(mockProductDAO.updateProduct(product)).thenReturn(null);
@@ -139,7 +144,7 @@ public class ProductControllerTest {
      @Test
      public void testUpdateProductHandleException() throws IOException { 
          // Setup
-         Product product = new Product(0, "Catfish", "Fish that looks like a cat", 99, 10, null);
+         Product product = new Product(0, "Catfish", "Fish that looks like a cat", 99, 10, null, null);
          // When updateProduct is called on the Mock Product DAO, throw an IOException
          doThrow(new IOException()).when(mockProductDAO).updateProduct(product);
  
@@ -154,8 +159,8 @@ public class ProductControllerTest {
      public void testGetProducts() throws IOException {
          // Setup
          Product[] products = new Product[2];
-         products[0] = new Product(0, "Catfish", "Fish that looks like a cat", 99, 20, null);
-         products[1] = new Product(100, "Dogfish", "Fish that doesn't look like a dog", 99, 11, null);
+         products[0] = new Product(0, "Catfish", "Fish that looks like a cat", 99, 20, null, null);
+         products[1] = new Product(100, "Dogfish", "Fish that doesn't look like a dog", 99, 11, null, null);
          // When getProducts is called return the products created above
          when(mockProductDAO.getProducts()).thenReturn(products);
  
@@ -185,8 +190,8 @@ public class ProductControllerTest {
          // Setup
          String searchString = "la";
          Product[] products = new Product[2];
-         products[0] = new Product(0, "Catfish", "Fish that looks like a cat", 99, 30, null);
-         products[1] = new Product(100, "Dogfish", "Fish that doesn't look like a dog", 99, 30, null);
+         products[0] = new Product(0, "Catfish", "Fish that looks like a cat", 99, 30, null, null);
+         products[1] = new Product(100, "Dogfish", "Fish that doesn't look like a dog", 99, 30, null, null);
          // When findProducts is called with the search string, return the two
          /// products above
          when(mockProductDAO.findProducts(searchString)).thenReturn(products);
@@ -253,5 +258,110 @@ public class ProductControllerTest {
  
          // Analyze
          assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,response.getStatusCode());
+     }
+
+     @Test
+     public void testGetReviews() throws IOException {
+        Map<String,Integer> reviews = new HashMap<String,Integer>();
+        reviews.put("n/a",3);
+        reviews.put("him",4);
+        reviews.put("her",5);
+
+        User user = new User(999, "n/a", "doesn't matter", false, null,0);
+        Product product = new Product(99, "n/a", "doesn't matter", 100, 5, null, reviews);
+
+        when(mockUserDAO.findUserByID(user.getId())).thenReturn(user);
+        when(mockProductDAO.getProduct(product.getId())).thenReturn(product);
+        when(mockProductDAO.getReviews(product)).thenReturn(reviews);
+
+        ResponseEntity<Map<String,Integer>> response = productController.getReviews(product.getId());
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(reviews, response.getBody());
+        assertEquals(3, response.getBody().get("n/a"));
+     }
+
+     @Test
+     public void testCreateReview() throws IOException {
+        Map<String,Integer> reviews = new HashMap<String,Integer>();
+        reviews.put("n/a",3);
+        reviews.put("him",4);
+        reviews.put("her",5);
+
+        Map<String,Integer> newReviews = new HashMap<String,Integer>();
+        newReviews.put("n/a",3);
+        newReviews.put("him",4);
+        newReviews.put("her",5);
+        newReviews.put("test", 1);
+
+        User user = new User(998, "test", "doesn't matter", false, null,0);
+        Product product = new Product(99, "n/a", "doesn't matter", 100, 5, null, reviews);
+
+        when(mockUserDAO.findUserByID(user.getId())).thenReturn(user);
+        when(mockProductDAO.getProduct(product.getId())).thenReturn(product);
+        when(mockProductDAO.getReviews(product)).thenReturn(reviews);
+        when(mockProductDAO.createReview(user,product,1)).thenReturn(newReviews);
+        
+
+        ResponseEntity<Map<String,Integer>> response = productController.createReview(user.getId(),product.getId(),1);
+
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(newReviews, response.getBody());
+        assertEquals(1, response.getBody().get("test"));
+     }
+
+     @Test
+     public void testEditReview() throws IOException {
+        Map<String,Integer> reviews = new HashMap<String,Integer>();
+        reviews.put("n/a",3);
+        reviews.put("him",4);
+        reviews.put("her",5);
+
+        Map<String,Integer> newReviews = new HashMap<String,Integer>();
+        newReviews.put("n/a",2);
+        newReviews.put("him",4);
+        newReviews.put("her",5);
+
+        User user = new User(999, "n/a", "doesn't matter", false, null,0);
+        Product product = new Product(99, "n/a", "doesn't matter", 100, 5, null, reviews);
+
+        when(mockUserDAO.findUserByID(user.getId())).thenReturn(user);
+        when(mockProductDAO.getProduct(product.getId())).thenReturn(product);
+        when(mockProductDAO.getReviews(product)).thenReturn(reviews);
+        when(mockProductDAO.editReview(user,product,2)).thenReturn(newReviews);
+        
+
+        ResponseEntity<Map<String,Integer>> response = productController.editReview(user.getId(),product.getId(),2);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(newReviews, response.getBody());
+        assertEquals(2, response.getBody().get("n/a"));
+     }
+
+     @Test
+     public void testDeleteReview() throws IOException {
+        Map<String,Integer> reviews = new HashMap<String,Integer>();
+        reviews.put("n/a",3);
+        reviews.put("him",4);
+        reviews.put("her",5);
+
+        Map<String,Integer> newReviews = new HashMap<String,Integer>();
+        newReviews.put("him",4);
+        newReviews.put("her",5);
+
+        User user = new User(999, "n/a", "doesn't matter", false, null,0);
+        Product product = new Product(99, "n/a", "doesn't matter", 100, 5, null, reviews);
+
+        when(mockUserDAO.findUserByID(user.getId())).thenReturn(user);
+        when(mockProductDAO.getProduct(product.getId())).thenReturn(product);
+        when(mockProductDAO.getReviews(product)).thenReturn(reviews);
+        when(mockProductDAO.deleteReview(user,product)).thenReturn(newReviews);
+        
+
+        ResponseEntity<Map<String,Integer>> response = productController.deleteReview(user.getId(),product.getId());
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(newReviews, response.getBody());
+        assertEquals(null, response.getBody().get("n/a"));
      }
  }

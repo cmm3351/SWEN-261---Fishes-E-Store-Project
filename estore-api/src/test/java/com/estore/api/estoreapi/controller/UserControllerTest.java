@@ -181,7 +181,7 @@ public class UserControllerTest {
     public void testCheckout() throws IOException {
         int[] cart = {99,99,99};
         User user = new User(999, "n/a", "doesn't matter", false, cart,0);
-        Product product = new Product(99, "n/a", "doesn't matter", 100, 5, null);
+        Product product = new Product(99, "n/a", "doesn't matter", 100, 5, null, null);
         int[] emptyCart = null;
 
         when(userDAO.findUserByID(user.getId())).thenReturn(user);
@@ -213,7 +213,7 @@ public class UserControllerTest {
     public void testUseRewardsPoints() throws IOException {
         int[] cart = {99,98,98};
         User user = new User(999, "n/a", "doesn't matter", false, cart,10);
-        Product product = new Product(99, "n/a", "doesn't matter", 100, 5, null);
+        Product product = new Product(99, "n/a", "doesn't matter", 100, 5, null, null);
         int[] newCart = {98,98};
 
         when(userDAO.findUserByID(user.getId())).thenReturn(user);
@@ -231,7 +231,7 @@ public class UserControllerTest {
     public void testNotEnoughRewardsPoints() throws IOException {
         int[] cart = {99,98,98};
         User user = new User(999, "n/a", "doesn't matter", false, cart,9);
-        Product product = new Product(99, "n/a", "doesn't matter", 100, 5, null);
+        Product product = new Product(99, "n/a", "doesn't matter", 100, 5, null, null);
 
         when(userDAO.findUserByID(user.getId())).thenReturn(user);
         when(userDAO.showCart(user)).thenReturn(cart);
