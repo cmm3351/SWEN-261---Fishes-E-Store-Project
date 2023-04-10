@@ -14,6 +14,7 @@ export class ProductsComponent implements OnInit {
   products: Product[] = []; 
   isAdmin : boolean = false;
   currUser? : User;
+  imgSource? : String;
 
 
   constructor(private productService: ProductService) { }

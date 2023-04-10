@@ -30,9 +30,8 @@ export class ProductDetailComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.currUser = history.state.user;
+    this.currUser = this.loginService.getUser();
     this.getProduct();
-    this.isAdmin = history.state.isAdmin;
     if (this.product?.imgSource == ""){
       this.imgSource = "https://i.pinimg.com/originals/a4/9b/7e/a49b7ed6a8b8e96b29a38c69019bf6e3.png";
     }else{

@@ -4,7 +4,7 @@
         <h2 class="title">{{product.name}} Details</h2>
         <img src={{product.imgSource}} width="300" height="300"/>
     </div>
-        <div *ngIf="isAdmin; else e">
+        <div *ngIf="currUser?.isAdmin; else e">
             <div class="product_container">
                 <div class="name_container">
                     Product Name:
@@ -43,7 +43,7 @@
                 <div class="quantity_container">
                     <label for="product-quantity">Product Quantity: {{product.quantity}}</label>
                 </div>
-                <div *ngIf="currUser">
+                <div *ngIf="!currUser?.isAdmin">
                     <button type="button" (click)="addToCart()">Add to Cart</button>
                 </div>
             </div>

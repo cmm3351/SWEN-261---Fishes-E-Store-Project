@@ -59,7 +59,10 @@
   <ng-container *ngFor="let product of products">
     <a routerLink="/detail/{{product.id}}" [state]="{isAdmin: true}">
       <div class="product_container">
-       <div class="product_display">{{product.name}} </div>
+       <div class="product_display">
+        <img src={{product.imgSource}} height="100" width="100"/>
+        {{product.name}} 
+      </div>
       </div> 
     </a>
     <button type="button" class="delete" title="delete product" id="delete_but"
@@ -78,6 +81,7 @@
       <a routerLink="/detail/{{product.id}}" [state]="{isAdmin: true}">
         <div class="product_container">
          <div class="product_display">
+          <img src={{product.imgSource}} height="100" width="100"/>
             {{product.name}} 
           </div>
         </div> 
