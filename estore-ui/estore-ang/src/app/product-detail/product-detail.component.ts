@@ -20,7 +20,7 @@ export class ProductDetailComponent implements OnInit {
   errorMessage: string = "";
   isInCart?: number;
   imgSource? : String;
-  reviews: Map<String,Number> = new Map([]);
+  reviews: Map<String,Number> = new Map();
 
   constructor(
     private route: ActivatedRoute,
@@ -41,11 +41,12 @@ export class ProductDetailComponent implements OnInit {
     if (this.product != undefined) {
       this.productService.getReviews(this.product!).subscribe(
         (data) => {
-          this.reviews = data
-          console.log(this.reviews)
-        });
+          console.log(data);
+          this.reviews = new Map(Object.entries(data));
+      });
     }
   }
+  
 
   getProduct(): void {
     const id = parseInt(this.route.snapshot.paramMap.get('id')!);
@@ -77,12 +78,14 @@ export class ProductDetailComponent implements OnInit {
   addReview(rating: number) {
     if (!this.reviews?.has(this.currUser!.username)) {
       this.productService.addReview(this.currUser!,this.product!,rating).subscribe(
-        () => this.ngOnInit()
-      )
+        () => {this.ngOnInit();
+          console.log(this.reviews);
+        })
     }
   }
 
   editReview(rating: number) {
+    console.log(this.reviews);
     if (this.reviews != undefined && this.reviews.has(this.currUser!.username)) {
       this.productService.editReview(this.currUser!,this.product!,rating).subscribe(
         () => this.ngOnInit()

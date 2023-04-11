@@ -106,24 +106,24 @@ export class ProductService {
   }
 
   getReviews(product: Product) {
-    return this.http.get<any>(this.productsUrl + "/" + product.id +
+    return this.http.get<Map<String,Number>>(this.productsUrl + "/" + product.id +
                                "/reviews", this.httpOptions);
   }
 
   addReview(user: User, product: Product, rating: number) {
-    return this.http.post<any>(this.productsUrl + "/" + product.id +
+    return this.http.post<Map<String,Number>>(this.productsUrl + "/" + product.id +
                                "/reviews/?uid=" + user.id + "&rating=" + rating,
                                this.httpOptions);
   }
 
   editReview(user: User, product: Product, rating: number) {
-    return this.http.put<any>(this.productsUrl + "/" + product.id +
+    return this.http.put<Map<String,Number>>(this.productsUrl + "/" + product.id +
                                "/reviews/?uid=" + user.id + "&rating=" + rating,
                                this.httpOptions);
   }
 
   deleteReview(user: User, product: Product) {
-    return this.http.delete<any>(this.productsUrl + "/" + product.id +
+    return this.http.delete<Map<String,Number>>(this.productsUrl + "/" + product.id +
                                "/reviews/?uid=" + user.id,
                                this.httpOptions);
   }
