@@ -53,9 +53,9 @@
         </ng-template>
 
         <div class="reviews">
-            <div class="title">Reviews</div>
+            <h3 class="title">Reviews</h3>
             <ng-container *ngFor="let review of reviews | keyvalue">
-                <div class="single_review">{{review.key}}: {{review.value}}</div>
+                <div class="single_review">{{review.key}}: {{review.value}} / 5 </div>
                 <span *ngIf="review.key === this.currUser?.username" class="add_review">
                     Edit?
                     <button type="button" (click)="editReview(1)">1</button>

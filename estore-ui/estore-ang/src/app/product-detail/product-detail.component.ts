@@ -20,7 +20,7 @@ export class ProductDetailComponent implements OnInit {
   errorMessage: string = "";
   isInCart?: number;
   imgSource? : String;
-  reviews: Map<String,Number> = new Map();
+  reviews?: Map<String,Number>;
 
   constructor(
     private route: ActivatedRoute,
@@ -38,13 +38,13 @@ export class ProductDetailComponent implements OnInit {
     }else{
       this.imgSource = this.product?.imgSource;
     }
-    if (this.product != undefined) {
-      this.productService.getReviews(this.product!).subscribe(
-        (data) => {
-          console.log(data);
-          this.reviews = new Map(Object.entries(data));
-      });
-    }
+    // if (this.product != undefined) {
+      // this.productService.getReviews(this.product!).subscribe(
+      //   (data) => {
+      //     console.log(data);
+      //     this.reviews = new Map(Object.entries(data));
+      // });
+    // }
   }
   
 
@@ -52,7 +52,14 @@ export class ProductDetailComponent implements OnInit {
     const id = parseInt(this.route.snapshot.paramMap.get('id')!);
     if (!Number.isNaN(id)) {
     this.productService.getProduct(id)
-      .subscribe(product => this.product = product);
+      .subscribe((product) => {
+        this.product = product;
+        this.productService.getReviews(this.product!).subscribe(
+          (data) => {
+            console.log(data);
+            this.reviews = new Map(Object.entries(data));
+        });
+      });
     }
   }
 
