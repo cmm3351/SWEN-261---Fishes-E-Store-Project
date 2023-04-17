@@ -142,6 +142,7 @@ with the e-store application.
 ## Testing
 > _This section will provide information about the testing performed
 > and the results of the testing._
+
 TESTS WRITTEN:
 getProduct, createProduct, updateProduct, getProducts, searchProducts, deleteProduct
 getReview, createReview, editReview, deleteReview
@@ -158,6 +159,7 @@ All written tests have passed.
 > criteria tests failing, and the number of user stories that
 > have not had any testing yet. Highlight the issues found during
 > acceptance testing and if there are any concerns._
+
 All back-end user stories have been covered by unit tests, and all of them have passed.  
 Front-end user stories do not require unit testing.
 
