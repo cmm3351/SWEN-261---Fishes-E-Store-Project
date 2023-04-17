@@ -226,7 +226,17 @@ reviews as stars or other icons, or even add an option for user's to describe th
 
 ## Testing
 > _This section will provide information about the testing performed
-> and the results of the testing._
+> and the results of the testing.
+
+> TESTS WRITTEN:
+> getProduct, createProduct, updateProduct, getProducts, searchProducts, deleteProduct
+> getReview, createReview, editReview, deleteReview
+> findUser, createUser
+> addProductToCart, removeProductFromCart, showCart
+> checkout, getRewardsPoints, useRewardsPoints, notEnoughRewardsPoints
+> 
+> RESULTS:
+> All written tests have passed.
 
 ### Acceptance Testing
 > _Report on the number of user stories that have passed all their
@@ -234,6 +244,8 @@ reviews as stars or other icons, or even add an option for user's to describe th
 > criteria tests failing, and the number of user stories that
 > have not had any testing yet. Highlight the issues found during
 > acceptance testing and if there are any concerns._
+
+![Current Coverage](coverage)
 
 ### Unit Testing and Code Coverage
 > _Discuss your unit testing strategy. Report on the code coverage
