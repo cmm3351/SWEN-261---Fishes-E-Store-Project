@@ -139,7 +139,12 @@ Both the ViewModel and Model are built using Java and Spring Framework. Details 
 > of the design that you are describing.  For example, in e-store you might create a 
 > sequence diagram of a customer searching for an item and adding to their cart. 
 > Be sure to include an relevant HTTP reuqests from the client-side to the server-side 
-> to help illustrate the end-to-end flow._
+> to help illustrate the end-to-end flow.
+
+>Checking out
+![Checkout Sequence](seqCheckout.jpg)
+>Searching for an item
+![Search For an Item Sequence](seqSearchItem.jpg)
 
 
 ### ViewModel Tier
