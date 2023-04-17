@@ -92,6 +92,21 @@ public class ProductControllerTest {
          assertEquals(HttpStatus.CREATED,response.getStatusCode());
          assertEquals(product,response.getBody());
      }
+
+     @Test
+     public void testCreateProductAlreadyExists() throws IOException {
+         // Setup
+         Product product = new Product(0, "Catfish", "Fish that looks like a cat", 99, 14, null,null);
+        
+         when(mockProductDAO.getProduct(product.getId())).thenReturn(product);
+         when(mockProductDAO.createProduct(product)).thenReturn(product);
+ 
+         // Invoke
+         ResponseEntity<Product> response = productController.createProduct(product);
+ 
+         // Analyze
+         assertEquals(HttpStatus.CONFLICT,response.getStatusCode());
+     }
  
      @Test
      public void testCreateProductHandleException() throws IOException { 
@@ -336,7 +351,27 @@ public class ProductControllerTest {
      }
 
      @Test
-     public void testCreateReviewRatingInvalid() throws IOException {
+     public void testCreateReviewRatingTooLow() throws IOException {
+        Map<String,Integer> reviews = new HashMap<String,Integer>();
+        reviews.put("n/a",3);
+        reviews.put("him",4);
+        reviews.put("her",5);
+
+
+        User user = new User(998, "test", "doesn't matter", false, null,0);
+        Product product = new Product(99, "n/a", "doesn't matter", 100, 5, null, reviews);
+
+        when(mockUserDAO.findUserByID(user.getId())).thenReturn(user);
+        when(mockProductDAO.getProduct(product.getId())).thenReturn(product);
+        when(mockProductDAO.getReviews(product)).thenReturn(reviews);
+        
+        ResponseEntity<Map<String,Integer>> response = productController.createReview(user.getId(),product.getId(),-1);
+
+        assertEquals(HttpStatus.EXPECTATION_FAILED, response.getStatusCode());
+     }
+
+     @Test
+     public void testCreateReviewRatingTooHigh() throws IOException {
         Map<String,Integer> reviews = new HashMap<String,Integer>();
         reviews.put("n/a",3);
         reviews.put("him",4);
@@ -410,6 +445,21 @@ public class ProductControllerTest {
      }
 
      @Test
+     public void testCreateReviewProductAndUserNotFound() throws IOException {
+        Map<String,Integer> reviews = new HashMap<String,Integer>();
+        reviews.put("n/a",3);
+        reviews.put("him",4);
+        reviews.put("her",5);
+
+        int productId = 99;
+        int userId = 99;
+
+        ResponseEntity<Map<String,Integer>> response = productController.createReview(userId,productId,1);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+     }
+
+     @Test
      public void testCreateReviewHandledException() throws IOException {
         Map<String,Integer> reviews = new HashMap<String,Integer>();
         reviews.put("n/a",3);
@@ -459,7 +509,47 @@ public class ProductControllerTest {
      }
 
      @Test
-     public void testEditReviewRatingInvalid() throws IOException {
+     public void testEditReviewNotFound() throws IOException {
+        Map<String,Integer> reviews = new HashMap<String,Integer>();
+        reviews.put("n/a",3);
+        reviews.put("him",4);
+        reviews.put("her",5);
+
+        User user = new User(999, "test", "doesn't matter", false, null,0);
+        Product product = new Product(99, "n/a", "doesn't matter", 100, 5, null, reviews);
+
+        when(mockUserDAO.findUserByID(user.getId())).thenReturn(user);
+        when(mockProductDAO.getProduct(product.getId())).thenReturn(product);
+        when(mockProductDAO.getReviews(product)).thenReturn(reviews);
+        
+
+        ResponseEntity<Map<String,Integer>> response = productController.editReview(user.getId(),product.getId(),2);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+     }
+
+     @Test
+     public void testEditReviewTooLow() throws IOException {
+        Map<String,Integer> reviews = new HashMap<String,Integer>();
+        reviews.put("n/a",3);
+        reviews.put("him",4);
+        reviews.put("her",5);
+
+
+        User user = new User(998, "him", "doesn't matter", false, null,0);
+        Product product = new Product(99, "n/a", "doesn't matter", 100, 5, null, reviews);
+
+        when(mockUserDAO.findUserByID(user.getId())).thenReturn(user);
+        when(mockProductDAO.getProduct(product.getId())).thenReturn(product);
+        when(mockProductDAO.getReviews(product)).thenReturn(reviews);
+        
+        ResponseEntity<Map<String,Integer>> response = productController.editReview(user.getId(),product.getId(),-1);
+
+        assertEquals(HttpStatus.EXPECTATION_FAILED, response.getStatusCode());
+     }
+
+     @Test
+     public void testEditReviewTooHigh() throws IOException {
         Map<String,Integer> reviews = new HashMap<String,Integer>();
         reviews.put("n/a",3);
         reviews.put("him",4);
@@ -514,6 +604,21 @@ public class ProductControllerTest {
      }
 
      @Test
+     public void testEditReviewProductAndUserNotFound() throws IOException {
+        Map<String,Integer> reviews = new HashMap<String,Integer>();
+        reviews.put("n/a",3);
+        reviews.put("him",4);
+        reviews.put("her",5);
+
+        int productId = 99;
+        int userId = 99;
+
+        ResponseEntity<Map<String,Integer>> response = productController.editReview(userId,productId,1);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+     }
+
+     @Test
      public void testEditReviewHandledException() throws IOException {
         Map<String,Integer> reviews = new HashMap<String,Integer>();
         reviews.put("n/a",3);
@@ -562,6 +667,25 @@ public class ProductControllerTest {
      }
 
      @Test
+     public void testDeleteReviewNotFound() throws IOException {
+        Map<String,Integer> reviews = new HashMap<String,Integer>();
+        reviews.put("n/a",3);
+        reviews.put("him",4);
+        reviews.put("her",5);
+
+        User user = new User(999, "test", "doesn't matter", false, null,0);
+        Product product = new Product(99, "n/a", "doesn't matter", 100, 5, null, reviews);
+
+        when(mockUserDAO.findUserByID(user.getId())).thenReturn(user);
+        when(mockProductDAO.getProduct(product.getId())).thenReturn(product);
+        when(mockProductDAO.getReviews(product)).thenReturn(reviews);        
+
+        ResponseEntity<Map<String,Integer>> response = productController.deleteReview(user.getId(),product.getId());
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+     }
+
+     @Test
      public void testDeleteReviewProductNotFound() throws IOException {
         Map<String,Integer> reviews = new HashMap<String,Integer>();
         reviews.put("n/a",3);
@@ -592,6 +716,21 @@ public class ProductControllerTest {
         when(mockProductDAO.getProduct(product.getId())).thenReturn(product);
 
         ResponseEntity<Map<String,Integer>> response = productController.deleteReview(userId,product.getId());
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+     }
+
+     @Test
+     public void testDeleteReviewProductAndUserNotFound() throws IOException {
+        Map<String,Integer> reviews = new HashMap<String,Integer>();
+        reviews.put("n/a",3);
+        reviews.put("him",4);
+        reviews.put("her",5);
+
+        int productId = 99;
+        int userId = 99;
+
+        ResponseEntity<Map<String,Integer>> response = productController.deleteReview(userId,productId);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
      }
