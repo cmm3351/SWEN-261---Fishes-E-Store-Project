@@ -143,13 +143,19 @@ Both the ViewModel and Model are built using Java and Spring Framework. Details 
 
 
 ### ViewModel Tier
-> _Provide a summary of this tier of your architecture. This
-> section will follow the same instructions that are given for the View
-> Tier above._
+Our ViewModel Tier consists of four files, two in the API and two in the Angular UI. In the API,
+the ProductController.Java and UserController.Java files consist of functions that correspond
+to every possible user interaction. When an interaction occurs, a function in the controller first
+checks to see if that interaction was valid. If so, the function will call the corresponding
+function in the persistance files to actually modify or retireve data, and return an HTTPStatus
+of OK. Otherwise, the function will return an HTTPStatus that corresponds to that specifc error
+with the request and notify the user of it.
 
-> _At appropriate places as part of this narrative provide one or more
-> static models (UML class diagrams) with some details such as critical attributes and methods._
-
+In the UI, the ProductService and LoginService are responsibel for connecting the API to the 
+user interface. When users interact with the website through the UI, each service contains the
+URI to Controller mappings, and use them to call the specific HTTP controller functions that
+correspond the user's action. This way, both the website UI and JSON information will update
+at the same time.
 
 ### Model Tier
 This tier of the design contains six Java files on the API side of the program's operation. Two 
