@@ -104,19 +104,35 @@ Both the ViewModel and Model are built using Java and Spring Framework. Details 
 ### Overview of User Interface
 
 > The user iterface contains 5 pages.
+
 > The home page contains a login button, the inventory.
+
 > The item detail page contains the item, user reviews, and a 'add to cart' button
+
 > The cart page contains the items that the user has added to the cart, the rewards points the user has and a 'checkout' button.
+
 > The login pager and the create account pages both contain fields for the users to enter in information. Such as username and password.
 
-## Note for the admin these pages may look different.
+### Note for the admin these pages may look different.
+> Item Detail page
+![Item detail](item_detail.png)
 
+> Checkout page
+![Checkout page](checkout.png)
+
+> Login page
+![Login page](login.png)
+
+> Inventory page
+![Inventory page](inventory.png)
 
 ### View Tier
 > Our view tier follows a SPA architecture, using the best pratices perscribed by angular.
 
 > For example we use app-routing to choose what components to display
+
 > We store all 'logic' functions, and anything that deals with the api in services (see: product.service, login.service)
+
 > Components store the data that they display, and call upon services for any data that needs external tools. 
 
 > _You must also provide sequence diagrams as is relevant to a particular aspects 
