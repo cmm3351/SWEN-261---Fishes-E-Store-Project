@@ -229,39 +229,6 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
-     /**
-     * Responds to the GET request for a single product review for the given id
-     * 
-     * @param pid The id used to locate the {@link Product product}
-     * @param uid THe id of the user whose review will be returned
-     * 
-     * @return ResponseEntity with integer review and HTTP status of OK if found<br>
-     * ResponseEntity with HTTP status of NOT_FOUND if not found<br>
-     * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
-     * 
-     * @author Cristian Malone
-     */
-    // @GetMapping("/{id}/reviews")
-    // public ResponseEntity<Integer> getReview(@PathVariable int pid, @PathVariable int uid) {
-    //     LOG.info("GET /products/" + pid + "/reviews/?uid=");
-    //     try {
-    //         User user = userDao.findUserByID(uid);
-    //         Product product = productDao.getProduct(pid);
-    //         if (user != null && product != null) {
-    //             Map<String,Integer> reviews = productDao.getReviews();
-    //             if (reviews.containsKey(user.getUsername())) {
-    //                 int rating = reviews.get(user.getUsername());
-    //                 return new ResponseEntity<Integer>(rating,HttpStatus.OK);
-    //             }
-    //         }
-    //         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    //     }
-    //     catch(IOException e) {
-    //         LOG.log(Level.SEVERE,e.getLocalizedMessage());
-    //         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    //     }
-    // }
 
     /**
      * Creates a product review with the provided review information 
