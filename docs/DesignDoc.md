@@ -243,13 +243,19 @@ All written tests have passed.
 > acceptance criteria tests, the number that have some acceptance
 > criteria tests failing, and the number of user stories that
 > have not had any testing yet. Highlight the issues found during
-> acceptance testing and if there are any concerns._
+> acceptance testing and if there are any concerns.
 
 ![Current Coverage](coverage.png)
+We presently need to review our unit tests in order to acheive >=90% coverage.
 
 ### Unit Testing and Code Coverage
 > _Discuss your unit testing strategy. Report on the code coverage
 > achieved from unit testing of the code base. Discuss the team's
 > coverage targets, why you selected those values, and how well your
 > code coverage met your targets. If there are any anomalies, discuss
-> those._
+> those.
+
+Our targets for testing are every single API call possible on the backend.  This is to ensure that the Client can reliably make HTTP
+requests during runtime without having to worry about unexpected or improper functionality.  Currently, our code coverage is adequate but unideal.  
+We are missing testing on a few trivial methods (such as setters within the controller classes), so we are currently focused on ensuring we have (nearly)
+complete coverage.
