@@ -40,22 +40,35 @@ In conclusion, our rare fish e-store offers customers an exciting and hassle-fre
 
 ## Requirements
 
-This section describes the features of the application.
+> The store owner should have complete control of the displayed inventory. 
+> This includes updating, adding, and deleting items from the inventory.
 
-> _In this section you do not need to be exhaustive and list every
-> story.  Focus on top-level features from the Vision document and
-> maybe Epics and critical Stories._
+> The users of the store should be displayed the inventory on a home page.
+> From this homepage the users should be able to view individual items in the
+> store with greater detail (reviews, extra info, etc.). The user also have the ability
+> to log in with a unique username and password
+
+> Once at the detailed item page, the user should have a functional shopping cart.
+> Where they can add, delete items from their cart.
+> The cart is persistant and will remain with the user throughout multiple sessions.
+
+> When a user clicks the cart icon, they will see the items in their cart,
+> and they will be given the option to checkout. 
+
 
 ### Definition of MVP
-> _A reward points system made for users.
+> Fully functional e-store application as mentioned in the section above.
+> A reward points system made for users.
+> A review system below each item detail page
 
 ### MVP Features
-> * Calculating points for each product
-> * Integrating it into User and product backends
-> * Building working rewards points component in angular
+> Each fish bought from our store = 1 point
+> Upon a user having more than 10 points, they can receive 1 item for free.
+> Every user has the ability to leave a review under each item, and update it as they see fit.
 
 ### Roadmap of Enhancements
-> _Provide a list of top-level features in the order you plan to consider them._
+> Only allow users who purchase the item to review it
+> Allow reviews to contain more than just an integer 1-5. Contain a long string for the review.
 
 
 ## Application Domain
@@ -90,18 +103,21 @@ Both the ViewModel and Model are built using Java and Spring Framework. Details 
 
 ### Overview of User Interface
 
-This section describes the web interface flow; this is how the user views and interacts
-with the e-store application.
+> The user iterface contains 5 pages.
+> The home page contains a login button, the inventory.
+> The item detail page contains the item, user reviews, and a 'add to cart' button
+> The cart page contains the items that the user has added to the cart, the rewards points the user has and a 'checkout' button.
+> The login pager and the create account pages both contain fields for the users to enter in information. Such as username and password.
 
-> _Provide a summary of the application's user interface.  Describe, from
-> the user's perspective, the flow of the pages in the web application._
+## Note for the admin these pages may look different.
 
 
 ### View Tier
-> _Provide a summary of the View Tier UI of your architecture.
-> Describe the types of components in the tier and describe their
-> responsibilities.  This should be a narrative description, i.e. it has
-> a flow or "story line" that the reader can follow._
+> Our view tier follows a SPA architecture, using the best pratices perscribed by angular.
+
+> For example we use app-routing to choose what components to display
+> We store all 'logic' functions, and anything that deals with the api in services (see: product.service, login.service)
+> Components store the data that they display, and call upon services for any data that needs external tools. 
 
 > _You must also provide sequence diagrams as is relevant to a particular aspects 
 > of the design that you are describing.  For example, in e-store you might create a 
@@ -141,17 +157,7 @@ with the e-store application.
 
 ## Testing
 > _This section will provide information about the testing performed
-> and the results of the testing.
-
-TESTS WRITTEN:
-getProduct, createProduct, updateProduct, getProducts, searchProducts, deleteProduct
-getReview, createReview, editReview, deleteReview
-findUser, createUser
-addProductToCart, removeProductFromCart, showCart
-checkout, getRewardsPoints, useRewardsPoints, notEnoughRewardsPoints
-
-RESULTS:
-All written tests have passed.
+> and the results of the testing._
 
 ### Acceptance Testing
 > _Report on the number of user stories that have passed all their
@@ -159,9 +165,6 @@ All written tests have passed.
 > criteria tests failing, and the number of user stories that
 > have not had any testing yet. Highlight the issues found during
 > acceptance testing and if there are any concerns._
-
-All back-end user stories have been covered by unit tests, and all of them have passed.  
-Front-end user stories do not require unit testing.
 
 ### Unit Testing and Code Coverage
 > _Discuss your unit testing strategy. Report on the code coverage
