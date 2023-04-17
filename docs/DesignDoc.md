@@ -229,14 +229,14 @@ reviews as stars or other icons, or even add an option for user's to describe th
 > and the results of the testing.
 
 > TESTS WRITTEN:
-> getProduct, createProduct, updateProduct, getProducts, searchProducts, deleteProduct
-> getReview, createReview, editReview, deleteReview
-> findUser, createUser
-> addProductToCart, removeProductFromCart, showCart
-> checkout, getRewardsPoints, useRewardsPoints, notEnoughRewardsPoints
-> 
-> RESULTS:
-> All written tests have passed.
+ getProduct, createProduct, updateProduct, getProducts, searchProducts, deleteProduct
+ getReview, createReview, editReview, deleteReview
+ findUser, createUser
+ addProductToCart, removeProductFromCart, showCart
+ checkout, getRewardsPoints, useRewardsPoints, notEnoughRewardsPoints
+ 
+RESULTS:
+All written tests have passed.
 
 ### Acceptance Testing
 > _Report on the number of user stories that have passed all their
@@ -245,7 +245,7 @@ reviews as stars or other icons, or even add an option for user's to describe th
 > have not had any testing yet. Highlight the issues found during
 > acceptance testing and if there are any concerns._
 
-![Current Coverage](coverage)
+![Current Coverage](coverage.png)
 
 ### Unit Testing and Code Coverage
 > _Discuss your unit testing strategy. Report on the code coverage
