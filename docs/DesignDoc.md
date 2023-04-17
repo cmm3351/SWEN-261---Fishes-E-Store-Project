@@ -40,22 +40,35 @@ In conclusion, our rare fish e-store offers customers an exciting and hassle-fre
 
 ## Requirements
 
-This section describes the features of the application.
+> The store owner should have complete control of the displayed inventory. 
+> This includes updating, adding, and deleting items from the inventory.
 
-> _In this section you do not need to be exhaustive and list every
-> story.  Focus on top-level features from the Vision document and
-> maybe Epics and critical Stories._
+> The users of the store should be displayed the inventory on a home page.
+> From this homepage the users should be able to view individual items in the
+> store with greater detail (reviews, extra info, etc.). The user also have the ability
+> to log in with a unique username and password
+
+> Once at the detailed item page, the user should have a functional shopping cart.
+> Where they can add, delete items from their cart.
+> The cart is persistant and will remain with the user throughout multiple sessions.
+
+> When a user clicks the cart icon, they will see the items in their cart,
+> and they will be given the option to checkout. 
+
 
 ### Definition of MVP
-> _A reward points system made for users.
+> Fully functional e-store application as mentioned in the section above.
+> A reward points system made for users.
+> A review system below each item detail page
 
 ### MVP Features
-> * Calculating points for each product
-> * Integrating it into User and product backends
-> * Building working rewards points component in angular
+> Each fish bought from our store = 1 point
+> Upon a user having more than 10 points, they can receive 1 item for free.
+> Every user has the ability to leave a review under each item, and update it as they see fit.
 
 ### Roadmap of Enhancements
-> _Provide a list of top-level features in the order you plan to consider them._
+> Only allow users who purchase the item to review it
+> Allow reviews to contain more than just an integer 1-5. Contain a long string for the review.
 
 
 ## Application Domain
@@ -90,42 +103,89 @@ Both the ViewModel and Model are built using Java and Spring Framework. Details 
 
 ### Overview of User Interface
 
-This section describes the web interface flow; this is how the user views and interacts
-with the e-store application.
+> The user iterface contains 5 pages.
 
-> _Provide a summary of the application's user interface.  Describe, from
-> the user's perspective, the flow of the pages in the web application._
+> The home page contains a login button, the inventory.
 
+> The item detail page contains the item, user reviews, and a 'add to cart' button
+
+> The cart page contains the items that the user has added to the cart, the rewards points the user has and a 'checkout' button.
+
+> The login pager and the create account pages both contain fields for the users to enter in information. Such as username and password.
+
+### Note for the admin these pages may look different.
+> Item Detail page
+![Item detail](item_detail.png)
+
+> Checkout page
+![Checkout page](checkout.png)
+
+> Login page
+![Login page](login.png)
+
+> Inventory page
+![Inventory page](inventory.png)
 
 ### View Tier
-> _Provide a summary of the View Tier UI of your architecture.
-> Describe the types of components in the tier and describe their
-> responsibilities.  This should be a narrative description, i.e. it has
-> a flow or "story line" that the reader can follow._
+> Our view tier follows a SPA architecture, using the best pratices perscribed by angular.
+
+> For example we use app-routing to choose what components to display
+
+> We store all 'logic' functions, and anything that deals with the api in services (see: product.service, login.service)
+
+> Components store the data that they display, and call upon services for any data that needs external tools. 
 
 > _You must also provide sequence diagrams as is relevant to a particular aspects 
 > of the design that you are describing.  For example, in e-store you might create a 
 > sequence diagram of a customer searching for an item and adding to their cart. 
 > Be sure to include an relevant HTTP reuqests from the client-side to the server-side 
-> to help illustrate the end-to-end flow._
+> to help illustrate the end-to-end flow.
+
+>Checking out
+![Checkout Sequence](seqCheckout.jpg)
+>Searching for an item
+![Search For an Item Sequence](seqSearchItem.jpg)
 
 
 ### ViewModel Tier
-> _Provide a summary of this tier of your architecture. This
-> section will follow the same instructions that are given for the View
-> Tier above._
+Our ViewModel Tier consists of four files, two in the API and two in the Angular UI. In the API,
+the ProductController.Java and UserController.Java files consist of functions that correspond
+to every possible user interaction. When an interaction occurs, a function in the controller first
+checks to see if that interaction was valid. If so, the function will call the corresponding
+function in the persistance files to actually modify or retireve data, and return an HTTPStatus
+of OK. Otherwise, the function will return an HTTPStatus that corresponds to that specifc error
+with the request and notify the user of it.
 
-> _At appropriate places as part of this narrative provide one or more
-> static models (UML class diagrams) with some details such as critical attributes and methods._
-
+In the UI, the ProductService and LoginService are responsibel for connecting the API to the 
+user interface. When users interact with the website through the UI, each service contains the
+URI to Controller mappings, and use them to call the specific HTTP controller functions that
+correspond the user's action. This way, both the website UI and JSON information will update
+at the same time.
 
 ### Model Tier
-> _Provide a summary of this tier of your architecture. This
-> section will follow the same instructions that are given for the View
-> Tier above._
+This tier of the design contains six Java files on the API side of the program's operation. Two 
+files in the Model Tier, Product.Java and User.Java, directly retrieve and manipulate data from 
+Product and User objects. For Product.java, each Product object contains an Integer id, a String 
+name representing its name, a String info representing a description of the product, an Integer 
+price representing its price, an Integer quantity representing the product's quantity, a String 
+imgSource representing a link to the corresponding image for a product to be displayed, and a 
+Map<String,Integer> representing the reviews for that product. The rest of the program is filled 
+with various getters and setters for each attribute. For User.Java, each User object contains an
+Integer id, a String username representing the user's username, a String password representing the
+user's password, a Boolean isAdmin to indicate if the user has admin privileges, an Integer array
+holding the Product ids of products in the user's cart, and an Integer rewards representing the 
+user's current rewards points. Again, the rest of the program is filled with various getters and 
+setters for each attribute.
 
-> _At appropriate places as part of this narrative provide one or more
-> static models (UML class diagrams) with some details such as critical attributes and methods._
+The other four files deal with persistence. They call functions from the object classes to update 
+the contents of the JSON files, which contain Product and User object information currently 
+avaialble to the user. ProductDAO.java and UserDAO.Java are interfaces, while ProductFileDAO.java 
+and UserFileDAO.Java implement those intefaces to actually modify data. Corresponding functions 
+from the controller files call these functions whenever a user interacts with the website. Each 
+FileDAO contains a String filename referencing the corresponding JSON, and an array of either
+Product or User Objects representing the local instantiation of the current Products or User.
+Whenever a function call is made, it updates the locally instantiated array and saves its contents
+to the corresponding JSON file.
 
 ### Static Code Analysis/Design Improvements
 > _Discuss design improvements that you would make if the project were
@@ -134,6 +194,31 @@ with the e-store application.
 > addressed with design changes, and describe those suggested design
 > improvements._
 
+One design improvement that we would make to our code base if given more time would be to implement
+more unit tests. During our last Code analysis, our current coverage was only 77%. We have unit tests
+in place to check for the correct operation of every function in the API, and they all pass. However,
+for some of our features added in later Sprints, we did not have time to implement tests for other
+HTTP Status results or failures of functions. This is most likely where our lack of coverage comes
+from, and we would want to increase that coverage if possible.
+
+Another design improvement that we would make to our code base if given more time would be to implement
+more security and error handling in the API code. In the UI, we prevented elements or buttons from 
+displaying to users in scenarios where errors could occur. For example, A user cannot look at their cart 
+or add items to their cart without being logged in, because user that is not logged in does not have an 
+existing cart, so adding an item to a cart would result in an error. Therefore, the website does not 
+display those options to the user until they are logged in. However, if a user were to somehow bypass
+these conditional displays, they could cause these errors to occur and there may not be a way to recover
+from them. Most of the functions in the API have error piping, but some do not. Therefore, if more time
+was given to increase encryption on accessing website elements and implement more error piping, that 
+would definitely be ideal.
+
+A third design improvement that we would like to make to our code base if given more time is to improve 
+UI of the user review system. The button system for creating and editing reviews is very usable and
+aesthetically pleasing. However, the display of the reviews themselves is relatively bland, displaying
+only the user's name and their rating as a number out of five. If possible, we would make this display
+more clear and complimentary to the website's visuals. We could potentially represent the user's 
+reviews as stars or other icons, or even add an option for user's to describe their review in text.
+
 > _With the results from the Static Code Analysis exercise, 
 > discuss the resulting issues/metrics measurements along with your analysis
 > and recommendations for further improvements. Where relevant, include 
@@ -141,18 +226,36 @@ with the e-store application.
 
 ## Testing
 > _This section will provide information about the testing performed
-> and the results of the testing._
+> and the results of the testing.
+
+> TESTS WRITTEN:
+ getProduct, createProduct, updateProduct, getProducts, searchProducts, deleteProduct
+ getReview, createReview, editReview, deleteReview
+ findUser, createUser
+ addProductToCart, removeProductFromCart, showCart
+ checkout, getRewardsPoints, useRewardsPoints, notEnoughRewardsPoints
+ 
+RESULTS:
+All written tests have passed.
 
 ### Acceptance Testing
 > _Report on the number of user stories that have passed all their
 > acceptance criteria tests, the number that have some acceptance
 > criteria tests failing, and the number of user stories that
 > have not had any testing yet. Highlight the issues found during
-> acceptance testing and if there are any concerns._
+> acceptance testing and if there are any concerns.
+
+![Current Coverage](coverage.png)
+We presently need to review our unit tests in order to acheive >=90% coverage.
 
 ### Unit Testing and Code Coverage
 > _Discuss your unit testing strategy. Report on the code coverage
 > achieved from unit testing of the code base. Discuss the team's
 > coverage targets, why you selected those values, and how well your
 > code coverage met your targets. If there are any anomalies, discuss
-> those._
+> those.
+
+Our targets for testing are every single API call possible on the backend.  This is to ensure that the Client can reliably make HTTP
+requests during runtime without having to worry about unexpected or improper functionality.  Currently, our code coverage is adequate but unideal.  
+We are missing testing on a few trivial methods (such as setters within the controller classes), so we are currently focused on ensuring we have (nearly)
+complete coverage.
