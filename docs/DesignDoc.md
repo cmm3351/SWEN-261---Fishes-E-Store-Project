@@ -152,12 +152,29 @@ Both the ViewModel and Model are built using Java and Spring Framework. Details 
 
 
 ### Model Tier
-> _Provide a summary of this tier of your architecture. This
-> section will follow the same instructions that are given for the View
-> Tier above._
+This tier of the design contains six Java files on the API side of the program's operation. Two 
+files in the Model Tier, Product.Java and User.Java, directly retrieve and manipulate data from 
+Product and User objects. For Product.java, each Product object contains an Integer id, a String 
+name representing its name, a String info representing a description of the product, an Integer 
+price representing its price, an Integer quantity representing the product's quantity, a String 
+imgSource representing a link to the corresponding image for a product to be displayed, and a 
+Map<String,Integer> representing the reviews for that product. The rest of the program is filled 
+with various getters and setters for each attribute. For User.Java, each User object contains an
+Integer id, a String username representing the user's username, a String password representing the
+user's password, a Boolean isAdmin to indicate if the user has admin privileges, an Integer array
+holding the Product ids of products in the user's cart, and an Integer rewards representing the 
+user's current rewards points. Again, the rest of the program is filled with various getters and 
+setters for each attribute.
 
-> _At appropriate places as part of this narrative provide one or more
-> static models (UML class diagrams) with some details such as critical attributes and methods._
+The other four files deal with persistence. They call functions from the object classes to update 
+the contents of the JSON files, which contain Product and User object information currently 
+avaialble to the user. ProductDAO.java and UserDAO.Java are interfaces, while ProductFileDAO.java 
+and UserFileDAO.Java implement those intefaces to actually modify data. Corresponding functions 
+from the controller files call these functions whenever a user interacts with the website. Each 
+FileDAO contains a String filename referencing the corresponding JSON, and an array of either
+Product or User Objects representing the local instantiation of the current Products or User.
+Whenever a function call is made, it updates the locally instantiated array and saves its contents
+to the corresponding JSON file.
 
 ### Static Code Analysis/Design Improvements
 > _Discuss design improvements that you would make if the project were
@@ -165,6 +182,31 @@ Both the ViewModel and Model are built using Java and Spring Framework. Details 
 > analysis of where there are problems in the code base which could be
 > addressed with design changes, and describe those suggested design
 > improvements._
+
+One design improvement that we would make to our code base if given more time would be to implement
+more unit tests. During our last Code analysis, our current coverage was only 77%. We have unit tests
+in place to check for the correct operation of every function in the API, and they all pass. However,
+for some of our features added in later Sprints, we did not have time to implement tests for other
+HTTP Status results or failures of functions. This is most likely where our lack of coverage comes
+from, and we would want to increase that coverage if possible.
+
+Another design improvement that we would make to our code base if given more time would be to implement
+more security and error handling in the API code. In the UI, we prevented elements or buttons from 
+displaying to users in scenarios where errors could occur. For example, A user cannot look at their cart 
+or add items to their cart without being logged in, because user that is not logged in does not have an 
+existing cart, so adding an item to a cart would result in an error. Therefore, the website does not 
+display those options to the user until they are logged in. However, if a user were to somehow bypass
+these conditional displays, they could cause these errors to occur and there may not be a way to recover
+from them. Most of the functions in the API have error piping, but some do not. Therefore, if more time
+was given to increase encryption on accessing website elements and implement more error piping, that 
+would definitely be ideal.
+
+A third design improvement that we would like to make to our code base if given more time is to improve 
+UI of the user review system. The button system for creating and editing reviews is very usable and
+aesthetically pleasing. However, the display of the reviews themselves is relatively bland, displaying
+only the user's name and their rating as a number out of five. If possible, we would make this display
+more clear and complimentary to the website's visuals. We could potentially represent the user's 
+reviews as stars or other icons, or even add an option for user's to describe their review in text.
 
 > _With the results from the Static Code Analysis exercise, 
 > discuss the resulting issues/metrics measurements along with your analysis
