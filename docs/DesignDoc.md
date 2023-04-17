@@ -141,7 +141,7 @@ with the e-store application.
 
 ## Testing
 > _This section will provide information about the testing performed
-> and the results of the testing._
+> and the results of the testing.
 
 TESTS WRITTEN:
 getProduct, createProduct, updateProduct, getProducts, searchProducts, deleteProduct
