@@ -140,7 +140,6 @@ public class UserController {
     @GetMapping("/cart/")
     public ResponseEntity<int[]> showCart(@RequestParam int uid){
         LOG.info("GET /cart/?uid=" + uid);
-
         try{
             User user = userDao.findUserByID(uid);
             int[] array = userDao.showCart(user);

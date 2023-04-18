@@ -196,6 +196,7 @@ public class UserControllerTest {
         int[] cart = {99};
         User user = new User(999, "n/a", "doesn't matter", false, cart,0);
 
+        when(userDAO.findUserByID(user.getId())).thenReturn(user);
         doThrow(new IOException()).when(userDAO).showCart(user);
 
         ResponseEntity<int[]> response = userController.showCart(user.getId());
