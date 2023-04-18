@@ -246,7 +246,7 @@ All written tests have passed.
 > acceptance testing and if there are any concerns.
 
 ![Current Coverage](coverage.png)
-We presently need to review our unit tests in order to acheive >=90% coverage.
+We currently have an average coverage of ~94% with all necessary methods being tested.
 
 ### Unit Testing and Code Coverage
 > _Discuss your unit testing strategy. Report on the code coverage
