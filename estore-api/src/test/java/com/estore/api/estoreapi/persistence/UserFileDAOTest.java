@@ -62,9 +62,28 @@ public class UserFileDAOTest {
     }
     
     @Test
-    public void testGetUserNull() {
+    public void testGetUserInvalidUsername() {
         // Invoke
         User user = userFileDAO.findUser("elmo", "1234");
+
+        // Analzye
+        assertNull(user);
+    }
+
+    @Test
+    public void testGetUserInvalidPassword() {
+        // Invoke
+        User user = userFileDAO.findUser("harbor", "1234");
+
+        // Analzye
+        assertNull(user);
+    }
+
+    @Test
+    public void testGetUserInvalidId() {
+        // Invoke
+        User user = assertDoesNotThrow(() -> userFileDAO.findUserByID(4),
+                                       "Unexpected exception thrown");
 
         // Analzye
         assertNull(user);
