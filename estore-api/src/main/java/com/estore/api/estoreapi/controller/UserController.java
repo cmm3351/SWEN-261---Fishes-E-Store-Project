@@ -147,7 +147,7 @@ public class UserController {
             return new ResponseEntity<int[]>(array, HttpStatus.OK);
         }catch(IOException e){
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpServerErrorException.InternalServerError;
 
 import com.estore.api.estoreapi.model.Product;
 import com.estore.api.estoreapi.model.User;
@@ -148,6 +149,19 @@ public class UserControllerTest {
         assertEquals(newInt, response.getBody());
     }
 
+    /* @Test
+    public void testAddProductToCartNotFound() throws IOException{
+        User user = new User(999, "n/a", "doesn't matter", false, new int[0],0);
+        int newInt = 99;
+        Integer a = null;
+
+        when(userDAO.addProductToCart(newInt, user))
+        .thenReturn(a);
+
+        ResponseEntity<Integer> response = userController.addProductToCart(user.getId(), newInt);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    } */
+
     @Test
     public void testRemoveProductFromCart() throws IOException {
         //Setup
@@ -176,6 +190,18 @@ public class UserControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(cart, response.getBody());
     }
+
+    @Test 
+    public void testShowCartHandleException() throws IOException{
+        int[] cart = {99};
+        User user = new User(999, "n/a", "doesn't matter", false, cart,0);
+
+        doThrow(new IOException()).when(userDAO).showCart(user);
+
+        ResponseEntity<int[]> response = userController.showCart(user.getId());
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }   
 
     @Test
     public void testCheckout() throws IOException {
