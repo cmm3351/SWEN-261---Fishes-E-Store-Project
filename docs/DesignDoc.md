@@ -228,7 +228,7 @@ reviews as stars or other icons, or even add an option for user's to describe th
 > _This section will provide information about the testing performed
 > and the results of the testing.
 
-> TESTS WRITTEN:
+ TESTS WRITTEN:
  getProduct, createProduct, updateProduct, getProducts, searchProducts, deleteProduct
  getReview, createReview, editReview, deleteReview
  findUser, createUser
