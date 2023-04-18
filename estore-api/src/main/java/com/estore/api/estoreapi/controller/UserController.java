@@ -164,22 +164,31 @@ public class UserController {
         LOG.info("PUT /cart/checkout/?uid=" + uid);
         try {
             User user = userDao.findUserByID(uid);
-            int[] cart = userDao.showCart(user);
-            for (int i = 0; i < cart.length; i++) {
-                Product currProduct = productDao.getProduct(cart[i]);
-                if (currProduct.getQuantity() != 0) {
+            if (user != null) {
+                int[] cart = userDao.showCart(user);
+                for (int i = 0; i < cart.length; i++) {
+                    Product currProduct = productDao.getProduct(cart[i]);
+                    if (currProduct.getQuantity() <= 0) {
+                        return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+                    }
+                }
+                for (int i = 0; i < cart.length; i++) {
+                    Product currProduct = productDao.getProduct(cart[i]);
                     Product updatedProduct = new Product(currProduct.getId(), currProduct.getName(), 
-                                                         currProduct.getInfo(), currProduct.getPrice(), 
-                                                         currProduct.getQuantity() - 1, currProduct.getImgSource(),
-                                                         currProduct.getReviews());
+                                                        currProduct.getInfo(), currProduct.getPrice(), 
+                                                        currProduct.getQuantity() - 1, currProduct.getImgSource(),
+                                                        currProduct.getReviews());
                     productDao.updateProduct(updatedProduct);
                 }
+                int[] emptyCart = userDao.checkout(user);
+                return new ResponseEntity<>(emptyCart, HttpStatus.OK);
             }
-            int[] emptyCart = userDao.checkout(user);
-            return new ResponseEntity<>(emptyCart, HttpStatus.OK);
+            else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         }catch (IOException e){
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -226,7 +235,10 @@ public class UserController {
             int[] cart = userDao.showCart(user);
             if (user.getRewards() >= 10) {
                 Product currProduct = productDao.getProduct(cart[cid]);
-                if (currProduct.getQuantity() != 0) {
+                if (currProduct.getQuantity() <= 0) {
+                    return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+                }
+                else {
                     Product updatedProduct = new Product(currProduct.getId(), currProduct.getName(), 
                                                          currProduct.getInfo(), currProduct.getPrice(), 
                                                          currProduct.getQuantity() - 1, currProduct.getImgSource(),
@@ -241,7 +253,7 @@ public class UserController {
             }
         }catch (IOException e){
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
