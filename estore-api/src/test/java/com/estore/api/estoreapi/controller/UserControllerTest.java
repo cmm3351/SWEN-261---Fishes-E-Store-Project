@@ -196,6 +196,7 @@ public class UserControllerTest {
         int[] cart = {99};
         User user = new User(999, "n/a", "doesn't matter", false, cart,0);
 
+        when(userDAO.findUserByID(user.getId())).thenReturn(user);
         doThrow(new IOException()).when(userDAO).showCart(user);
 
         ResponseEntity<int[]> response = userController.showCart(user.getId());
@@ -208,7 +209,24 @@ public class UserControllerTest {
         int[] cart = {99,99,99};
         User user = new User(999, "n/a", "doesn't matter", false, cart,0);
         Product product = new Product(99, "n/a", "doesn't matter", 100, 5, null, null);
-        int[] emptyCart = null;
+        int[] emptyCart = {};
+
+        when(userDAO.findUserByID(user.getId())).thenReturn(user);
+        when(userDAO.showCart(user)).thenReturn(cart);
+        when(productDao.getProduct(product.getId())).thenReturn(product);
+        when(userDAO.checkout(user)).thenReturn(emptyCart);
+
+        ResponseEntity<int[]> response = userController.checkout(user.getId());
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(emptyCart, response.getBody());
+    }
+
+    @Test
+    public void testCheckoutInvalidProductQuantity() throws IOException {
+        int[] cart = {99,99,99};
+        User user = new User(999, "n/a", "doesn't matter", false, cart,0);
+        Product product = new Product(99, "n/a", "doesn't matter", 100, 0, null, null);
 
         when(userDAO.findUserByID(user.getId())).thenReturn(user);
         when(userDAO.showCart(user)).thenReturn(cart);
@@ -216,9 +234,32 @@ public class UserControllerTest {
 
         ResponseEntity<int[]> response = userController.checkout(user.getId());
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(emptyCart, response.getBody());
-        //assertEquals(2, productDao.getProduct(99).getQuantity());
+        assertEquals(HttpStatus.EXPECTATION_FAILED, response.getStatusCode());
+    }
+
+    @Test
+    public void testCheckoutUserNotFound() throws IOException {
+        int userId = 999;
+
+        ResponseEntity<int[]> response = userController.checkout(userId);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void testCheckoutHandledException() throws IOException {
+        int[] cart = {99,99,99};
+        User user = new User(999, "n/a", "doesn't matter", false, cart,0);
+        Product product = new Product(99, "n/a", "doesn't matter", 100, 5, null, null);
+
+        when(userDAO.findUserByID(user.getId())).thenReturn(user);
+        when(userDAO.showCart(user)).thenReturn(cart);
+        when(productDao.getProduct(product.getId())).thenReturn(product);
+        doThrow(new IOException()).when(userDAO).checkout(user);
+
+        ResponseEntity<int[]> response = userController.checkout(user.getId());
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
 
     @Test
@@ -236,11 +277,32 @@ public class UserControllerTest {
     }
 
     @Test
+    public void testGetRewardsPointsUserNotFound() throws IOException {
+        int userId = 999;
+
+        ResponseEntity<Integer> response = userController.getRewardsPoints(userId);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void testGetRewardsPointsHandledException() throws IOException {
+        int[] cart = {99,98,98};
+        User user = new User(999, "n/a", "doesn't matter", false, cart,10);
+
+        when(userDAO.findUserByID(user.getId())).thenReturn(user);
+        doThrow(new IOException()).when(userDAO).getRewardsPoints(user);
+
+        ResponseEntity<Integer> response = userController.getRewardsPoints(user.getId());
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
+
+    @Test
     public void testUseRewardsPoints() throws IOException {
         int[] cart = {99,98,98};
         User user = new User(999, "n/a", "doesn't matter", false, cart,10);
         Product product = new Product(99, "n/a", "doesn't matter", 100, 5, null, null);
-        int[] newCart = {98,98};
 
         when(userDAO.findUserByID(user.getId())).thenReturn(user);
         when(userDAO.showCart(user)).thenReturn(cart);
@@ -251,6 +313,21 @@ public class UserControllerTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(0, response.getBody());
+    }
+
+    @Test
+    public void testUseRewardsPointsInvalidProductQuantity() throws IOException {
+        int[] cart = {99,98,98};
+        User user = new User(999, "n/a", "doesn't matter", false, cart,10);
+        Product product = new Product(99, "n/a", "doesn't matter", 100, 0, null, null);
+
+        when(userDAO.findUserByID(user.getId())).thenReturn(user);
+        when(userDAO.showCart(user)).thenReturn(cart);
+        when(productDao.getProduct(product.getId())).thenReturn(product);
+
+        ResponseEntity<Integer> response = userController.useRewardsPoints(user.getId(), 0);
+
+        assertEquals(HttpStatus.EXPECTATION_FAILED, response.getStatusCode());
     }
 
     @Test
@@ -269,5 +346,21 @@ public class UserControllerTest {
         assertEquals(HttpStatus.EXPECTATION_FAILED, response.getStatusCode());
         assertEquals(null, response.getBody());
         assertEquals(9,user.getRewards());
+    }
+
+    @Test
+    public void testUseRewardsPointsHandledException() throws IOException {
+        int[] cart = {99,98,98};
+        User user = new User(999, "n/a", "doesn't matter", false, cart,10);
+        Product product = new Product(99, "n/a", "doesn't matter", 100, 5, null, null);
+
+        when(userDAO.findUserByID(user.getId())).thenReturn(user);
+        when(userDAO.showCart(user)).thenReturn(cart);
+        when(productDao.getProduct(product.getId())).thenReturn(product);
+        doThrow(new IOException()).when(userDAO).useRewardsPoints(user,0);
+
+        ResponseEntity<Integer> response = userController.useRewardsPoints(user.getId(), 0);
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
 }

@@ -40,7 +40,7 @@ public class UserFileDAOTest {
     public void setupProductFileDAO() throws IOException {
         mockObjectMapper = mock(ObjectMapper.class);
         users = new User[3];
-        users[0] = new User(0, "harbor", "password", false, new int[0],0);
+        users[0] = new User(0, "harbor", "password", false, new int[0],10);
         users[1] = new User(1, "pokemon", "1234", false, new int[0],0);
         users[2] = new User(2,"admin","password", true, new int[0],0);
 
@@ -62,9 +62,28 @@ public class UserFileDAOTest {
     }
     
     @Test
-    public void testGetUserNull() {
+    public void testGetUserInvalidUsername() {
         // Invoke
         User user = userFileDAO.findUser("elmo", "1234");
+
+        // Analzye
+        assertNull(user);
+    }
+
+    @Test
+    public void testGetUserInvalidPassword() {
+        // Invoke
+        User user = userFileDAO.findUser("harbor", "1234");
+
+        // Analzye
+        assertNull(user);
+    }
+
+    @Test
+    public void testGetUserInvalidId() {
+        // Invoke
+        User user = assertDoesNotThrow(() -> userFileDAO.findUserByID(4),
+                                       "Unexpected exception thrown");
 
         // Analzye
         assertNull(user);
@@ -112,6 +131,51 @@ public class UserFileDAOTest {
         User user = new User(3, "connor", "geo", false, cart,0);
 
         assertEquals(cart, userFileDAO.showCart(user));
+    }
+
+    @Test
+    public void testCheckout() {
+        int[] cart = {1,1,1};
+        User user = new User(3, "connor", "geo", false, cart,0);
+
+        int[] result = assertDoesNotThrow(() -> userFileDAO.checkout(user),
+                                                "Unexpected exception thrown");
+
+        assertEquals(0,result.length);
+        assertEquals(3,user.getRewards());
+    }
+
+    @Test
+    public void testGetRewardsPoints() {
+        // Invoke
+        User user = assertDoesNotThrow(() -> userFileDAO.findUserByID(0),
+                                     "Unexpected exception thrown");
+        int rewards = assertDoesNotThrow(() -> userFileDAO.getRewardsPoints(user),
+                                               "Unexpected exception thrown");
+
+        // Analyze
+        assertEquals(10,rewards);
+
+    }
+
+    @Test
+    public void testUseRewardsPoints() {
+        int[] cart = {1,2,2};
+        User user = new User(3, "connor", "geo", false, cart,10);
+
+        int rewards = assertDoesNotThrow(() -> userFileDAO.useRewardsPoints(user,0),
+                                               "Unexpected exception thrown");
+
+        assertEquals(0,rewards);
+        assertEquals(0,user.getRewards());
+
+        int[] newCart = assertDoesNotThrow(() -> userFileDAO.showCart(user), 
+                                                 "Unexpected exception thrown");
+
+        assertEquals(2,newCart.length);
+        for (int i = 0; i < 2; i++) {
+            assertEquals(2,newCart[i]);
+        }
     }
 
     @Test
