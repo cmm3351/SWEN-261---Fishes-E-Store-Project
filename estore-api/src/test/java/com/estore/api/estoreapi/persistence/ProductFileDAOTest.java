@@ -12,9 +12,12 @@ import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.estore.api.estoreapi.model.Product;
+import com.estore.api.estoreapi.model.User;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -30,6 +33,7 @@ import org.junit.jupiter.api.Test;
 public class ProductFileDAOTest {
     ProductFileDAO productFileDAO;
     Product[] testProducts;
+    Map<String,Integer> testReviews;
     ObjectMapper mockObjectMapper;
 
     /**
@@ -41,7 +45,11 @@ public class ProductFileDAOTest {
     public void setupProductFileDAO() throws IOException {
         mockObjectMapper = mock(ObjectMapper.class);
         testProducts = new Product[3];
-        testProducts[0] = new Product(99,"Red Fish","It's Red",100,1, null,null);
+        testReviews = new HashMap<String,Integer>();
+        testReviews.put("n/a",3);
+        testReviews.put("him",4);
+        testReviews.put("her",5);
+        testProducts[0] = new Product(99,"Red Fish","It's Red",100,1, null,testReviews);
         testProducts[1] = new Product(100,"Blue Fish","It's Blue",100,2, null,null);
         testProducts[2] = new Product(101,"One Fish","There's One",150, 3, null,null);
 
@@ -193,5 +201,75 @@ public class ProductFileDAOTest {
         assertThrows(IOException.class,
                         () -> new ProductFileDAO("doesnt_matter.txt",mockObjectMapper),
                         "IOException not thrown");
+    }
+
+    @Test
+    public void testGetProductReviews() {
+        // Invoke
+        Product product = productFileDAO.getProduct(99);
+        Map<String,Integer> reviews = assertDoesNotThrow(() -> productFileDAO.getReviews(product),
+                                                            "Unexpected exception thrown");
+
+        // Analyze
+        assertEquals(reviews.keySet().size(),testReviews.keySet().size());
+        for (Map.Entry<String,Integer> entry : testReviews.entrySet()) {
+            assertEquals(entry.getValue(),reviews.get(entry.getKey()));
+        }
+
+    }
+
+    @Test
+    public void testCreateReview() {
+        // Setup
+        Product product = new Product(99,"Reddish Fish","It's Almost Red",250,3, null,testReviews);
+        User user = new User(999,"test","n/a",false,null, 0);
+
+        // Invoke
+        Map<String,Integer> result = assertDoesNotThrow(() -> productFileDAO.createReview(user,product,1),
+                                "Unexpected exception thrown");
+
+        // Analyze
+        assertNotNull(result);
+        Map<String,Integer> actual = assertDoesNotThrow(() -> productFileDAO.getReviews(product), 
+                                                    "Unexpected exception thrown");
+        assertEquals(1,actual.get("test"));
+    }
+
+    @Test
+    public void testEditReview() {
+        // Setup
+        Product product = new Product(99,"Reddish Fish","It's Almost Red",250,3, null,testReviews);
+        User user = new User(999,"him","n/a",false,null, 0);
+
+        // Invoke
+        Map<String,Integer> result = assertDoesNotThrow(() -> productFileDAO.editReview(user,product,5),
+                                "Unexpected exception thrown");
+
+        // Analyze
+        assertNotNull(result);
+        Map<String,Integer> actual = assertDoesNotThrow(() -> productFileDAO.getReviews(product), 
+                                                    "Unexpected exception thrown");
+        assertEquals(5,actual.get("him"));
+    }
+
+    @Test
+    public void testDeleteReview() {
+        // Setup
+        Map<String,Integer> reviews = new HashMap<String,Integer>();
+        reviews.put("him",4);
+        reviews.put("her",5);
+        Product product = new Product(99,"Reddish Fish","It's Almost Red",250,3, null,testReviews);
+        User user = new User(999,"n/a","n/a",false,null, 0);
+
+        // Invoke
+        Map<String,Integer> result = assertDoesNotThrow(() -> productFileDAO.deleteReview(user,product),
+                                "Unexpected exception thrown");
+
+        // Analyze
+        assertNotNull(result);
+        assertEquals(reviews, result);
+        Map<String,Integer> actual = assertDoesNotThrow(() -> productFileDAO.getReviews(product), 
+                                                    "Unexpected exception thrown");
+        assertEquals(reviews.size(),actual.size());
     }
 }
