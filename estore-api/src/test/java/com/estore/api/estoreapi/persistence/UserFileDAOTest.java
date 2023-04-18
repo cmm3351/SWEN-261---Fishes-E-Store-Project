@@ -87,6 +87,34 @@ public class UserFileDAOTest {
     }
 
     @Test
+    public void testAddProductToCart() throws IOException{
+        int[] cart = {};
+        User user = new User(3, "connor", "geo", false, cart,0);
+
+        userFileDAO.addProductToCart(1, user);
+
+        assertEquals(user.showCart(), userFileDAO.showCart(user));
+    }
+
+    @Test
+    public void testRemoveProductFromCart() throws IOException{
+        int[] cart = {1};
+        User user = new User(3, "connor", "geo", false, cart,0);
+
+        userFileDAO.removeProductFromCart(1, user);
+
+        assertEquals(user.showCart(), userFileDAO.showCart(user));
+    }
+
+    @Test
+    public void testShowCart() throws IOException{
+        int[] cart = {1};
+        User user = new User(3, "connor", "geo", false, cart,0);
+
+        assertEquals(cart, userFileDAO.showCart(user));
+    }
+
+    @Test
     public void testConstructorException() throws IOException {
         // Setup
         ObjectMapper mockObjectMapper = mock(ObjectMapper.class);
