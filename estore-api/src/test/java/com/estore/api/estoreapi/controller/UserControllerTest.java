@@ -140,7 +140,8 @@ public class UserControllerTest {
         //Setup
         User user = new User(999, "n/a", "doesn't matter", false, new int[0],0);
         int newInt = 99;
-        
+
+        when(userDAO.findUserByID(user.getId())).thenReturn(user);
         when(userDAO.addProductToCart(newInt, user)).thenReturn(newInt);
 
         ResponseEntity<Integer> response = userController.addProductToCart(user.getId(), newInt);
@@ -149,18 +150,28 @@ public class UserControllerTest {
         assertEquals(newInt, response.getBody());
     }
 
-    /* @Test
-    public void testAddProductToCartNotFound() throws IOException{
+    @Test
+    public void testAddProductToCartUserNotFound() throws IOException{
+        int newInt = 99;
+        int userId = 999;
+
+        ResponseEntity<Integer> response = userController.addProductToCart(userId, newInt);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void testAddProductToCartHandledException() throws IOException{
+        //Setup
         User user = new User(999, "n/a", "doesn't matter", false, new int[0],0);
         int newInt = 99;
-        Integer a = null;
 
-        when(userDAO.addProductToCart(newInt, user))
-        .thenReturn(a);
+        when(userDAO.findUserByID(user.getId())).thenReturn(user);
+        doThrow(new IOException()).when(userDAO).addProductToCart(newInt, user);
 
         ResponseEntity<Integer> response = userController.addProductToCart(user.getId(), newInt);
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    } */
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
 
     @Test
     public void testRemoveProductFromCart() throws IOException {
@@ -169,12 +180,39 @@ public class UserControllerTest {
         User user = new User(999, "n/a", "doesn't matter", false, cart,0);
         int newInt = 1;
 
+        when(userDAO.findUserByID(user.getId())).thenReturn(user);
         when(userDAO.removeProductFromCart(newInt, user)).thenReturn(newInt);
 
         ResponseEntity<Integer> response = userController.removeProductFromCart(user.getId(), newInt);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(newInt, response.getBody());
+    }
+
+    @Test
+    public void testRemoveProductFromCartUserNotFound() throws IOException {
+        //Setup
+        int userId = 999;
+        int newInt = 1;
+
+        ResponseEntity<Integer> response = userController.removeProductFromCart(userId, newInt);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void testRemoveProductFromCartHandledException() throws IOException {
+        //Setup
+        int[]  cart ={1};
+        User user = new User(999, "n/a", "doesn't matter", false, cart,0);
+        int newInt = 1;
+
+        when(userDAO.findUserByID(user.getId())).thenReturn(user);
+        doThrow(new IOException()).when(userDAO).removeProductFromCart(newInt, user);
+
+        ResponseEntity<Integer> response = userController.removeProductFromCart(user.getId(), newInt);
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
 
     @Test
@@ -191,8 +229,17 @@ public class UserControllerTest {
         assertEquals(cart, response.getBody());
     }
 
-   /*  @Test 
-    public void testShowCartHandleException() throws IOException{
+    @Test
+    public void testShowCartUserNotFound() throws IOException {
+        int userId = 999;
+
+        ResponseEntity<int[]> response = userController.showCart(userId);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test 
+    public void testShowCartHandledException() throws IOException{
         int[] cart = {99};
         User user = new User(999, "n/a", "doesn't matter", false, cart,0);
 
@@ -202,7 +249,7 @@ public class UserControllerTest {
         ResponseEntity<int[]> response = userController.showCart(user.getId());
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-    }    */
+    }    
 
     @Test
     public void testCheckout() throws IOException {

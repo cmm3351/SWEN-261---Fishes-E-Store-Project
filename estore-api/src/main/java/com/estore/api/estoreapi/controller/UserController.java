@@ -103,11 +103,16 @@ public class UserController {
 
         try{
             User user = userDao.findUserByID(uid);
-            userDao.addProductToCart(pid, user);
-            return new ResponseEntity<Integer>(pid, HttpStatus.OK);
+            if (user != null) {
+                userDao.addProductToCart(pid, user);
+                return new ResponseEntity<Integer>(pid, HttpStatus.OK);
+            }
+            else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         }catch(IOException e){
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     /**
@@ -123,11 +128,16 @@ public class UserController {
 
         try{
             User user = userDao.findUserByID(uid);
-            userDao.removeProductFromCart(pid, user);
-            return new ResponseEntity<Integer>(pid, HttpStatus.OK);
+            if (user != null) {
+                userDao.removeProductFromCart(pid, user);
+                return new ResponseEntity<Integer>(pid, HttpStatus.OK);
+            }
+            else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         }catch (IOException e){
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -142,8 +152,13 @@ public class UserController {
         LOG.info("GET /cart/?uid=" + uid);
         try{
             User user = userDao.findUserByID(uid);
-            int[] array = userDao.showCart(user);
-            return new ResponseEntity<int[]>(array, HttpStatus.OK);
+            if (user != null) {
+                int[] array = userDao.showCart(user);
+                return new ResponseEntity<int[]>(array, HttpStatus.OK);
+            }
+            else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         }catch(IOException e){
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
