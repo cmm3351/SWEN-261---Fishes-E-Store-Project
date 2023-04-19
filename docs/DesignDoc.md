@@ -255,6 +255,10 @@ We currently have an average coverage of ~94% with all necessary methods being t
 > code coverage met your targets. If there are any anomalies, discuss
 > those.
 
+![SonarQube Results](SQoverall.png)
+![SonarQube Results](SQapi.png)
+![SonarQube Results](SQapp.png)
+
 Our targets for testing are every single API call possible on the backend.  This is to ensure that the Client can reliably make HTTP
 requests during runtime without having to worry about unexpected or improper functionality.  Currently, our code coverage is adequate but unideal.  
 We are missing testing on a few trivial methods (such as setters within the controller classes), so we are currently focused on ensuring we have (nearly)
