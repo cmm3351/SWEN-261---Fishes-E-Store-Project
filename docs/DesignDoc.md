@@ -182,6 +182,9 @@ correspond the user's action. This way, both the website UI and JSON information
 at the same time.
 
 ### Model Tier
+![SWEN 261 - Model UML - UML Class](https://user-images.githubusercontent.com/98337464/233922125-697bf698-39d9-408b-821d-b323c54d3a39.png)
+
+
 This tier of the design contains six Java files on the API side of the program's operation. Two 
 files in the Model Tier, Product.Java and User.Java, directly retrieve and manipulate data from 
 Product and User objects. For Product.java, each Product object contains an Integer id, a String 
