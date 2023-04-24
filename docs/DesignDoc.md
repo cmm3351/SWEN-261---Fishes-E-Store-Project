@@ -213,14 +213,15 @@ to the corresponding JSON file.
 > addressed with design changes, and describe those suggested design
 > improvements._
 
-One design improvement that we would make to our code base if given more time would be to implement
-more unit tests. During our last Code analysis, our current coverage was only 77%. We have unit tests
-in place to check for the correct operation of every function in the API, and they all pass. However,
-for some of our features added in later Sprints, we did not have time to implement tests for other
-HTTP Status results or failures of functions. This is most likely where our lack of coverage comes
-from, and we would want to increase that coverage if possible.
+According to JaCoCo and SonarQube analysis, our code coverage is 97.2%. Given current time constraints, 
+we believe this to be adequate for the current project because most of the uncovered lines of code are 
+either detected branches that will never occur or menial tests that we are absolutely sure work. Every
+crucial function has been completely or nearly covered in the API with unit tests, and unecessary
+commented code or unused libraries have been deleted. Obviously, if given more time, we would work
+towards increasing that coverage all the way to 100%, investigating the causes of coverage failures
+and working through our technical debt.
 
-Another design improvement that we would make to our code base if given more time would be to implement
+One design improvement that we would make to our code base if given more time would be to implement
 more security and error handling in the API code. In the UI, we prevented elements or buttons from 
 displaying to users in scenarios where errors could occur. For example, A user cannot look at their cart 
 or add items to their cart without being logged in, because user that is not logged in does not have an 
@@ -230,6 +231,13 @@ these conditional displays, they could cause these errors to occur and there may
 from them. Most of the functions in the API have error piping, but some do not. Therefore, if more time
 was given to increase encryption on accessing website elements and implement more error piping, that 
 would definitely be ideal.
+
+Speaking of preventing errors, another improvement that we would make to our code base if given more
+time would be to increase the security of the website. With the current file structure and login 
+system, our program would be very susceptible to SQL Injection attacks. A malicious user could easily
+try to run their own commands when submitting fields for the login, exposing the information of all
+current users or possibly learning the admin login. Therefore, if given more time, we would definitely
+have wanted to create a better security to encrypt users' private data and protect against attacks.
 
 A third design improvement that we would like to make to our code base if given more time is to improve 
 UI of the user review system. The button system for creating and editing reviews is very usable and
