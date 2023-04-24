@@ -3,11 +3,6 @@ geometry: margin=1in
 ---
 # PROJECT Design Documentation
 
-> _The following template provides the headings for your Design
-> Documentation.  As you edit each section make sure you remove these
-> commentary 'blockquotes'; the lines that start with a > character
-> and appear in the generated PDF in italics._
-
 ## Team Information
 * Team name: b-fishes
 * Team members
@@ -154,12 +149,6 @@ Both the ViewModel and Model are built using Java and Spring Framework. Details 
 
 > Components store the data that they display, and call upon services for any data that needs external tools. 
 
-> _You must also provide sequence diagrams as is relevant to a particular aspects 
-> of the design that you are describing.  For example, in e-store you might create a 
-> sequence diagram of a customer searching for an item and adding to their cart. 
-> Be sure to include an relevant HTTP reuqests from the client-side to the server-side 
-> to help illustrate the end-to-end flow.
-
 >Checking out
 ![Checkout Sequence](seqCheckout.jpg)
 >Searching for an item
@@ -210,11 +199,6 @@ Whenever a function call is made, it updates the locally instantiated array and 
 to the corresponding JSON file.
 
 ### Static Code Analysis/Design Improvements
-> _Discuss design improvements that you would make if the project were
-> to continue. These improvement should be based on your direct
-> analysis of where there are problems in the code base which could be
-> addressed with design changes, and describe those suggested design
-> improvements._
 
 According to JaCoCo and SonarQube analysis, our code coverage is 97.2%. Given current time constraints, 
 we believe this to be adequate for the current project because most of the uncovered lines of code are 
@@ -249,14 +233,7 @@ only the user's name and their rating as a number out of five. If possible, we w
 more clear and complimentary to the website's visuals. We could potentially represent the user's 
 reviews as stars or other icons, or even add an option for user's to describe their review in text.
 
-> _With the results from the Static Code Analysis exercise, 
-> discuss the resulting issues/metrics measurements along with your analysis
-> and recommendations for further improvements. Where relevant, include 
-> screenshots from the tool and/or corresponding source code that was flagged._
-
 ## Testing
-> _This section will provide information about the testing performed
-> and the results of the testing.
 
  TESTS WRITTEN:
  getProduct, createProduct, updateProduct, getProducts, searchProducts, deleteProduct
@@ -269,21 +246,11 @@ RESULTS:
 All written tests have passed.
 
 ### Acceptance Testing
-> _Report on the number of user stories that have passed all their
-> acceptance criteria tests, the number that have some acceptance
-> criteria tests failing, and the number of user stories that
-> have not had any testing yet. Highlight the issues found during
-> acceptance testing and if there are any concerns.
 
 ![Current Coverage](coverage.png)
 We currently have an average coverage of ~94% with all necessary methods being tested.
 
 ### Unit Testing and Code Coverage
-> _Discuss your unit testing strategy. Report on the code coverage
-> achieved from unit testing of the code base. Discuss the team's
-> coverage targets, why you selected those values, and how well your
-> code coverage met your targets. If there are any anomalies, discuss
-> those.
 
 ![SonarQube Results](SQ2.png)
 ![SonarQube Results](SQ1.png)
