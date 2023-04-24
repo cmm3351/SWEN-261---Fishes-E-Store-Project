@@ -90,18 +90,18 @@ This section describes the application architecture.
 
 Here we have outlined 4 Object-Oriented principles we utilized in the creation of this project, and how those principles directly apply to our code
 
- I: Single Responsibility
+ I: Single Responsibility:
 Per wikipedia, "A module should be responsible to one, and only one, actor.” Single Responsibility dictates that a program should have all of its modules (classes in Java) perform a single purpose; therefore, a program should be made up of many specialized modules rather than a single, omnipotent one. This preference towards simplicity helps prevent programs from becoming chaotic systems where a single error thrown can cause the whole code to crash, rather than be dealt with on a case-to- case basis. For example, we used this principle in our “cart- component” class in our angular code. The cart component module is exclusively responsible for showing the user’s cart and storing the methods needed to operate it; any other functionality is stored elsewhere in the code.
 
-II: Information Expert
+II: Information Expert:
 Similar to Single Responsibility, Information Expert dictates that all responsibilities regarding a certain function should be delegated to the class which holds the most information about that function. For example, you wouldn’t ask a physicist to how to compose a symphony and you wouldn’t ask a pianist how to build a rocket. This helps the program avoid redundancy in class communication as well as make it easier for humans to trace back through the code. We utilize this principle in our UserController class, for example. The User’s cart is stored as a field in the User class, and therefore the methods associated with interacting with the cart are stored in the UserController as that is the class that has the most information on the User and its cart.
 
-III: Low Coupling
+III: Low Coupling:
 Low Coupling is demonstrated in our code design by ensuring minimally-required inheritance or imports between classes. All of our Model, Controller, and Persistence program files only interact with each other when required, and all of these interactions occur directly. The
 Model Package is the lowest level of abstraction, where the Product.java file does not import any other custom classes. In the Controller package, the ProductController file imports functions from the Model to create Product objects, and the ProductDAO interface to manipulate the JSON file information. In the Persistence package, the ProductDAO interface only imports the Model, and the ProductFileDAO imports the Model and implements the ProductDAO interface. This creates a very linear, direct system of inheritance between our Java classes. In order to maintain or improve this concept’s presence in our code, we should ensure that functions or code sections added in the future should not require unnecessary additional imports. If further communication between the Java classes are needed, mirrored functions should be added across the classes to maintain this inheritance structure.
 Another example of Abstraction and Low Coupling is the fact that the reviews are stored using usernames (rather than User objects) in the map. By holding only relevant data as opposed to an object itself, the system prevents itself from being reliant on the User.java interface.
 
-IV: Controller
+IV: Controller:
 In our project, we utilize a Controller java class, ProductController, to initially handle curl commands from the terminal. Later on in the project development, this class will directly handle user requests from the Angular UI. When the user commits any action, whether through the UI or the terminal, the ProductController class is the first Java class to process it. Based on the given command, it then calls functions from the Persistence package to actually collect or modify data. In order to maintain or improve this concept’s presence in our code, we should properly implement the Angular UI and ensure that user requests are still sent to the Controller directly. For the rest of the project, we should also ensure that no other custom Java class comes between reading input from the user, and the controller package.
 
 
