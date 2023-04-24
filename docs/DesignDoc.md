@@ -247,7 +247,7 @@ All written tests have passed.
 
 ### Acceptance Testing
 
-![Current Coverage](coverage.png)
+![SWEN 261 Team 02 - JaCoCo Code Coverage](https://user-images.githubusercontent.com/98337464/234103882-c5b19459-28dc-48f9-86e1-b0a79680e13b.png)
 We currently have an average coverage of ~94% with all necessary methods being tested.
 
 ### Unit Testing and Code Coverage
